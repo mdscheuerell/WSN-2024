@@ -29,22 +29,1375 @@ class: center, middle, inverse, title-slide
 
 
 
+# Acknowledgments
+
+## .blue[ Elizabeth "Eli" Holmes (NOAA) ]
+
+## .blue[ Eric Ward (NOAA) ]
+
 ---
 
-class: center, middle
+class: center, middle, inverse
 
-# RESEARCH UPDATE
+# Estimating species interactions&lt;br&gt;is a long-standing goal in ecology
+
 
 ---
 
-class: center
+class: middle
 
-background-image: url(figs/debris_0.png)
+# .green[ Predation ]
+
+# .blue.center[ Competition ]
+
+# .orange.right[ Facilitation ]
+
+---
+
+class: inverse-black
+
+background-image: url(figs/bob_paine.jpg)
+background-size: 55%
+
+#### .citation.center[Anne Paine ]
+
+
+---
+
+class: inverse-black
+
+background-image: url(figs/steve_carpenter.jpg)
 background-size: 70%
+
+#### .citation.center[Adam&lt;br&gt;Hinterthuer]
+
+
+---
+
+# Estimating interactions from time series
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/plot_many_ts-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Discrete-time Gompertz model ]
+
+`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))}$$`
+
+
+---
+
+# Example of Gompertz dynamics
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/ex_gompertz-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}}$$`
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}} \\
+~ \\
+~ \\
+\Large e_t \sim \text{N}(0,q)$$`
+
+
+---
+
+# Example of stochastic Gompertz dynamics
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/ex_gompertz_stoch-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Density-dependent population growth
+
+###  .blue.center[ Stochastic, discrete-time Gompertz model (in log-space) ]
+
+`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}) + w_t)} \\
+~ \\
+\Large \Downarrow \\
+~ \\
+\Large \log(N_t) = r_{\max} + b \log(N_{t-1}) + w_t$$`
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Via substitution, we can rewrite the model as an _autoregressive model_ ]
+
+`$$\Large \begin{align}\log(N_t) = r_{\max} &amp; + b \log(N_{t-1}) + w_t \\
+~ \\
+\Large &amp; \Downarrow x_t = \log(N_t)\\
+~ \\
+\Large x_t = r_{\max} &amp;+ b x_{t-1} + w_t \end{align}$$`
+
+
+---
+
+class: middle
+
+# .green[ Upwelling ]
+
+# .blue.center[ Precipitation ]
+
+# .orange.right[ Temperature ]
+
+
+---
+
+# Environmental effects on growth
+
+### .blue[ We can include the effects of (lagged) covariates on intrinsic growth ]
+
+`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
+
+
+---
+
+# Environmental effects on growth
+
+### .blue.center[ Add the effects of (lagged) covariates on intrinsic growth ]
+
+`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
+
+&lt;br&gt;
+
+### .blue.center[ For example, a seasonal effect (sine wave) ]
+
+`$$\Large c_t = \sin \left( \tfrac{\pi}{6} t \right)$$`
+
+
+---
+
+# Environmental effects on dynamics
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/ex_covar-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Population dynamics under uncertainty
+
+## .blue.center[ Model for the "true state of nature"]
+
+`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
+
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can be easy
+
+---
+
+class: inverse-black, bottom, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white[How many sockeye are there?]
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can also be hard
+
+---
+
+class: inverse-black, bottom, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white[How many mayflies are there?]
+
+
+---
+
+# Population dynamics under uncertainty
+
+### .blue.center[ State (process) model ]
+
+`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
+
+&lt;br&gt;
+
+.purple[
+### Most population censuses contain observation or sampling errors, so we can add an observation (data) model
+]
+
+`$$y_t = x_t + v_t$$`
+
+
+---
+
+# Population dynamics under uncertainty
+
+.blue[
+### Together these form a _state-space_ model
+]
+
+`$$x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t\\
+~ \\
+y_t = x_t + v_t$$`
+
+
+---
+
+# Example states
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/ex_ssm-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Example states and observations
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/ex_ssm_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+class: inverse, center, middle
+
+# Community dynamics
+
+
+---
+
+# Estimating community interactions
+
+### Number today is a function of the number yesterday
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/MAR_diag_1-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Estimating community interactions
+
+### and the number of predators, prey &amp; competitors
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/MAR_diag_2-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# State model for species interactions
+
+### and external forces at various times
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/MAR_diag_3-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# State model for species interactions
+
+.blue[
+### Sum of intra- and interspecific effects
+]
+
+`$$x_{i,t} = r_{max, i} + \sum^{m}_{j = 1}{b_{i,j} x_{j,t}} + w_t$$`
+
+where `\(b_{i,j}\)` is the effect of the `\(j^{th}\)` species on species `\(i\)` and
+
+`\(b_{i=j}\)` is the density-dependent effect
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### We can write this model in matrix notation as
+]
+
+`$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t$$`
+
+with
+
+`$$\mathbf{r} =
+\begin{bmatrix}
+r_1 \\
+r_2 \\
+\vdots \\
+r_m
+\end{bmatrix} ~~~
+\mathbf{B} =
+\begin{bmatrix}
+b_{1,1} &amp; b_{1,2} &amp; \dots &amp; b_{1,m} \\
+b_{2,1} &amp; b_{2,2} &amp; \dots &amp; b_{2,m} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+b_{m,1} &amp; b_{m,2} &amp; \dots &amp; b_{m,m}
+\end{bmatrix} ~~~
+\mathbf{w}_t \sim \text{MVN}(\textbf{0}, \textbf{Q})$$`
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### We can write this model in matrix notation as
+]
+
+`$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t$$`
+
+&lt;br&gt;
+
+.green[
+### This as a _multivariate autoregressive model_ of order 1, or MAR(1)
+]
+
+
+---
+
+# Forms of covariances matrices `\(\mathbf{Q}\)`
+
+.blue[
+### Without covariance (and `\(m = 4\)`)
+]
+
+`$$\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma &amp; 0 &amp; 0 &amp; 0 \\
+ 0 &amp; \sigma &amp; 0 &amp; 0 \\
+ 0 &amp; 0 &amp; \sigma &amp; 0 \\
+ 0 &amp; 0 &amp; 0 &amp; \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 &amp; 0 &amp; 0 &amp; 0 \\
+ 0 &amp; \sigma_2 &amp; 0 &amp; 0 \\
+ 0 &amp; 0 &amp; \sigma_3 &amp; 0 \\
+ 0 &amp; 0 &amp; 0 &amp; \sigma_4
+\end{bmatrix}$$`
+
+
+---
+
+# Forms of covariances matrices `\(\mathbf{Q}\)`
+
+.blue[
+### With covariance (and `\(m = 4\)`)
+]
+
+`$$\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma &amp; \gamma &amp; \gamma &amp; \gamma \\
+ \gamma &amp; \sigma &amp; \gamma &amp; \gamma \\
+ \gamma &amp; \gamma &amp; \sigma &amp; \gamma \\
+ \gamma &amp; \gamma &amp; \gamma &amp; \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 &amp; \gamma_{1,2} &amp; \gamma_{1,3} &amp; \gamma_{1,4} \\
+ \gamma_{1,2} &amp; \sigma_2 &amp; \gamma_{2,3} &amp; \gamma_{2,4} \\
+ \gamma_{1,3} &amp; \gamma_{2,3} &amp; \sigma_3 &amp; \gamma_{3,4} \\
+ \gamma_{1,4} &amp; \gamma_{2,4} &amp; \gamma_{3,4} &amp; \sigma_4
+\end{bmatrix}$$`
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### Including the effects of exogenous drivers
+]
+
+`$$\mathbf{x}_t = \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{c}_{t-h} + \mathbf{w}_t$$`
+
+&lt;br&gt;
+
+The `\(m \times p\)` matrix `\(\mathbf{C}\)` contains the effect(s) of each covariate (cols) on each state (rows)
+
+The `\(p \times 1\)` column vector `\(\mathbf{c}_{t-h}\)` contains each of the `\(p\)` covariates at time `\(t - k\)`
+
+
+---
+
+# Covariate effects
+
+.blue[
+### The effect(s) of covariates can vary by state/species/etc
+]
+
+`$$\mathbf{C} \stackrel{?}{=}
+\begin{bmatrix}
+C_{1, Temp} &amp; C_{1, DO} \\ 
+C_{2, Temp} &amp; C_{2, DO} \\ 
+\vdots &amp; \vdots \\ 
+C_{m, Temp} &amp; C_{m, DO}
+\end{bmatrix}
+~~ \text{or} ~~
+\mathbf{C} \stackrel{?}{=}
+\begin{bmatrix}
+C_{Temp} &amp; C_{DO} \\ 
+C_{Temp} &amp; C_{DO} \\ 
+\vdots &amp; \vdots \\ 
+C_{Temp} &amp; C_{DO}
+\end{bmatrix}$$`
+
+with
+
+`$$\mathbf{c}_{t-h} =
+\begin{bmatrix}
+Temp_{t-h} \\
+DO_{t-h}
+\end{bmatrix}$$`
+
+
+---
+
+# Addressing observation errors
+
+.blue[
+### State-space model in matrix form
+]
+
+`$$\mathbf{x}_t = \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{c}_{t-h} + \mathbf{w}_t \\
+~ \\
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t$$`
+
+.blue[
+### with
+]
+
+
+`$$\mathbf{a} =
+\begin{bmatrix}
+a_1 \\
+a_2 \\
+\vdots \\
+a_m
+\end{bmatrix} ~~~~~
+\mathbf{v}_t \sim \text{MVN}(\textbf{0}, \textbf{R})$$`
+
+
+
+---
+
+# Forms of covariances matrices `\(\mathbf{R}\)`
+
+.blue[
+### Without covariance (and `\(m = 4\)`)
+]
+
+`$$\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma &amp; 0 &amp; 0 &amp; 0 \\
+ 0 &amp; \sigma &amp; 0 &amp; 0 \\
+ 0 &amp; 0 &amp; \sigma &amp; 0 \\
+ 0 &amp; 0 &amp; 0 &amp; \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 &amp; 0 &amp; 0 &amp; 0 \\
+ 0 &amp; \sigma_2 &amp; 0 &amp; 0 \\
+ 0 &amp; 0 &amp; \sigma_3 &amp; 0 \\
+ 0 &amp; 0 &amp; 0 &amp; \sigma_4
+\end{bmatrix}$$`
+
+
+---
+
+# Forms of covariances matrices `\(\mathbf{R}\)`
+
+.blue[
+### With covariance (and `\(m = 4\)`)
+]
+
+`$$\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma &amp; \gamma &amp; \gamma &amp; \gamma \\
+ \gamma &amp; \sigma &amp; \gamma &amp; \gamma \\
+ \gamma &amp; \gamma &amp; \sigma &amp; \gamma \\
+ \gamma &amp; \gamma &amp; \gamma &amp; \sigma
+\end{bmatrix}$$`
+
+
+---
+
+class: center, middle, inverse
+
+# Metrics of stability
+
+
+---
+
+# Let's consider 3 metrics of stability
+
+.blue[
+## Rate of return to equilibrium
+]
+
+.green[
+## Reactivity
+]
+
+.orange[
+## Variance of the stationary distribution
+]
+
+
+---
+
+class: frimg
+background-image: url(figs/May_1972_stability.png)
+background-position: 50% 70%
+background-size: 70%
+
+# Rate of return to equilibrium
+
+.blue[
+### In deterministic models, equilibria are a point or stable limit cycle
+]
+
+.gray.citation[May (1972) _Science_]
+
+
+---
+
+# Rate of return to equilibrium
+
+.blue[
+### In stochastic models, the equilibrium is a _stationary distribution_
+]
+
+
+---
+
+# Univariate stationary distribution
+
+.blue[
+### When |b| &lt; 1, an AR(1) process is "stationary"
+]
+
+`$$x_t = r_{\max} + b x_{t-1} + w_t \\
+~ \\
+\Downarrow \\
+~ \\
+x_{\infty} \sim \text{N}(\mu_{\infty}, \sigma_{\infty}) \\
+~ \\
+\mu_{\infty} = \frac{r_{\max}}{1 - b} \\
+~ \\
+\sigma_{\infty} = \frac{q}{1 - b^2}$$`
+
+
+---
+
+# Univariate stationary distribution
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/uni_stationary-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Univariate transition distribution
+
+.blue[
+### The _transition distribution_ is the conditional probability distribution for `\(x_t\)` at any time `\(t\)` given `\(x_0\)`
+]
+
+`$$\mu_t = \mu_{\infty} + b^t \left( x_0 - \mu_{\infty} \right)\\
+~ \\
+\sigma_t = \sigma_{\infty}[1 - (b^2)^t]$$`
+
+
+---
+
+# Univariate transition distribution
+
+.blue[
+### The _transition distribution_ is the conditional probability distribution for `\(x_t\)` at any time `\(t\)` given `\(x_0\)`
+]
+
+`$$\mu_t = \mu_{\infty} + b^t \left( x_0 - \mu_{\infty} \right)\\
+~ \\
+\sigma_t = \sigma_{\infty}[1 - (b^2)^t]$$`
+
+.orange[
+### Note: the rate of convergence is governed by `\(b\)`
+]
+
+
+---
+
+# Univariate transition distribution
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/ex_trans_dist-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Transition versus stationary
+
+.blue[
+### The _transition_ distribution is where we are now
+]
+
+.green[
+### The _stationary_ distribution is where we are headed
+]
+
+
+---
+
+# Rate of return for multivariate models
+
+.blue[
+### For multivariate models, the rate of return is governed by the interaction matrix `\(\mathbf{B}\)`
+]
+
+.blue[
+### As with deterministic models, it depends on _dominant eigenvalues_
+]
+
+
+---
+
+# Rate of return for multivariate models
+
+.blue[
+### Rate of return for the mean
+]
+
+If `\(\lambda_{\mathbf{B}}\)` denotes the eigenvalues of `\(\mathbf{B}\)`, then the rate of return from `\(\boldsymbol{\mu}_t \rightarrow \boldsymbol{\mu}_{\infty}\)` is given by
+
+`$$\max(\lambda_{\mathbf{B}})$$`
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Aside: Kronecker product `\((\otimes)\)`
+
+.blue[
+### A generalization of the outer product from vectors to matrices
+]
+
+`$$\mathbf{A} = 
+\begin{bmatrix}
+1 &amp; 2 \\
+3 &amp; 4
+\end{bmatrix}
+~~ \text{and} ~~
+\mathbf{B} = 
+\begin{bmatrix}
+5 &amp; 6 \\
+7 &amp; 8
+\end{bmatrix}$$`
+&lt;br&gt;
+
+`$$\mathbf{A} \otimes \mathbf{B} = \left[\begin{array}{ll}
+1\left[\begin{array}{cc}
+5 &amp; 6 \\
+7 &amp; 8
+\end{array}\right] &amp; 2\left[\begin{array}{ll}
+5 &amp; 6 \\
+7 &amp; 8
+\end{array}\right] \\
+3\left[\begin{array}{cc}
+5 &amp; 6 \\
+7 &amp; 8
+\end{array}\right] &amp; 4\left[\begin{array}{ll}
+5 &amp; 6 \\
+7 &amp; 8
+\end{array}\right]
+\end{array}\right]=\left[\begin{array}{cccc}
+5 &amp; 6 &amp; 10 &amp; 12 \\
+7 &amp; 8 &amp; 14 &amp; 16 \\
+15 &amp; 18 &amp; 20 &amp; 24 \\
+21 &amp; 24 &amp; 28 &amp; 32
+\end{array}\right]$$`
+
+
+---
+
+# Rate of return for multivariate models
+
+.blue[
+### Rate of return for the covariance matrix
+]
+
+Return from `\(\boldsymbol{\Sigma}_t \rightarrow \boldsymbol{\Sigma}_{\infty}\)` is given by
+
+`$$\max(\lambda_{\mathbf{B} \otimes \mathbf{B}})$$`
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# A note about rate of return
+
+.blue[
+### Rate of return is based upon long-term properties of the system
+
+### For many applications, properties of short-term behavior might be more appropriate (Neubert &amp; Caswell 1997)
+]
+
+
+---
+
+# Reactivity
+
+.blue[
+### The displacement of the community away from equilibrium following a perturbation
+]
+
+
+---
+
+# Example of reactivity
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/ex_reactivity-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Reactivity
+
+.blue[
+### Consider a small perturbation to `\(\mathbf{x}_{t-1}\)` by the vector `\(\boldsymbol{\delta}\)`, given by
+]
+
+`$$\begin{align}
+\mathbf{x}_t &amp;= \mathbf{r} + \mathbf{B} \left( \mathbf{x}_{t-1} + \boldsymbol{\delta} \right) + \mathbf{w}_t \\
+  &amp;= \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{B} \boldsymbol{\delta} + \mathbf{w}_t
+\end{align}$$`
+
+
+
+---
+
+# Reactivity
+
+.blue[
+### Consider a small perturbation to `\(\mathbf{x}_{t-1}\)` by the vector `\(\boldsymbol{\delta}\)`, given by
+]
+
+`$$\begin{align}
+\mathbf{x}_t &amp;= \mathbf{r} + \mathbf{B} \left( \mathbf{x}_{t-1} + \boldsymbol{\delta} \right) + \mathbf{w}_t \\
+  &amp;= \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{B} \boldsymbol{\delta} + \mathbf{w}_t
+\end{align}$$`
+
+.blue[
+### The magnitude of the response of `\(\mathbf{x}_t\)` given by `\(\mathbf{B} \boldsymbol{\delta}\)` relative to the magnitude of the displacement is
+]
+
+`$$\frac{\sqrt{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}}{\sqrt{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}} =
+\sqrt{\frac{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}}$$`
+
+.gray.citation[Neubert et al (2009) _Ecology_]
+
+
+---
+
+# Reactivity
+
+.blue[
+### The reactivity `\((\nu)\)` is then given by
+]
+
+`$$\begin{align}
+\nu &amp;= \log \sigma_{\max} \sqrt{\frac{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}} \\
+~ \\
+    &amp;= \log \sigma_{\max} (\mathbf{B})
+\end{align}$$`
+
+.gray.citation[Neubert et al (2009) _Ecology_]
+
+
+---
+
+# Reactivity
+
+.blue[
+### The reactivity `\((\nu)\)` is then given by
+]
+
+`$$\begin{align}
+\nu &amp;= \log \sigma_{\max} \sqrt{\frac{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}} \\
+~ \\
+    &amp;= \log \sigma_{\max} (\mathbf{B})
+\end{align}$$`
+
+.orange[
+### When `\(\nu\)` &gt; 0, the system is considered "reactive"
+]
+
+.gray.citation[Neubert et al (2009) _Ecology_]
+
+
+---
+
+# Reactivity
+
+.blue[
+### Equivalently, the reactivity `\((\nu)\)` is also given by
+]
+
+`$$\begin{align}
+\nu &amp;= \log \sigma_{\max} (\mathbf{B}) \\
+~ \\
+    &amp;= \log ||\mathbf{B}||_2 \\
+~ \\
+    &amp;= \log \sqrt{\lambda_{\max}(\mathbf{B}^\top \mathbf{B})}
+\end{align}$$`
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### In a relatively stable system, species interactions increase the variance of the stationary distribution only slightly compared to the variance of the process errors
+
+### In a less stable system, species interactions greatly amplify the variance in the stationary distribution relative to the variance of the process errors
+]
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### Let's revisit a stationary univariate case with one species
+]
+
+`$$x_t = r_{\max} + b x_{t-1} + w_t \\
+w_t \sim \text{N}(0, q)$$`
+
+.blue[
+### The stationary variance is 
+]
+
+`$$\text{Var} (x_t) = \text{Var} (r_{\max}) + b^2 \text{Var} (x_{t-1}) + \text{Var} (w_t) \\
+\Downarrow \\
+\begin{align}
+\sigma_{\infty} &amp;= b^2 \sigma_{\infty} + q \\
+  &amp;= \frac{q}{1 - b^2}
+\end{align}$$`
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### Let's now consider our multivariate model of community dynamics
+]
+
+`$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
+\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$`
+
+.blue[
+### The stationary variance is 
+]
+
+`$$\text{Var} (\mathbf{x}_t) = \text{Var} (\mathbf{r}) + \mathbf{B} \text{Var} (\mathbf{x}_{t-1}) \mathbf{B}^{\top} + \text{Var} (\mathbf{w}_t) \\
+\Downarrow \\
+\mathbf{\Sigma_{\infty}} = \mathbf{B} \mathbf{\Sigma_{\infty}} \mathbf{B}^\top + \mathbf{Q}$$`
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### Let's now consider our multivariate model of community dynamics
+]
+
+`$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
+\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$`
+
+.blue[
+### The stationary variance is 
+]
+
+`$$\text{Var} (\mathbf{x}_t) = \text{Var} (\mathbf{r}) + \mathbf{B} \text{Var} (\mathbf{x}_{t-1}) \mathbf{B}^{\top} + \text{Var} (\mathbf{w}_t) \\
+\Downarrow \\
+\mathbf{\Sigma_{\infty}} = \mathbf{B} \mathbf{\Sigma_{\infty}} \mathbf{B}^\top + \mathbf{Q}$$`
+
+.orange[
+### Unfortunately, there is no closed form solution for `\(\mathbf{\Sigma_{\infty}}\)`
+]
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Aside: the `\(\text{vec}\)` operator
+
+.blue[
+### For example, if
+]
+
+`$$\mathbf{M} = 
+\begin{bmatrix}
+    1 &amp; 3 \\
+    2 &amp; 4
+\end{bmatrix}$$`
+
+.blue[
+### then
+]
+
+`$$\text{vec}(\mathbf{M}) = 
+\begin{bmatrix}
+    1 \\
+    2 \\
+    3 \\
+    4 
+\end{bmatrix}$$`
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### If we define the following
+]
+
+`\(\mathbf{I} = n \times n\)` identity matrix
+
+`\(\tilde{\mathbf{I}} = \mathbf{I} \otimes \mathbf{I}\)`
+
+`\(\tilde{\mathbf{B}} = \mathbf{B} \otimes \mathbf{B}\)`
+
+.blue[
+### then
+]
+
+`$$\text{vec}(\boldsymbol{\Sigma}) = (\tilde{\mathbf{I}} - \tilde{\mathbf{B}})^{-1} \text{vec}(\mathbf{Q})$$`
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Effect of species interactions
+
+.blue[
+### Beginning with the stationary variance for our univariate model, let's consider the proportion `\(\pi\)` owing to density dependence
+]
+
+`$$\sigma_{\infty} = \frac{q}{1 - b^2} \\
+\Downarrow \\
+\begin{align}\sigma_{\infty} - b^2 \sigma_{\infty} &amp;= q \\
+\sigma_{\infty} &amp;= b^2 \sigma_{\infty} + q \\
+\sigma_{\infty} - q  &amp;= b^2 \sigma_{\infty}
+\end{align} \\
+\Downarrow \\
+\pi = \frac{\sigma_{\infty} - q}{\sigma_{\infty}} = b^2$$`
+
+
+---
+
+# Effect of species interactions
+
+.blue[
+### The multivariate case is analogous, but requires some additional math
+
+### Specifically, the size of a scalar is just the value itself, but we need a way to measure the "volume" of the matrices
+]
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### Consider a cube with each side equal to 2 units; it's volume is 8 units&lt;sup&gt;3&lt;/sup&gt;
+]
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/plot_cube-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### We can also define this cube with 3 vectors for the cube's vertices
+]
+
+&lt;img src="Scheuerell_WACFWRU_update_2024_files/figure-html/plot_cube_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### If we combine the 3 vectors into a matrix, the determinant gives the volume
+]
+
+`$$\begin{bmatrix}
+2 &amp; 0 &amp; 0 \\
+0 &amp; 2 &amp; 0 \\
+0 &amp; 0 &amp; 2
+\end{bmatrix}$$`
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### For a 2 `\(\times\)` 2 matrix
+]
+
+`$$\text{det} \begin{bmatrix}
+a &amp; b \\
+c &amp; d
+\end{bmatrix}
+= ad - bc$$`
+
+.blue[
+### For a 3 `\(\times\)` 3 matrix
+]
+
+`$$\begin{align}
+\text{det} \begin{bmatrix}
+a &amp; b &amp; c \\
+d &amp; e &amp; f \\
+g &amp; h &amp; i
+\end{bmatrix} &amp;= a ~ \text{det} \begin{bmatrix}
+e &amp; f \\
+h &amp; i
+\end{bmatrix} -b ~ \text{det} \begin{bmatrix}
+d &amp; f \\
+g &amp; i
+\end{bmatrix} +c ~ \text{det} \begin{bmatrix}
+d &amp; e \\
+g &amp; h
+\end{bmatrix} \\
+&amp;= a (e i - f h) - b (d i - f g) + c (d h - e g)
+\end{align}$$`
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### The volume of our cube is given by
+]
+
+`$$\begin{align}
+\text{det}
+\begin{bmatrix}
+2 &amp; 0 &amp; 0 \\
+0 &amp; 2 &amp; 0 \\
+0 &amp; 0 &amp; 2
+\end{bmatrix} 
+  &amp;= 2[2 (2) - 0 (0)] - 0[0 (0) - 0 (2)] + 0[0 (0) - 2 (0)] \\
+  &amp;= 2(4 - 0) - 0(0 - 0) + 0(0 - 0) \\
+  &amp;= 8
+\end{align}$$`
+
+
+---
+
+# Effect of species interactions
+
+.blue[
+### Recall that the stationary variance of the MAR(1) model is 
+]
+
+`$$\boldsymbol{\Sigma} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top + \mathbf{Q}$$`
+
+.blue[
+### and so the volume of the difference `\(\boldsymbol{\Sigma} - \mathbf{Q}\)` is the contribution of species interactions to the stationary variance
+]
+
+`$$\boldsymbol{\Sigma} - \mathbf{Q} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top$$`
+
+
+---
+
+# Effect of species interactions
+
+.blue[
+### The proportion of the volume of `\(\boldsymbol{\Sigma}\)` attributable to species interactions, `\(\pi_{\mathbf{B}}\)`, is then
+]
+
+`$$\begin{align}
+\text{det}(\mathbf{\Sigma} - \mathbf{Q}) &amp;= \text{det}(\mathbf{B} \mathbf{\Sigma} \mathbf{B}^\top) \\
+ &amp;= \text{det}(\mathbf{B}) \text{det}(\mathbf{\Sigma}) \text{det}(\mathbf{B}^\top) \\
+ &amp;= \text{det}(\mathbf{B}) \text{det}(\mathbf{\Sigma}) \text{det}(\mathbf{B}) \\
+ &amp;= \text{det}(\mathbf{B})^2 \text{det}(\mathbf{\Sigma})
+\end{align} \\
+\Downarrow \\
+\pi_\mathbf{B}  = \frac{\text{det}(\mathbf{\Sigma} - \mathbf{Q})}{\text{det}(\mathbf{\Sigma})} = \text{det}(\mathbf{B})^2$$`
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Where are the important interactions?
+
+.blue[
+### Reactivity tells us something about the community as a whole
+
+### But what about the importance of _particular interactions_?
+]
+
+
+---
+
+# Where are the important interactions?
+
+.blue[
+### Are intra- or inter-specific interactions more important to stability?
+
+### Are top-down or bottom-up interactions more important to stability?
+]
+
+
+---
+
+# Sensitivity of `\(\pi_{\mathbf{B}}\)` to interactions
+
+.blue[
+### We can examine the change in `\(\pi_{\mathbf{B}}\)` with respect to the `\((i,j)\)` element of `\(\mathbf{B}\)` using
+]
+
+`$$\begin{align}
+\frac{\partial \pi_\mathbf{B}}{\partial \mathbf{B}_{ij}} &amp;=  \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} \\
+&amp; \\
+ &amp;= \left[ 2 ~ \text{det}(\mathbf{B}) (\mathbf{B}^{-1})^\top \right]_{ij}
+\end{align}$$`
+
+
+---
+
+class: center, middle, inverse
+
+# How does one actually do this?
+
+
+---
+
+# .blue[Canned **R** packages]
+
+## `{dlm}`, `{vars}`, `{MARSS}`&lt;sup&gt;*&lt;/sup&gt;
+
+&lt;br&gt;
+
+# .green[Code-your-own languages]
+
+## `JAGS`, `Stan`, `TMB`
+
+.footnoteSm.gray[
+&lt;sup&gt;\*&lt;/sup&gt;Holmes, Ward, Scheuerell (2020) _Analysis of multivariate time-series using the MARSS package_
+]
+
+
+---
+
+class: center, middle, inverse
+
+# The Lake Washington Story
+
+
+---
+
+# Acknowledgments
+
+.green[
+## [the late] W. T. Edmondson (UW)
+
+## Daniel Schindler (UW)
+
+## Arni Litt, Sally Abella, and **many** others (UW)
+]
+
+
+---
+
+class: frimg
+
+background-image: url(figs/LWA_press.png)
+background-size: 70%
+background-position: 50% 60%
+
+# The Lake Washington Story
+
+
+---
+
+class: frimg
+
+background-image: url(figs/LWA_CW.png)
+background-size: 80%
 background-position: 50% 50%
 
-### .credit2.gray[WDFW]
+# The Lake Washington Story
 
+.gray.citation[Hampton, Scheuerell &amp; Schindler (2006) _L&amp;O_]
+
+
+---
+
+# Analysis: plankton groups
+
+.blue[
+### I considered two 6-year time periods:
+]
+.green[
+### 1977-1982
+
+### 1989-1994
+]
+
+
+---
+
+# Analysis: plankton groups
+
+.blue[
+## Small phytoplankton 
+
+## Large phytoplankton
+
+## _Daphnia_
+
+## non-_Daphnia_
+]
+
+
+---
+
+class: frimg
+
+background-image: url(figs/plank.png)
+background-size: 80%
+background-position: 50% 55%
+
+# The plankton
+
+
+---
+
+class: frimg
+
+background-image: url(figs/covars.png)
+background-size: 85%
+background-position: 50% 50%
+
+# The covariates
+
+
+---
+
+# Stability metrics
+
+| Metric | | Early | | Late |  | Ives |
+|:----|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| Return rate (mean) |    | 0.89 |   | 0.65 |   | 0.77 |
+| Return rate (var) |   | 0.79 |   | 0.42 |   | 0.59 |
+| Reactivity |   | 1.0 |   | 0.41 |   | -0.26 |
+| % from species |   | 4% |   | 1% |   | 1% |
+
+.blue[
+### The late period in L WA is more stable than the early
+
+### Midwestern lake is intermediate to the 2 L WA periods
+]
+
+
+---
+
+# Stability metrics
+
+| Metric | | Early | | Late |  | Ives |
+|:----|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| Return rate (mean) |    | 0.89 |   | 0.65 |   | 0.77 |
+| Return rate (var) |   | 0.79 |   | 0.42 |   | 0.59 |
+| Reactivity |   | 1.0 |   | 0.41 |   | -0.26 |
+| % from species |   | 4% |   | 1% |   | 1% |
+
+.blue[
+### A previous meta-analysis of many different ecosystems found species interactions accounted for 5-60% (but only 2-10% in fish)
+]
+
+.gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
+
+
+---
+
+# Sensitivity of `\(\pi_\mathbf{B}\)`
+
+.blue[
+### Early period: bottom-up effects of phytoplankton
+]
+
+.green[
+### Late period: rather mixed and modest
+]
+
+.orange[
+### Midwest: density-dependent effects
+]
+
+
+---
+
+# Summary
+
+.blue[
+### Food web studies often focus on pairwise interactions
+
+### Examining the stability of the community is important as well
+]
+
+.futnote.purple[&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#844870;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"&gt;&lt;/path&gt;&lt;/svg&gt; scheuerl@uw.edu]
+
+.citation.blue[&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#488fdf;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt; @mark_scheuerell]
+
+
+---
+
+# A cautious note on rate of return
+
+.blue[
+### In deterministic models, rapid return rates make a system more predictable (stable)
+
+### In stochastic models, the rate of return is measured from some known observation
+
+### At `\(t = 0\)` we have full knowledge of the the system, because `\(\sigma_t = \sigma_{\infty}[1 - (b^2)^t] = 0\)`
+
+### Over time `\(\sigma_t \rightarrow \sigma_{\infty}\)`, so information is lost more rapidly if the variance returns more rapidly
+]
 ---
 
 # This presentation

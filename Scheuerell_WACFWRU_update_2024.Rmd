@@ -58,22 +58,1784 @@ style_duo(
 )
 ```
 
+# Acknowledgments
+
+## .blue[ Elizabeth "Eli" Holmes (NOAA) ]
+
+## .blue[ Eric Ward (NOAA) ]
+
 ---
 
-class: center, middle
+class: center, middle, inverse
 
-# RESEARCH UPDATE
+# Estimating species interactions<br>is a long-standing goal in ecology
+
 
 ---
 
-class: center
+class: middle
 
-background-image: url(figs/debris_0.png)
+# .green[ Predation ]
+
+# .blue.center[ Competition ]
+
+# .orange.right[ Facilitation ]
+
+---
+
+class: inverse-black
+
+background-image: url(figs/bob_paine.jpg)
+background-size: 55%
+
+#### .citation.center[Anne Paine ]
+
+
+---
+
+class: inverse-black
+
+background-image: url(figs/steve_carpenter.jpg)
 background-size: 70%
+
+#### .citation.center[Adam<br>Hinterthuer]
+
+
+---
+
+# Estimating interactions from time series
+
+```{r plot_many_ts, echo=FALSE, dpi=300, fig.height=4, fig.width=8, fig.align='center'}
+NN <- 3
+TT <- 30
+MM <- 3
+ 
+set.seed(123)
+## MM x TT matrix of innovations
+ww <- matrix(rnorm(MM*TT, 0, 1), MM, TT)
+ww[,1] <- rnorm(MM, 0, sqrt(5))
+## MM x TT matrix of scaled latent trends
+xx <- t(scale(apply(ww,1,cumsum)))
+
+## loadings matrix
+ZZ <- matrix(runif(NN*MM, -1, 1), NN, MM)
+diag(ZZ) <- rev(sort(abs(diag(ZZ))))
+ZZ[upper.tri(ZZ)] <- 0
+ZZ <- round(ZZ, 2)
+
+## obs var
+obs_var <- 0.2^2
+## obs errors
+ee <- t(MASS::mvrnorm(TT, matrix(0,NN,1), diag(obs_var,NN,NN)))
+## NN x TT matrix of observed data
+yy <- ZZ %*% xx + ee
+
+clr <- viridis::plasma(NN, alpha=0.7, end=0.8)
+
+vv <- sample(seq(NN), NN)
+
+labs <- c("Producer", "Herbivore", "Predator")
+
+par(mfrow=c(1,3), mai=c(0.5,0.5,0.5,0), omi=c(0,0,0,0)) 
+
+for(i in 1:NN) {
+	plot.ts(yy[vv[i],], lwd=3,
+	        xlab="", xaxt="n", ylab="", yaxt="n", main = labs[i],
+	        col=clr[i], bty="n", cex.main = 2)
+}
+```
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Discrete-time Gompertz model ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))}$$
+
+
+---
+
+# Example of Gompertz dynamics
+
+```{r ex_gompertz, fig.align="center", fig.dim=c(6,3)}
+## number of time steps
+TT <- 30
+
+r_max <- 1
+b <- 0.8
+
+NN <- rep(NA, TT)
+NN[1] <- 1
+
+for(tt in 2:TT) {
+  NN[tt] <- NN[tt-1] * exp(r_max + (b - 1) * log(NN[tt-1]))
+}
+
+par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
+plot.ts(NN, lwd = 2, type = "o", pch = 16, col = "dodgerblue",
+        yaxt = "n",
+        ylab = "")
+# text(x = 5, y = 120, expression(italic(r[max])==1))
+# text(x = 5, y = 100, expression(italic(b)==0.8))
+mtext(expression(italic(N[t])),
+      side = 2, line = 1, cex = 1.5)
+```
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}}$$
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}} \\
+~ \\
+~ \\
+\Large e_t \sim \text{N}(0,q)$$
+
+
+---
+
+# Example of stochastic Gompertz dynamics
+
+```{r ex_gompertz_stoch, fig.align="center", fig.dim=c(6,3)}
+set.seed(20220401)
+
+b <- 0.8
+
+ww <- rnorm(TT, 0, sqrt(0.1))
+
+for(tt in 2:TT) {
+  NN[tt] <- NN[tt-1] * exp(r_max + (b - 1) * log(NN[tt-1]) + ww[tt])
+}
+
+par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
+plot.ts(NN, lwd = 2, type = "o", pch = 16, col = "dodgerblue",
+        yaxt = "n",
+        ylab = "")
+# text(x = 5, y = 130, expression(italic(r[max])==1))
+# text(x = 5, y = 110, expression(italic(b)==0.8))
+# text(x = 5, y = 90, expression(italic(q)==0.1))
+mtext(expression(italic(N[t])),
+      side = 2, line = 1, cex = 1.5)
+```
+
+
+---
+
+# Density-dependent population growth
+
+###  .blue.center[ Stochastic, discrete-time Gompertz model (in log-space) ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}) + w_t)} \\
+~ \\
+\Large \Downarrow \\
+~ \\
+\Large \log(N_t) = r_{\max} + b \log(N_{t-1}) + w_t$$
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Via substitution, we can rewrite the model as an _autoregressive model_ ]
+
+$$\Large \begin{align}\log(N_t) = r_{\max} & + b \log(N_{t-1}) + w_t \\
+~ \\
+\Large & \Downarrow x_t = \log(N_t)\\
+~ \\
+\Large x_t = r_{\max} &+ b x_{t-1} + w_t \end{align}$$
+
+
+---
+
+class: middle
+
+# .green[ Upwelling ]
+
+# .blue.center[ Precipitation ]
+
+# .orange.right[ Temperature ]
+
+
+---
+
+# Environmental effects on growth
+
+### .blue[ We can include the effects of (lagged) covariates on intrinsic growth ]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+
+---
+
+# Environmental effects on growth
+
+### .blue.center[ Add the effects of (lagged) covariates on intrinsic growth ]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+<br>
+
+### .blue.center[ For example, a seasonal effect (sine wave) ]
+
+$$\Large c_t = \sin \left( \tfrac{\pi}{6} t \right)$$
+
+
+---
+
+# Environmental effects on dynamics
+
+```{r ex_covar, fig.align="center", fig.dim=c(6,3)}
+ww <- xx <- rnorm(TT)
+bb <- 0.7
+CC <- 2
+cc <- sin(2*pi*seq(TT)/12)
+  
+for(t in 2:TT) {
+  xx[t] <- r_max + bb * xx[t-1] + CC * cc[t] + ww[t]
+}
+
+par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
+plot.ts(xx, ylim = range(xx,yy),
+        lwd = 2, type = "o", pch = 16, col = "dodgerblue",
+        ylab = "", yaxt = "n")
+mtext(expression(italic(x[t])),
+      side = 2, line = 1, cex = 1.5)
+
+# mtext(side = 3,
+      # expression(italic(x[t])==italic(b)~italic(x[t-1])~+~italic(C)~italic(c[t])~+~italic(w[t])),
+      # line = 0.5, adj = 0)
+```
+
+
+---
+
+# Population dynamics under uncertainty
+
+## .blue.center[ Model for the "true state of nature"]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can be easy
+
+---
+
+class: inverse-black, bottom, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white[How many sockeye are there?]
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can also be hard
+
+---
+
+class: inverse-black, bottom, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white[How many mayflies are there?]
+
+
+---
+
+# Population dynamics under uncertainty
+
+### .blue.center[ State (process) model ]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+<br>
+
+.purple[
+### Most population censuses contain observation or sampling errors, so we can add an observation (data) model
+]
+
+$$y_t = x_t + v_t$$
+
+
+---
+
+# Population dynamics under uncertainty
+
+.blue[
+### Together these form a _state-space_ model
+]
+
+$$x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t\\
+~ \\
+y_t = x_t + v_t$$
+
+
+---
+
+# Example states
+
+```{r ex_ssm, fig.align="center", fig.dim=c(6,3)}
+## number of time steps
+TT <- 50
+## strength of density-dependence (0 < b < 1)
+bb <- 0.5
+## time series of process errors with SD = 1
+ww <- rnorm(TT, 0, sqrt(1))
+## initialize state & set x0 = w0
+xx <- ww
+## loop over time steps
+for(t in 2:TT) {
+  xx[t] <- bb * xx[t-1] + ww[t]
+}
+## obs errors with var = 1.5
+vv <- rnorm(TT, 0, sqrt(2))
+## obs data
+yy <- xx + vv
+
+par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
+plot.ts(xx, lwd = 2, type = "o", pch = 16, col = "gray",
+        ylim = c(min(xx,yy), max(xx,yy)), yaxt = "n",
+        ylab = "")
+mtext(expression(italic(x[t])),
+      side = 2, line = 1, cex = 1.5)
+# lines(yy, lwd = 2, type = "o", pch = 16, col = "dodgerblue")
+```
+
+
+---
+
+# Example states and observations
+
+```{r ex_ssm_2, fig.align="center", fig.dim=c(6,3)}
+par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
+plot.ts(xx, lwd = 2, type = "o", pch = 16, col = "gray",
+        ylim = c(min(xx,yy), max(xx,yy)), yaxt = "n",
+        ylab = "")
+mtext(expression(italic(x[t])~~or~~italic(y[t])),
+      side = 2, line = 1, cex = 1.5)
+lines(yy, lwd = 2, type = "o", pch = 16, col = "dodgerblue")
+```
+
+
+---
+
+class: inverse, center, middle
+
+# Community dynamics
+
+
+---
+
+# Estimating community interactions
+
+### Number today is a function of the number yesterday
+
+```{r MAR_diag_1, dpi=300, fig.height=4, fig.width=8, out.height="100%", out.width="100%", fig.align='center', echo=FALSE, warning=FALSE}
+par(mai=c(0.8,0.8,0,0), omi=rep(0,4))
+## boundaries
+ss <- 5
+nn <- 8
+rr <- ss*3
+cc <- ss*nn
+## mid-points
+xm <- seq(5,cc-ss,rr)
+ymt <- rr - ss/2
+ymb <- ss/2
+## arrow locs
+y0 <- rr - ss
+y1 <- ss
+## empty plot space
+plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
+     xaxt="n", yaxt="n", bty="n")
+## top row
+symbols(x=xm[2], y=ymt, rectangles=matrix(c(2*ss,ss),1,2),
+        lty="solid",  bg="#656565", fg=NA,
+        inches=FALSE, add=TRUE, lwd=3)
+text("Number", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=3)
+text("yesterday", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=1)
+## arrows
+arrows(x0=xm[2], y0=y0, y1=y1,
+       col="#656565", lwd=3, length=0.12)
+## bottom row: obs
+symbols(x=xm[2], y=ymb, rectangles=matrix(c(2*ss,ss),1,2),
+        lty="solid",  bg="#488fdf", fg=NA,
+        inches=FALSE, add=TRUE, lwd=3)
+text("Number", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=3)
+text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
+```
+
+
+---
+
+# Estimating community interactions
+
+### and the number of predators, prey & competitors
+
+```{r MAR_diag_2, dpi=300, fig.height=4, fig.width=8, out.height="100%", out.width="100%", fig.align='center', echo=FALSE, warning=FALSE}
+par(mai=c(0.8,0.8,0,0), omi=rep(0,4))
+## empty plot space
+plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
+     xaxt="n", yaxt="n", bty="n")
+## top row
+symbols(x=xm, y=rep(ymt,3),
+        rectangles=matrix(c(2*ss,ss),3,2,byrow=TRUE),
+        lty="solid",  bg=c("#c10101","#ff8100","#844870"),
+        fg=NA,
+        inches=FALSE, add=TRUE, lwd=3)
+text(c("Predators","Prey","Competitors"),
+     x=xm, y=rep(ymt,3), cex=1.7, col="#ffffff", pos=3)
+text("yesterday", x=xm, y=rep(ymt,3), cex=1.7, col="#ffffff", pos=1)
+## arrows
+arrows(x0=ss*seq(2,6,2), x1=ss*seq(3,5),
+       y0=y0, y1=y1,
+       col=c("#c10101","#ff8100","#844870"), lwd=3, length=0.12)
+## bottom row: obs
+symbols(x=xm[2], y=ymb, rectangles=matrix(c(2*ss,ss),1,2),
+        lty="solid",  bg="#488fdf", fg=NA,
+        inches=FALSE, add=TRUE, lwd=3)
+text("Number", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=3)
+text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
+```
+
+
+---
+
+# State model for species interactions
+
+### and external forces at various times
+
+```{r MAR_diag_3, dpi=300, fig.height=4, fig.width=8, out.height="100%", out.width="100%", fig.align='center', echo=FALSE, warning=FALSE}
+par(mai=c(0.8,0.8,0,0), omi=rep(0,4))
+## empty plot space
+plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
+     xaxt="n", yaxt="n", bty="n")
+## top row
+symbols(x=xm[2], y=ymt, rectangles=matrix(c(2*ss,ss),1,2),
+        lty="solid",  bg="#339933", fg=NA,
+        inches=FALSE, add=TRUE, lwd=3)
+text("External", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=3)
+text("forces", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=1)
+## arrows
+arrows(x0=xm[2], y0=y0, y1=y1,
+       col="#339933", lwd=3, length=0.12)
+## bottom row: obs
+symbols(x=xm[2], y=ymb, rectangles=matrix(c(2*ss,ss),1,2),
+        lty="solid",  bg="#488fdf", fg=NA,
+        inches=FALSE, add=TRUE, lwd=3)
+text("Number", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=3)
+text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
+```
+
+---
+
+# State model for species interactions
+
+.blue[
+### Sum of intra- and interspecific effects
+]
+
+$$x_{i,t} = r_{max, i} + \sum^{m}_{j = 1}{b_{i,j} x_{j,t}} + w_t$$
+
+where $b_{i,j}$ is the effect of the $j^{th}$ species on species $i$ and
+
+$b_{i=j}$ is the density-dependent effect
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### We can write this model in matrix notation as
+]
+
+$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t$$
+
+with
+
+$$\mathbf{r} =
+\begin{bmatrix}
+r_1 \\
+r_2 \\
+\vdots \\
+r_m
+\end{bmatrix} ~~~
+\mathbf{B} =
+\begin{bmatrix}
+b_{1,1} & b_{1,2} & \dots & b_{1,m} \\
+b_{2,1} & b_{2,2} & \dots & b_{2,m} \\
+\vdots & \vdots & \ddots & \vdots \\
+b_{m,1} & b_{m,2} & \dots & b_{m,m}
+\end{bmatrix} ~~~
+\mathbf{w}_t \sim \text{MVN}(\textbf{0}, \textbf{Q})$$
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### We can write this model in matrix notation as
+]
+
+$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t$$
+
+<br>
+
+.green[
+### This as a _multivariate autoregressive model_ of order 1, or MAR(1)
+]
+
+
+---
+
+# Forms of covariances matrices $\mathbf{Q}$
+
+.blue[
+### Without covariance (and $m = 4$)
+]
+
+$$\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}$$
+
+
+---
+
+# Forms of covariances matrices $\mathbf{Q}$
+
+.blue[
+### With covariance (and $m = 4$)
+]
+
+$$\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & \gamma_{1,2} & \gamma_{1,3} & \gamma_{1,4} \\
+ \gamma_{1,2} & \sigma_2 & \gamma_{2,3} & \gamma_{2,4} \\
+ \gamma_{1,3} & \gamma_{2,3} & \sigma_3 & \gamma_{3,4} \\
+ \gamma_{1,4} & \gamma_{2,4} & \gamma_{3,4} & \sigma_4
+\end{bmatrix}$$
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### Including the effects of exogenous drivers
+]
+
+$$\mathbf{x}_t = \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{c}_{t-h} + \mathbf{w}_t$$
+
+<br>
+
+The $m \times p$ matrix $\mathbf{C}$ contains the effect(s) of each covariate (cols) on each state (rows)
+
+The $p \times 1$ column vector $\mathbf{c}_{t-h}$ contains each of the $p$ covariates at time $t - k$
+
+
+---
+
+# Covariate effects
+
+.blue[
+### The effect(s) of covariates can vary by state/species/etc
+]
+
+$$\mathbf{C} \stackrel{?}{=}
+\begin{bmatrix}
+C_{1, Temp} & C_{1, DO} \\ 
+C_{2, Temp} & C_{2, DO} \\ 
+\vdots & \vdots \\ 
+C_{m, Temp} & C_{m, DO}
+\end{bmatrix}
+~~ \text{or} ~~
+\mathbf{C} \stackrel{?}{=}
+\begin{bmatrix}
+C_{Temp} & C_{DO} \\ 
+C_{Temp} & C_{DO} \\ 
+\vdots & \vdots \\ 
+C_{Temp} & C_{DO}
+\end{bmatrix}$$
+
+with
+
+$$\mathbf{c}_{t-h} =
+\begin{bmatrix}
+Temp_{t-h} \\
+DO_{t-h}
+\end{bmatrix}$$
+
+
+---
+
+# Addressing observation errors
+
+.blue[
+### State-space model in matrix form
+]
+
+$$\mathbf{x}_t = \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{c}_{t-h} + \mathbf{w}_t \\
+~ \\
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t$$
+
+.blue[
+### with
+]
+
+
+$$\mathbf{a} =
+\begin{bmatrix}
+a_1 \\
+a_2 \\
+\vdots \\
+a_m
+\end{bmatrix} ~~~~~
+\mathbf{v}_t \sim \text{MVN}(\textbf{0}, \textbf{R})$$
+
+
+
+---
+
+# Forms of covariances matrices $\mathbf{R}$
+
+.blue[
+### Without covariance (and $m = 4$)
+]
+
+$$\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}$$
+
+
+---
+
+# Forms of covariances matrices $\mathbf{R}$
+
+.blue[
+### With covariance (and $m = 4$)
+]
+
+$$\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}$$
+
+
+---
+
+class: center, middle, inverse
+
+# Metrics of stability
+
+
+---
+
+# Let's consider 3 metrics of stability
+
+.blue[
+## Rate of return to equilibrium
+]
+
+.green[
+## Reactivity
+]
+
+.orange[
+## Variance of the stationary distribution
+]
+
+
+---
+
+class: frimg
+background-image: url(figs/May_1972_stability.png)
+background-position: 50% 70%
+background-size: 70%
+
+# Rate of return to equilibrium
+
+.blue[
+### In deterministic models, equilibria are a point or stable limit cycle
+]
+
+.gray.citation[May (1972) _Science_]
+
+
+---
+
+# Rate of return to equilibrium
+
+.blue[
+### In stochastic models, the equilibrium is a _stationary distribution_
+]
+
+
+---
+
+# Univariate stationary distribution
+
+.blue[
+### When |b| < 1, an AR(1) process is "stationary"
+]
+
+$$x_t = r_{\max} + b x_{t-1} + w_t \\
+~ \\
+\Downarrow \\
+~ \\
+x_{\infty} \sim \text{N}(\mu_{\infty}, \sigma_{\infty}) \\
+~ \\
+\mu_{\infty} = \frac{r_{\max}}{1 - b} \\
+~ \\
+\sigma_{\infty} = \frac{q}{1 - b^2}$$
+
+
+---
+
+# Univariate stationary distribution
+
+```{r uni_stationary, fig.align='center', fig.dim=c(7,4)}
+TT <- 50
+NN <- 10
+
+x1 <- w1 <- matrix(rnorm(TT*NN, 0, 1), nrow = NN)
+x2 <- w2 <- matrix(rnorm(TT*NN, 0, 1), nrow = NN)
+
+x1[,1] <- -7
+x2[,1] <- -7
+
+b1 <- 0.5
+b2 <- 0.9
+
+for(i in 1:NN) {
+  for(tt in 2:TT) {
+    x1[i,tt] <- b1 * x1[i,tt-1] + w1[i,tt]
+    x2[i,tt] <- b2 * x2[i,tt-1] + w2[i,tt]
+  }
+}
+
+## determine the plot range and all the things needed for the barplots and lines
+xx <- seq(-8, 6, length.out = 100) # evaluation points for the overlaid density
+h1 <- dnorm(xx, 0, 1) # density points
+s1 <- dnorm(xx, 0, sqrt(1/(1 - 0.5^2)))
+s2 <- dnorm(xx, 0, sqrt(1/(1 - 0.9^2)))
+
+clr1 <- c("#f7fbff",
+          "#deebf7",
+          "#c6dbef",
+          "#9ecae1",
+          "#6baed6",
+          "#4292c6",
+          "#2171b5",
+          "#08519c",
+          "#08306b")
+
+clr2 <- c("#fff5f0",
+          "#fee0d2",
+          "#fcbba1",
+          "#fc9272",
+          "#fb6a4a",
+          "#ef3b2c",
+          "#cb181d",
+          "#a50f15",
+          "#67000d")
+
+layout(matrix(c(1, 2, 3, 4), 1, 4), widths = c(4, 1, 4, 1))
+par(mai = c(1, 1, 0.5, 0), omi = c(0, 0, 0, 0))
+plot(seq(TT), x1[1,], las = 1, col = "dodgerblue", type = "l", lwd = 2, ylim = range(x2),
+     xlab = "Time", ylab = expression(italic(x[t])), main = "",
+     cex.axis = 1.5, cex.lab = 1.5)
+mtext(expression(italic(b)==0.5), side = 3, line = 1)
+for(i in 2:NN) {
+  lines(x1[i,],
+        col = clr1[i-1], lwd = 2)
+}
+par(mai = c(1, 0, 0.5, 0))
+plot(h1, xx, type = "l", ylim = range(x2),
+     xaxt = "n", yaxt = "n", bty = "n",
+     xlab = "", ylab = "", col = "darkgray", lwd = 2)
+lines(s1, xx, col = "dodgerblue", lwd = 2)
+
+par(mai = c(1, 1, 0.5, 0))
+plot(seq(TT), x2[1,], las = 1, col = "indianred", type = "l", lwd = 2, ylim = range(x2),
+     xlab = "Time", ylab = expression(italic(x[t])), main = "",
+     cex.axis = 1.5, cex.lab = 1.5)
+mtext(expression(italic(b)==0.9), side = 3, line = 1)
+for(i in 2:NN) {
+  lines(x2[i,],
+        col = clr2[i-1], lwd = 2)
+}
+par(mai = c(1, 0, 0.5, 0))
+plot(h1, xx, type = "l", ylim = range(x2),
+     xaxt = "n", yaxt = "n", bty = "n",
+     xlab = "", ylab = "", col = "darkgray", lwd = 2)
+lines(s2, xx, col = "indianred", lwd = 2)
+```
+
+
+---
+
+# Univariate transition distribution
+
+.blue[
+### The _transition distribution_ is the conditional probability distribution for $x_t$ at any time $t$ given $x_0$
+]
+
+$$\mu_t = \mu_{\infty} + b^t \left( x_0 - \mu_{\infty} \right)\\
+~ \\
+\sigma_t = \sigma_{\infty}[1 - (b^2)^t]$$
+
+
+---
+
+# Univariate transition distribution
+
+.blue[
+### The _transition distribution_ is the conditional probability distribution for $x_t$ at any time $t$ given $x_0$
+]
+
+$$\mu_t = \mu_{\infty} + b^t \left( x_0 - \mu_{\infty} \right)\\
+~ \\
+\sigma_t = \sigma_{\infty}[1 - (b^2)^t]$$
+
+.orange[
+### Note: the rate of convergence is governed by $b$
+]
+
+
+---
+
+# Univariate transition distribution
+
+```{r ex_trans_dist, fig.align='center', fig.dim=c(7,4)}
+
+qq <- 1
+
+x0 <- -7
+
+mt_1 <- vt_1 <- mt_2 <- vt_2 <- rep(NA, TT)
+
+mi_1 <- 0 # r_max / (1 - b1)
+
+vi_1 <- qq / (1 - b1^2)
+
+mi_2 <- 0 # r_max / (1 - b2)
+
+vi_2 <- qq / (1 - b2^2)
+
+for(tt in 1:TT) {
+  mt_1[tt] <- mi_1 + b1^tt * (x0 - mi_1)
+  vt_1[tt] <- vi_1 * (1 - (b1^2)^tt)
+  mt_2[tt] <- mi_2 + b2^tt * (x0 - mi_2)
+  vt_2[tt] <- vi_2 * (1 - (b2^2)^tt)
+}
+
+par(mfrow = c(1, 2),
+    mai = c(1, 1, 0.5, 0),
+    omi = c(0, 0, 0, 0))
+plot.ts(mt_1, ylim = range(c(mt_2, vt_2)),
+        las = 1, ylab = "", lwd = 2, col = "blue")
+lines(vt_1, lwd = 2, col = "purple")
+text(x = 25, y = -1, expression(mu[t]), col = "blue", cex = 1.5)
+text(x = 25, y = 2, expression(sigma[t]), col = "purple", cex = 1.5)
+mtext(expression(italic(b)==0.5), side = 3, line = 1, cex = 1.5)
+
+plot.ts(mt_2, ylim = range(c(mt_2, vt_2)),
+        las = 1, ylab = "", lwd = 2, col = "blue")
+lines(vt_2, lwd = 2, col = "purple")
+text(x = 25, y = -2, expression(mu[t]), col = "blue", cex = 1.5)
+text(x = 25, y = 4, expression(sigma[t]), col = "purple", cex = 1.5)
+mtext(expression(italic(b)==0.9), side = 3, line = 1, cex = 1.5)
+
+```
+
+
+---
+
+# Transition versus stationary
+
+.blue[
+### The _transition_ distribution is where we are now
+]
+
+.green[
+### The _stationary_ distribution is where we are headed
+]
+
+
+---
+
+# Rate of return for multivariate models
+
+.blue[
+### For multivariate models, the rate of return is governed by the interaction matrix $\mathbf{B}$
+]
+
+.blue[
+### As with deterministic models, it depends on _dominant eigenvalues_
+]
+
+
+---
+
+# Rate of return for multivariate models
+
+.blue[
+### Rate of return for the mean
+]
+
+If $\lambda_{\mathbf{B}}$ denotes the eigenvalues of $\mathbf{B}$, then the rate of return from $\boldsymbol{\mu}_t \rightarrow \boldsymbol{\mu}_{\infty}$ is given by
+
+$$\max(\lambda_{\mathbf{B}})$$
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Aside: Kronecker product $(\otimes)$
+
+.blue[
+### A generalization of the outer product from vectors to matrices
+]
+
+$$\mathbf{A} = 
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+~~ \text{and} ~~
+\mathbf{B} = 
+\begin{bmatrix}
+5 & 6 \\
+7 & 8
+\end{bmatrix}$$
+<br>
+
+$$\mathbf{A} \otimes \mathbf{B} = \left[\begin{array}{ll}
+1\left[\begin{array}{cc}
+5 & 6 \\
+7 & 8
+\end{array}\right] & 2\left[\begin{array}{ll}
+5 & 6 \\
+7 & 8
+\end{array}\right] \\
+3\left[\begin{array}{cc}
+5 & 6 \\
+7 & 8
+\end{array}\right] & 4\left[\begin{array}{ll}
+5 & 6 \\
+7 & 8
+\end{array}\right]
+\end{array}\right]=\left[\begin{array}{cccc}
+5 & 6 & 10 & 12 \\
+7 & 8 & 14 & 16 \\
+15 & 18 & 20 & 24 \\
+21 & 24 & 28 & 32
+\end{array}\right]$$
+
+
+---
+
+# Rate of return for multivariate models
+
+.blue[
+### Rate of return for the covariance matrix
+]
+
+Return from $\boldsymbol{\Sigma}_t \rightarrow \boldsymbol{\Sigma}_{\infty}$ is given by
+
+$$\max(\lambda_{\mathbf{B} \otimes \mathbf{B}})$$
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# A note about rate of return
+
+.blue[
+### Rate of return is based upon long-term properties of the system
+
+### For many applications, properties of short-term behavior might be more appropriate (Neubert & Caswell 1997)
+]
+
+
+---
+
+# Reactivity
+
+.blue[
+### The displacement of the community away from equilibrium following a perturbation
+]
+
+
+---
+
+# Example of reactivity
+
+```{r ex_reactivity, fig.align='center', fig.dim=c(7,4)}
+
+x1 <- MASS::mvrnorm(10, rep(0, 2), matrix(c(1.5, 0, 0, 1.5), 2, 2))
+x2 <- x1 * 0.4
+
+y1 <- MASS::mvrnorm(10, rep(0, 2), matrix(c(3, 0, 0, 3), 2, 2))
+y2 <- y1 * 0.7
+
+lims <- c(-1, 1) * max(abs(c(x1, y1)))
+
+par(mfrow = c(1,2),
+    mai = c(0.9, 0.9, 0.5, 0.1),
+    omi = c(0, 0, 0, 0))
+plot(x1, type = "n",
+     # xlim = range(c(x1, y1)), ylim = range(c(x1, y1)),
+     xlim = lims, ylim = lims,
+xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n")
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
+arrows(x1[,1], x1[,2], x2[,1], x2[,2],
+       length = 0.05, lwd = 2, col = "dodgerblue")
+mtext("Species 1", side = 1, line = 1, cex = 1.2)
+mtext("Species 2", side = 2, line = 1, cex = 1.2)
+mtext("Less reactive", side = 3, line = 1, cex = 1.2)
+plot(x2, type = "n",
+     xlim = lims, ylim = lims,
+     xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n")  
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
+arrows(y1[,1], y1[,2], y2[,1], y2[,2],
+       length = 0.05, lwd = 2, col = "indianred")
+mtext("Species 1", side = 1, line = 1, cex = 1.2)
+mtext("Species 2", side = 2, line = 1, cex = 1.2)
+mtext("More reactive", side = 3, line = 1, cex = 1.2)
+```
+
+
+---
+
+# Reactivity
+
+.blue[
+### Consider a small perturbation to $\mathbf{x}_{t-1}$ by the vector $\boldsymbol{\delta}$, given by
+]
+
+$$\begin{align}
+\mathbf{x}_t &= \mathbf{r} + \mathbf{B} \left( \mathbf{x}_{t-1} + \boldsymbol{\delta} \right) + \mathbf{w}_t \\
+  &= \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{B} \boldsymbol{\delta} + \mathbf{w}_t
+\end{align}$$
+
+
+
+---
+
+# Reactivity
+
+.blue[
+### Consider a small perturbation to $\mathbf{x}_{t-1}$ by the vector $\boldsymbol{\delta}$, given by
+]
+
+$$\begin{align}
+\mathbf{x}_t &= \mathbf{r} + \mathbf{B} \left( \mathbf{x}_{t-1} + \boldsymbol{\delta} \right) + \mathbf{w}_t \\
+  &= \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{B} \boldsymbol{\delta} + \mathbf{w}_t
+\end{align}$$
+
+.blue[
+### The magnitude of the response of $\mathbf{x}_t$ given by $\mathbf{B} \boldsymbol{\delta}$ relative to the magnitude of the displacement is
+]
+
+$$\frac{\sqrt{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}}{\sqrt{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}} =
+\sqrt{\frac{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}}$$
+
+.gray.citation[Neubert et al (2009) _Ecology_]
+
+
+---
+
+# Reactivity
+
+.blue[
+### The reactivity $(\nu)$ is then given by
+]
+
+$$\begin{align}
+\nu &= \log \sigma_{\max} \sqrt{\frac{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}} \\
+~ \\
+    &= \log \sigma_{\max} (\mathbf{B})
+\end{align}$$
+
+.gray.citation[Neubert et al (2009) _Ecology_]
+
+
+---
+
+# Reactivity
+
+.blue[
+### The reactivity $(\nu)$ is then given by
+]
+
+$$\begin{align}
+\nu &= \log \sigma_{\max} \sqrt{\frac{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}} \\
+~ \\
+    &= \log \sigma_{\max} (\mathbf{B})
+\end{align}$$
+
+.orange[
+### When $\nu$ > 0, the system is considered "reactive"
+]
+
+.gray.citation[Neubert et al (2009) _Ecology_]
+
+
+---
+
+# Reactivity
+
+.blue[
+### Equivalently, the reactivity $(\nu)$ is also given by
+]
+
+$$\begin{align}
+\nu &= \log \sigma_{\max} (\mathbf{B}) \\
+~ \\
+    &= \log ||\mathbf{B}||_2 \\
+~ \\
+    &= \log \sqrt{\lambda_{\max}(\mathbf{B}^\top \mathbf{B})}
+\end{align}$$
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### In a relatively stable system, species interactions increase the variance of the stationary distribution only slightly compared to the variance of the process errors
+
+### In a less stable system, species interactions greatly amplify the variance in the stationary distribution relative to the variance of the process errors
+]
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### Let's revisit a stationary univariate case with one species
+]
+
+$$x_t = r_{\max} + b x_{t-1} + w_t \\
+w_t \sim \text{N}(0, q)$$
+
+.blue[
+### The stationary variance is 
+]
+
+$$\text{Var} (x_t) = \text{Var} (r_{\max}) + b^2 \text{Var} (x_{t-1}) + \text{Var} (w_t) \\
+\Downarrow \\
+\begin{align}
+\sigma_{\infty} &= b^2 \sigma_{\infty} + q \\
+  &= \frac{q}{1 - b^2}
+\end{align}$$
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### Let's now consider our multivariate model of community dynamics
+]
+
+$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
+\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$
+
+.blue[
+### The stationary variance is 
+]
+
+$$\text{Var} (\mathbf{x}_t) = \text{Var} (\mathbf{r}) + \mathbf{B} \text{Var} (\mathbf{x}_{t-1}) \mathbf{B}^{\top} + \text{Var} (\mathbf{w}_t) \\
+\Downarrow \\
+\mathbf{\Sigma_{\infty}} = \mathbf{B} \mathbf{\Sigma_{\infty}} \mathbf{B}^\top + \mathbf{Q}$$
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### Let's now consider our multivariate model of community dynamics
+]
+
+$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
+\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$
+
+.blue[
+### The stationary variance is 
+]
+
+$$\text{Var} (\mathbf{x}_t) = \text{Var} (\mathbf{r}) + \mathbf{B} \text{Var} (\mathbf{x}_{t-1}) \mathbf{B}^{\top} + \text{Var} (\mathbf{w}_t) \\
+\Downarrow \\
+\mathbf{\Sigma_{\infty}} = \mathbf{B} \mathbf{\Sigma_{\infty}} \mathbf{B}^\top + \mathbf{Q}$$
+
+.orange[
+### Unfortunately, there is no closed form solution for $\mathbf{\Sigma_{\infty}}$
+]
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Aside: the $\text{vec}$ operator
+
+.blue[
+### For example, if
+]
+
+$$\mathbf{M} = 
+\begin{bmatrix}
+    1 & 3 \\
+    2 & 4
+\end{bmatrix}$$
+
+.blue[
+### then
+]
+
+$$\text{vec}(\mathbf{M}) = 
+\begin{bmatrix}
+    1 \\
+    2 \\
+    3 \\
+    4 
+\end{bmatrix}$$
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### If we define the following
+]
+
+$\mathbf{I} = n \times n$ identity matrix
+
+$\tilde{\mathbf{I}} = \mathbf{I} \otimes \mathbf{I}$
+
+$\tilde{\mathbf{B}} = \mathbf{B} \otimes \mathbf{B}$
+
+.blue[
+### then
+]
+
+$$\text{vec}(\boldsymbol{\Sigma}) = (\tilde{\mathbf{I}} - \tilde{\mathbf{B}})^{-1} \text{vec}(\mathbf{Q})$$
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Effect of species interactions
+
+.blue[
+### Beginning with the stationary variance for our univariate model, let's consider the proportion $\pi$ owing to density dependence
+]
+
+$$\sigma_{\infty} = \frac{q}{1 - b^2} \\
+\Downarrow \\
+\begin{align}\sigma_{\infty} - b^2 \sigma_{\infty} &= q \\
+\sigma_{\infty} &= b^2 \sigma_{\infty} + q \\
+\sigma_{\infty} - q  &= b^2 \sigma_{\infty}
+\end{align} \\
+\Downarrow \\
+\pi = \frac{\sigma_{\infty} - q}{\sigma_{\infty}} = b^2$$
+
+
+---
+
+# Effect of species interactions
+
+.blue[
+### The multivariate case is analogous, but requires some additional math
+
+### Specifically, the size of a scalar is just the value itself, but we need a way to measure the "volume" of the matrices
+]
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### Consider a cube with each side equal to 2 units; it's volume is 8 units<sup>3</sup>
+]
+
+```{r plot_cube, fig.align='center', fig.dim=c(6, 4)}
+
+par(mai = c(0.3, 0.3, 0, 0), omi = c(1, 1, 0.3, 1.3))
+
+plot(c(0, 3), c(0, 3), asp = 1, xlim = c(0, 3), ylim = c(0, 3), type = "n",
+     xaxt = "n", yaxt = "n", xlab = "", ylab = "", bty = "n")
+
+segments(0, 2, 1, 2 + 1, lwd = 2, col = "darkgray")
+segments(0, 2, 2, 2, lwd = 2, col = "darkgray")
+segments(2, 0, 2, 2, lwd = 2, col = "darkgray")
+segments(1, 1, 1, 2 + 1, lwd = 2, col = "darkgray")
+segments(1, 2 + 1, 2 + 1, 2 + 1, lwd = 2, col = "darkgray")
+segments(2, 2, 2 + 1, 2 + 1, lwd = 2, col = "darkgray")
+segments(2, 0, 2 + 1, 1, lwd = 2, col = "darkgray")
+segments(2 + 1, 1, 2 + 1, 2 + 1, lwd = 2, col = "darkgray")
+segments(1, 1, 2 + 1, 1, lwd = 2, col = "darkgray")
+
+segments(0, 0, 2, 0, lwd = 2, col = "black")
+segments(0, 0, 1, 1, lwd = 2, col = "black")
+segments(0, 0, 0, 2, lwd = 2, col = "black")
+
+text(1, 0, "2", xpd = NA, cex = 1.2, pos = 1)
+text(0.5, 0.6, "2", xpd = NA, cex = 1.2, pos = 3)
+text(0, 1, "2", xpd = NA, cex = 1.2, pos = 2)
+```
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### We can also define this cube with 3 vectors for the cube's vertices
+]
+
+```{r plot_cube_2, fig.align='center', fig.dim=c(6, 4)}
+
+par(mai = c(0.3, 0.3, 0, 0), omi = c(1, 1, 0.3, 1.3))
+
+plot(c(0, 3), c(0, 3), asp = 1, xlim = c(0, 3), ylim = c(0, 3), type = "n",
+     xaxt = "n", yaxt = "n", xlab = "", ylab = "", bty = "n")
+
+segments(0, 2, 1, 2 + 1, lwd = 1, col = "darkgray")
+segments(0, 2, 2, 2, lwd = 1, col = "darkgray")
+segments(2, 0, 2, 2, lwd = 1, col = "darkgray")
+segments(1, 1, 1, 2 + 1, lwd = 1, col = "darkgray")
+segments(1, 2 + 1, 2 + 1, 2 + 1, lwd = 1, col = "darkgray")
+segments(2, 2, 2 + 1, 2 + 1, lwd = 1, col = "darkgray")
+segments(2, 0, 2 + 1, 1, lwd = 1, col = "darkgray")
+segments(2 + 1, 1, 2 + 1, 2 + 1, lwd = 1, col = "darkgray")
+segments(1, 1, 2 + 1, 1, lwd = 1, col = "darkgray")
+
+arrows(0, 0, 2, 0, length = 0.1, lwd = 2, col = "blue")
+arrows(0, 0, 1, 1, length = 0.1, lwd = 2, col = "red")
+arrows(0, 0, 0, 2, length = 0.1, lwd = 2, col = "purple")
+
+text(2, 0, "[2,0,0]", xpd = NA, cex = 1.2, pos = 1, col = "blue")
+text(1, 1, "[0,2,0]", xpd = NA, cex = 1.2, pos = 3, col = "red")
+text(0, 2, "[0,0,2]", xpd = NA, cex = 1.2, pos = 2, col = "purple")
+```
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### If we combine the 3 vectors into a matrix, the determinant gives the volume
+]
+
+$$\begin{bmatrix}
+2 & 0 & 0 \\
+0 & 2 & 0 \\
+0 & 0 & 2
+\end{bmatrix}$$
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### For a 2 $\times$ 2 matrix
+]
+
+$$\text{det} \begin{bmatrix}
+a & b \\
+c & d
+\end{bmatrix}
+= ad - bc$$
+
+.blue[
+### For a 3 $\times$ 3 matrix
+]
+
+$$\begin{align}
+\text{det} \begin{bmatrix}
+a & b & c \\
+d & e & f \\
+g & h & i
+\end{bmatrix} &= a ~ \text{det} \begin{bmatrix}
+e & f \\
+h & i
+\end{bmatrix} -b ~ \text{det} \begin{bmatrix}
+d & f \\
+g & i
+\end{bmatrix} +c ~ \text{det} \begin{bmatrix}
+d & e \\
+g & h
+\end{bmatrix} \\
+&= a (e i - f h) - b (d i - f g) + c (d h - e g)
+\end{align}$$
+
+
+---
+
+# Aside: matrix determinants
+
+.blue[
+### The volume of our cube is given by
+]
+
+$$\begin{align}
+\text{det}
+\begin{bmatrix}
+2 & 0 & 0 \\
+0 & 2 & 0 \\
+0 & 0 & 2
+\end{bmatrix} 
+  &= 2[2 (2) - 0 (0)] - 0[0 (0) - 0 (2)] + 0[0 (0) - 2 (0)] \\
+  &= 2(4 - 0) - 0(0 - 0) + 0(0 - 0) \\
+  &= 8
+\end{align}$$
+
+
+---
+
+# Effect of species interactions
+
+.blue[
+### Recall that the stationary variance of the MAR(1) model is 
+]
+
+$$\boldsymbol{\Sigma} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top + \mathbf{Q}$$
+
+.blue[
+### and so the volume of the difference $\boldsymbol{\Sigma} - \mathbf{Q}$ is the contribution of species interactions to the stationary variance
+]
+
+$$\boldsymbol{\Sigma} - \mathbf{Q} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top$$
+
+
+---
+
+# Effect of species interactions
+
+.blue[
+### The proportion of the volume of $\boldsymbol{\Sigma}$ attributable to species interactions, $\pi_{\mathbf{B}}$, is then
+]
+
+$$\begin{align}
+\text{det}(\mathbf{\Sigma} - \mathbf{Q}) &= \text{det}(\mathbf{B} \mathbf{\Sigma} \mathbf{B}^\top) \\
+ &= \text{det}(\mathbf{B}) \text{det}(\mathbf{\Sigma}) \text{det}(\mathbf{B}^\top) \\
+ &= \text{det}(\mathbf{B}) \text{det}(\mathbf{\Sigma}) \text{det}(\mathbf{B}) \\
+ &= \text{det}(\mathbf{B})^2 \text{det}(\mathbf{\Sigma})
+\end{align} \\
+\Downarrow \\
+\pi_\mathbf{B}  = \frac{\text{det}(\mathbf{\Sigma} - \mathbf{Q})}{\text{det}(\mathbf{\Sigma})} = \text{det}(\mathbf{B})^2$$
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Where are the important interactions?
+
+.blue[
+### Reactivity tells us something about the community as a whole
+
+### But what about the importance of _particular interactions_?
+]
+
+
+---
+
+# Where are the important interactions?
+
+.blue[
+### Are intra- or inter-specific interactions more important to stability?
+
+### Are top-down or bottom-up interactions more important to stability?
+]
+
+
+---
+
+# Sensitivity of $\pi_{\mathbf{B}}$ to interactions
+
+.blue[
+### We can examine the change in $\pi_{\mathbf{B}}$ with respect to the $(i,j)$ element of $\mathbf{B}$ using
+]
+
+$$\begin{align}
+\frac{\partial \pi_\mathbf{B}}{\partial \mathbf{B}_{ij}} &=  \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} \\
+& \\
+ &= \left[ 2 ~ \text{det}(\mathbf{B}) (\mathbf{B}^{-1})^\top \right]_{ij}
+\end{align}$$
+
+
+---
+
+class: center, middle, inverse
+
+# How does one actually do this?
+
+
+---
+
+# .blue[Canned **R** packages]
+
+## `{dlm}`, `{vars}`, `{MARSS}`<sup>*</sup>
+
+<br>
+
+# .green[Code-your-own languages]
+
+## `JAGS`, `Stan`, `TMB`
+
+.footnoteSm.gray[
+<sup>\*</sup>Holmes, Ward, Scheuerell (2020) _Analysis of multivariate time-series using the MARSS package_
+]
+
+
+---
+
+class: center, middle, inverse
+
+# The Lake Washington Story
+
+
+---
+
+# Acknowledgments
+
+.green[
+## [the late] W. T. Edmondson (UW)
+
+## Daniel Schindler (UW)
+
+## Arni Litt, Sally Abella, and **many** others (UW)
+]
+
+
+---
+
+class: frimg
+
+background-image: url(figs/LWA_press.png)
+background-size: 70%
+background-position: 50% 60%
+
+# The Lake Washington Story
+
+
+---
+
+class: frimg
+
+background-image: url(figs/LWA_CW.png)
+background-size: 80%
 background-position: 50% 50%
 
-### .credit2.gray[WDFW]
+# The Lake Washington Story
 
+.gray.citation[Hampton, Scheuerell & Schindler (2006) _L&O_]
+
+
+---
+
+# Analysis: plankton groups
+
+.blue[
+### I considered two 6-year time periods:
+]
+.green[
+### 1977-1982
+
+### 1989-1994
+]
+
+
+---
+
+# Analysis: plankton groups
+
+.blue[
+## Small phytoplankton 
+
+## Large phytoplankton
+
+## _Daphnia_
+
+## non-_Daphnia_
+]
+
+
+---
+
+class: frimg
+
+background-image: url(figs/plank.png)
+background-size: 80%
+background-position: 50% 55%
+
+# The plankton
+
+
+---
+
+class: frimg
+
+background-image: url(figs/covars.png)
+background-size: 85%
+background-position: 50% 50%
+
+# The covariates
+
+
+---
+
+# Stability metrics
+
+| Metric | | Early | | Late |  | Ives |
+|:----|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| Return rate (mean) |    | 0.89 |   | 0.65 |   | 0.77 |
+| Return rate (var) |   | 0.79 |   | 0.42 |   | 0.59 |
+| Reactivity |   | 1.0 |   | 0.41 |   | -0.26 |
+| % from species |   | 4% |   | 1% |   | 1% |
+
+.blue[
+### The late period in L WA is more stable than the early
+
+### Midwestern lake is intermediate to the 2 L WA periods
+]
+
+
+---
+
+# Stability metrics
+
+| Metric | | Early | | Late |  | Ives |
+|:----|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| Return rate (mean) |    | 0.89 |   | 0.65 |   | 0.77 |
+| Return rate (var) |   | 0.79 |   | 0.42 |   | 0.59 |
+| Reactivity |   | 1.0 |   | 0.41 |   | -0.26 |
+| % from species |   | 4% |   | 1% |   | 1% |
+
+.blue[
+### A previous meta-analysis of many different ecosystems found species interactions accounted for 5-60% (but only 2-10% in fish)
+]
+
+.gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
+
+
+---
+
+# Sensitivity of $\pi_\mathbf{B}$
+
+.blue[
+### Early period: bottom-up effects of phytoplankton
+]
+
+.green[
+### Late period: rather mixed and modest
+]
+
+.orange[
+### Midwest: density-dependent effects
+]
+
+
+---
+
+# Summary
+
+.blue[
+### Food web studies often focus on pairwise interactions
+
+### Examining the stability of the community is important as well
+]
+
+.futnote.purple[`r icon_style(fontawesome("envelope"), fill = "#844870")` scheuerl@uw.edu]
+
+.citation.blue[`r icon_style(fontawesome("twitter"), fill = "#488fdf")` @mark_scheuerell]
+
+
+---
+
+# A cautious note on rate of return
+
+.blue[
+### In deterministic models, rapid return rates make a system more predictable (stable)
+
+### In stochastic models, the rate of return is measured from some known observation
+
+### At $t = 0$ we have full knowledge of the the system, because $\sigma_t = \sigma_{\infty}[1 - (b^2)^t] = 0$
+
+### Over time $\sigma_t \rightarrow \sigma_{\infty}$, so information is lost more rapidly if the variance returns more rapidly
+]
 ---
 
 # This presentation
