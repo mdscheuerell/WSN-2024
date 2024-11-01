@@ -1,7 +1,7 @@
 ---
 title: "Effects of species interactions and environmental drivers on community stability"
 subtitle: "Mark Scheuerell"
-author: "U.S. Geological Survey<br>Washington Cooperative Fish and Wildlife Research Unit<br>University of Washington"
+author: "U.S. Geological Survey<br>Washington Cooperative Fish and Wildlife Research Unit<br>School of Aquatic and Fishery Sciences<br>University of Washington"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "my-theme.css"]
