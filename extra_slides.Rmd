@@ -763,4 +763,101 @@ mtext(expression(italic(b)==0.9), side = 3, line = 1, cex = 1.5)
 ]
 
 
+---
+
+# Rate of return for multivariate models
+
+.blue[
+### For multivariate models, the rate of return is governed by the interaction matrix $\mathbf{B}$
+]
+
+.blue[
+### As with deterministic models, it depends on _dominant eigenvalues_
+]
+
+
+---
+
+# Rate of return for multivariate models
+
+.blue[
+### Rate of return for the mean
+]
+
+If $\lambda_{\mathbf{B}}$ denotes the eigenvalues of $\mathbf{B}$, then the rate of return from $\boldsymbol{\mu}_t \rightarrow \boldsymbol{\mu}_{\infty}$ is given by
+
+$$\max(\lambda_{\mathbf{B}})$$
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Aside: Kronecker product $(\otimes)$
+
+.blue[
+### A generalization of the outer product from vectors to matrices
+]
+
+$$\mathbf{A} = 
+\begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix}
+~~ \text{and} ~~
+\mathbf{B} = 
+\begin{bmatrix}
+5 & 6 \\
+7 & 8
+\end{bmatrix}$$
+<br>
+
+$$\mathbf{A} \otimes \mathbf{B} = \left[\begin{array}{ll}
+1\left[\begin{array}{cc}
+5 & 6 \\
+7 & 8
+\end{array}\right] & 2\left[\begin{array}{ll}
+5 & 6 \\
+7 & 8
+\end{array}\right] \\
+3\left[\begin{array}{cc}
+5 & 6 \\
+7 & 8
+\end{array}\right] & 4\left[\begin{array}{ll}
+5 & 6 \\
+7 & 8
+\end{array}\right]
+\end{array}\right]=\left[\begin{array}{cccc}
+5 & 6 & 10 & 12 \\
+7 & 8 & 14 & 16 \\
+15 & 18 & 20 & 24 \\
+21 & 24 & 28 & 32
+\end{array}\right]$$
+
+
+---
+
+# Rate of return for multivariate models
+
+.blue[
+### Rate of return for the covariance matrix
+]
+
+Return from $\boldsymbol{\Sigma}_t \rightarrow \boldsymbol{\Sigma}_{\infty}$ is given by
+
+$$\max(\lambda_{\mathbf{B} \otimes \mathbf{B}})$$
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# A note about rate of return
+
+.blue[
+### Rate of return is based upon long-term properties of the system
+
+### For many applications, properties of short-term behavior might be more appropriate (Neubert & Caswell 1997)
+]
+
 
