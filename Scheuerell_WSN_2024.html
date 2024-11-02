@@ -41,7 +41,7 @@ class: center, middle, inverse, title-slide
 
 class: center, middle, inverse
 
-# Estimating species interactions&lt;br&gt;is a long-standing goal in ecology
+# Estimating species interactions&lt;br&gt;has long history in ecology
 
 
 ---
@@ -61,7 +61,7 @@ class: inverse-black
 background-image: url(figs/bob_paine.jpg)
 background-size: 55%
 
-#### .citation.center[Anne Paine ]
+#### .citation.center.gray[Anne Paine ]
 
 
 ---
@@ -71,7 +71,13 @@ class: inverse-black
 background-image: url(figs/steve_carpenter.jpg)
 background-size: 70%
 
-#### .citation.center[Adam&lt;br&gt;Hinterthuer]
+#### .citation.center.gray[Adam&lt;br&gt;Hinterthuer]
+
+
+---
+
+background-image: url(figs/ives2003.png)
+background-size: 95%
 
 
 ---
@@ -83,39 +89,63 @@ background-size: 70%
 
 ---
 
-# Density-dependent population growth
+# Estimates of interaction strengths
 
-### .blue.center[ Discrete-time Gompertz model ]
-
-`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))}$$`
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/food_web-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
-# Example of Gompertz dynamics
+class: inverse, center, middle
+
+# So how does one do this?
+
+
+---
+
+# Density-dependent population growth
+
+## .blue.center[ &amp;#129299; Discrete-time Gompertz model ]
+
+`$$\LARGE N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))}$$`
+
+&lt;br&gt;
+
+## .blue.center[ &amp;#128587; in other words ]
+
+## .center[A population grows smoothly toward its carry capacity ]
+
+
+---
+
+# Example of Gompertz population growth
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_gompertz-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
-# Density-dependent population growth
+class: inverse-black
 
-### .blue.center[ Stochastic, discrete-time Gompertz model ]
+background-image: url(figs/harsh_environment.jpg)
+background-size: 99%
 
-`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}}$$`
+#### .citation.center.gray[ DeepAI.org ]
 
 
 ---
 
-# Density-dependent population growth
+# Stochastic, density-dependent population growth
 
-### .blue.center[ Stochastic, discrete-time Gompertz model ]
+## .blue.center[ &amp;#129299; Discrete-time Gompertz model ]
 
-`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}} \\
-~ \\
-~ \\
-\Large e_t \sim \text{N}(0,q)$$`
+`$$\LARGE N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(w_t)}}_{``environment"}$$`
+
+&lt;br&gt;
+
+## .blue.center[ &amp;#128587; in other words ]
+
+## .center[A population bumps up &amp; down toward its long-term mean ]
 
 
 ---
@@ -123,156 +153,6 @@ background-size: 70%
 # Example of stochastic Gompertz dynamics
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_gompertz_stoch-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Density-dependent population growth
-
-###  .blue.center[ Stochastic, discrete-time Gompertz model (in log-space) ]
-
-`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}) + w_t)} \\
-~ \\
-\Large \Downarrow \\
-~ \\
-\Large \log(N_t) = r_{\max} + b \log(N_{t-1}) + w_t$$`
-
-
----
-
-# Density-dependent population growth
-
-### .blue.center[ Via substitution, we can rewrite the model as an _autoregressive model_ ]
-
-`$$\Large \begin{align}\log(N_t) = r_{\max} &amp; + b \log(N_{t-1}) + w_t \\
-~ \\
-\Large &amp; \Downarrow x_t = \log(N_t)\\
-~ \\
-\Large x_t = r_{\max} &amp;+ b x_{t-1} + w_t \end{align}$$`
-
-
----
-
-class: middle
-
-# .green[ Upwelling ]
-
-# .blue.center[ Precipitation ]
-
-# .orange.right[ Temperature ]
-
-
----
-
-# Environmental effects on growth
-
-### .blue[ We can include the effects of (lagged) covariates on intrinsic growth ]
-
-`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
-
-
----
-
-# Environmental effects on growth
-
-### .blue.center[ Add the effects of (lagged) covariates on intrinsic growth ]
-
-`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
-
-&lt;br&gt;
-
-### .blue.center[ For example, a seasonal effect (sine wave) ]
-
-`$$\Large c_t = \sin \left( \tfrac{\pi}{6} t \right)$$`
-
-
----
-
-# Environmental effects on dynamics
-
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_covar-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Population dynamics under uncertainty
-
-## .blue.center[ Model for the "true state of nature"]
-
-`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
-
-
----
-
-class: center, middle, inverse
-
-# Observing nature can be easy
-
----
-
-class: inverse-black, middle, center
-background-image: url(figs/sockeye.jpg)
-background-size: cover
-
-# .white[How many sockeye salmon are there?]
-
----
-
-class: center, middle, inverse
-
-# Observing nature can also be hard
-
----
-
-class: inverse-black, middle, center
-background-image: url(figs/sockeye.jpg)
-background-size: cover
-
-# .white.strong[How many mayflies are there?]
-
-
----
-
-# Population dynamics under uncertainty
-
-### .blue.center[ State (process) model ]
-
-`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
-
-&lt;br&gt;
-
-.purple[
-### Most population censuses contain observation or sampling errors, so we can add an observation (data) model
-]
-
-`$$y_t = x_t + v_t$$`
-
-
----
-
-# Population dynamics under uncertainty
-
-.blue[
-### Together these form a _state-space_ model
-]
-
-`$$x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t\\
-~ \\
-y_t = x_t + v_t$$`
-
-
----
-
-# Example of a state over time
-
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_ssm-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Example of states and observations over time
-
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_ssm_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -288,13 +168,13 @@ class: inverse, center, middle
 
 &gt; ## .blue[ A community is composed of multiple populations ]
 
-&gt; ## .blue[ Population sizes change over time]
+&gt; ## .blue[ The sizes of those populations change over time]
 
 ---
 
 # Model of population dynamics
 
-### .center[.blue[Number today] is a function of the .blue2[number yesterday]...&lt;sup&gt;&amp;nbsp;&lt;/sup&gt; ]
+## .center[.blue[Number today] is a function of the .blue2[number yesterday]...&lt;sup&gt;&amp;nbsp;&lt;/sup&gt; ]
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_1-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
@@ -303,7 +183,16 @@ class: inverse, center, middle
 
 # Model of population dynamics
 
-### .center[ and .gray[parasites]&lt;sup&gt;*&lt;/sup&gt;, .gray[diseases, etc]... ]
+## .center[and the number of .red[predators], .orange[prey] &amp; .purple[competitors]...&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_2-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Model of population dynamics
+
+## .center[ and .gray[parasites]&lt;sup&gt;*&lt;/sup&gt;, .gray[diseases, etc]... ]
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_1b-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
@@ -314,16 +203,7 @@ class: inverse, center, middle
 
 # Model of population dynamics
 
-### .center[and the number of .red[predators], .orange[prey] &amp; .purple[competitors]...&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
-
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_2-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Model of population dynamics
-
-### .center[and .green[external forces] at varying time lags&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
+## .center[and .green[external forces] at varying time lags&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_3-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
@@ -1430,6 +1310,177 @@ background-position: 50% 50%
 
 background-image: url(figs/shilshole.png)
 background-size: cover
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}}$$`
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}} \\
+~ \\
+~ \\
+\Large e_t \sim \text{N}(0,q)$$`
+
+
+---
+
+# Density-dependent population growth
+
+###  .blue.center[ Stochastic, discrete-time Gompertz model (in log-space) ]
+
+`$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}) + w_t)} \\
+~ \\
+\Large \Downarrow \\
+~ \\
+\Large \log(N_t) = r_{\max} + b \log(N_{t-1}) + w_t$$`
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Via substitution, we can rewrite the model as an _autoregressive model_ ]
+
+`$$\Large \begin{align}\log(N_t) = r_{\max} &amp; + b \log(N_{t-1}) + w_t \\
+~ \\
+\Large &amp; \Downarrow x_t = \log(N_t)\\
+~ \\
+\Large x_t = r_{\max} &amp;+ b x_{t-1} + w_t \end{align}$$`
+
+
+---
+
+class: middle
+
+# .green[ Upwelling ]
+
+# .blue.center[ Precipitation ]
+
+# .orange.right[ Temperature ]
+
+
+---
+
+# Environmental effects on growth
+
+### .blue[ We can include the effects of (lagged) covariates on intrinsic growth ]
+
+`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
+
+
+---
+
+# Environmental effects on growth
+
+### .blue.center[ Add the effects of (lagged) covariates on intrinsic growth ]
+
+`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
+
+&lt;br&gt;
+
+### .blue.center[ For example, a seasonal effect (sine wave) ]
+
+`$$\Large c_t = \sin \left( \tfrac{\pi}{6} t \right)$$`
+
+
+---
+
+# Environmental effects on dynamics
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_covar-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Population dynamics under uncertainty
+
+## .blue.center[ Model for the "true state of nature"]
+
+`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
+
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can be easy
+
+---
+
+class: inverse-black, middle, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white[How many sockeye salmon are there?]
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can also be hard
+
+---
+
+class: inverse-black, middle, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white.strong[How many mayfly larvae are there?]
+
+
+---
+
+# Population dynamics under uncertainty
+
+### .blue.center[ State (process) model ]
+
+`$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$`
+
+&lt;br&gt;
+
+.purple[
+### Most population censuses contain observation or sampling errors, so we can add an observation (data) model
+]
+
+`$$y_t = x_t + v_t$$`
+
+
+---
+
+# Population dynamics under uncertainty
+
+.blue[
+### Together these form a _state-space_ model
+]
+
+`$$x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t\\
+~ \\
+y_t = x_t + v_t$$`
+
+
+---
+
+# Example of a state over time
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_ssm-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Example of states and observations over time
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_ssm_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
 
 
     </textarea>

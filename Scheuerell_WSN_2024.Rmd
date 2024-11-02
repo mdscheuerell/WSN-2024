@@ -16,7 +16,7 @@ output:
 ```{r setup, include=FALSE}
 options(htmltools.dir.version = FALSE)
 knitr::opts_chunk$set(
-  fig.width=8, fig.height=4, fig.retina=3, fig.align = "center",
+  fig.width = 8, fig.height=4, fig.retina=3, fig.align = "center",
   out.width = "100%",
   cache = FALSE,
   echo = FALSE,
@@ -32,7 +32,7 @@ set.seed(666)
 library(icons)
 ```
 
-```{r xaringan-themer, include=FALSE, warning=FALSE}
+```{r xaringan-themer, include=FALSE, warning = FALSE}
 library(xaringanthemer)
 style_duo(
   primary_color = "#FFFFFF",
@@ -70,7 +70,7 @@ style_duo(
 
 class: center, middle, inverse
 
-# Estimating species interactions<br>is a long-standing goal in ecology
+# Estimating species interactions<br>has long history in ecology
 
 
 ---
@@ -90,7 +90,7 @@ class: inverse-black
 background-image: url(figs/bob_paine.jpg)
 background-size: 55%
 
-#### .citation.center[Anne Paine ]
+#### .citation.center.gray[Anne Paine ]
 
 
 ---
@@ -100,14 +100,20 @@ class: inverse-black
 background-image: url(figs/steve_carpenter.jpg)
 background-size: 70%
 
-#### .citation.center[Adam<br>Hinterthuer]
+#### .citation.center.gray[Adam<br>Hinterthuer]
+
+
+---
+
+background-image: url(figs/ives2003.png)
+background-size: 95%
 
 
 ---
 
 # Estimating interactions from time series
 
-```{r plot_many_ts, echo=FALSE, dpi=300, fig.height=4, fig.width=8, fig.align='center'}
+```{r plot_many_ts, echo=FALSE, dpi=300, fig.height=4, fig.width = 8, fig.align='center'}
 NN <- 3
 TT <- 30
 MM <- 3
@@ -117,7 +123,7 @@ set.seed(123)
 ww <- matrix(rnorm(MM*TT, 0, 1), MM, TT)
 ww[,1] <- rnorm(MM, 0, sqrt(5))
 ## MM x TT matrix of scaled latent trends
-xx <- t(scale(apply(ww,1,cumsum)))
+xx <- t(scale(apply(ww, 1, cumsum)))
 
 ## loadings matrix
 ZZ <- matrix(runif(NN*MM, -1, 1), NN, MM)
@@ -128,45 +134,111 @@ ZZ <- round(ZZ, 2)
 ## obs var
 obs_var <- 0.2^2
 ## obs errors
-ee <- t(MASS::mvrnorm(TT, matrix(0,NN,1), diag(obs_var,NN,NN)))
+ee <- t(MASS::mvrnorm(TT, matrix(0, NN, 1), diag(obs_var, NN, NN)))
 ## NN x TT matrix of observed data
 yy <- ZZ %*% xx + ee
 
-clr <- viridis::plasma(NN, alpha=0.7, end=0.8)
+clr <- c("#339933", "#80cdc1", "#488fdf")
 
 vv <- sample(seq(NN), NN)
 
 labs <- c("Producer", "Herbivore", "Predator")
 
-par(mfrow=c(1,3), mai=c(0.5,0.5,0.5,0), omi=c(0,0,0,0)) 
+par(mfrow = c(1,3), mai = c(0.5,0.5,0.5,0), omi=c(0,0,0,0)) 
 
 for(i in 1:NN) {
-	plot.ts(yy[vv[i],], lwd=3,
-	        xlab="", xaxt="n", ylab="", yaxt="n", main = labs[i],
-	        col=clr[i], bty="n", cex.main = 2)
+  plot.ts(yy[vv[i],], lwd = 4,
+          xlab = "", xaxt = "n", ylab = "", yaxt = "n",
+          main = labs[i], cex.main = 2.5, col.main = clr[i],
+          col = clr[i], bty = "n")
 }
 ```
 
 
 ---
 
-# Density-dependent population growth
+# Estimates of interaction strengths
 
-### .blue.center[ Discrete-time Gompertz model ]
+```{r food_web, dpi=300, fig.height=4, fig.width = 8, out.height = "90%", out.width = "90%", fig.align='center', echo=FALSE, warning = FALSE}
+par(mai = c(0.7, 0, 0.3, 0), omi = rep(0, 4))
 
-$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))}$$
+## boundaries
+ss <- 5
+nn <- 8
+rr <- ss*3
+cc <- ss*nn
+## mid-points
+xm <- seq(5,cc-ss,rr)
+ymt <- rr - ss/2
+ymb <- ss/2
+## arrow locs
+y0 <- rr - ss
+y1 <- ss
+
+## empty plot space
+plot(c(0,cc), c(0,rr), type = "n", xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n", bty = "n")
+
+## top box
+symbols(x = xm[2], y = ymt, rectangles = matrix(c(2*ss,ss),1,2),
+        lty = "solid",  bg = "#80cdc1", fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+text("Consumer", x = xm[2], y = ymt, cex = 2, col = "#ffffff")
+text("-0.5", x = xm[2] * 0.95, y = y0 - (y0 - y1) / 2, pos = 2,
+     cex = 2, col = "#80cdc1")
+text("0.6", x = xm[2] * 0.65, y = ymt,
+     cex = 2, col = "#80cdc1")
+## arrows
+arrows(x0 = xm[2] * 0.95, y0 = y0, y1 = y1,
+       col = "#80cdc1", lwd = 3, length = 0.12)
+
+## bottom box
+symbols(x = xm[2], y = ymb, rectangles = matrix(c(2*ss,ss),1,2),
+        lty = "solid",  bg = "#488fdf", fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+text("Producer", x = xm[2], y = ymb, cex = 2, col = "#ffffff")
+text("0.7", x = xm[2] * 1.05, y = y0 - (y0 - y1) / 2, pos = 4,
+     cex = 2, col = "#488fdf")
+text("0.8", x = xm[2] * 1.35, y = ymb,
+     cex = 2, col = "#488fdf")
+## arrows
+arrows(x0 = xm[2] * 1.05, y0 = y1, y1 = y0,
+       col = "#488fdf", lwd = 3, length = 0.12)
+```
 
 
 ---
 
-# Example of Gompertz dynamics
+class: inverse, center, middle
 
-```{r ex_gompertz, fig.align="center", fig.dim=c(6,3)}
+# So how does one do this?
+
+
+---
+
+# Density-dependent population growth
+
+## .blue.center[ &#129299; Discrete-time Gompertz model ]
+
+$$\LARGE N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))}$$
+
+<br>
+
+## .blue.center[ &#128587; in other words ]
+
+## .center[A population grows smoothly toward its carry capacity ]
+
+
+---
+
+# Example of Gompertz population growth
+
+```{r ex_gompertz, fig.align = "center", fig.dim=c(6,3)}
 ## number of time steps
 TT <- 30
 
-r_max <- 1
-b <- 0.8
+r_max <- 2
+b <- 0.6
 
 NN <- rep(NA, TT)
 NN[1] <- 1
@@ -179,42 +251,44 @@ par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
 plot.ts(NN, lwd = 2, type = "o", pch = 16, col = "dodgerblue",
         yaxt = "n",
         ylab = "")
-# text(x = 5, y = 120, expression(italic(r[max])==1))
-# text(x = 5, y = 100, expression(italic(b)==0.8))
+# text(x = 5, y = 120, expression(italic(r[max]) == 1))
+# text(x = 5, y = 100, expression(italic(b) == 0.8))
 mtext(expression(italic(N[t])),
-      side = 2, line = 1, cex = 1.5)
+      side = 2, line = 1, cex = 1.5, las = 1)
 ```
 
 
 ---
 
-# Density-dependent population growth
+class: inverse-black
 
-### .blue.center[ Stochastic, discrete-time Gompertz model ]
+background-image: url(figs/harsh_environment.jpg)
+background-size: 99%
 
-$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}}$$
+#### .citation.center.gray[ DeepAI.org ]
 
 
 ---
 
-# Density-dependent population growth
+# Stochastic, density-dependent population growth
 
-### .blue.center[ Stochastic, discrete-time Gompertz model ]
+## .blue.center[ &#129299; Discrete-time Gompertz model ]
 
-$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}} \\
-~ \\
-~ \\
-\Large e_t \sim \text{N}(0,q)$$
+$$\LARGE N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(w_t)}}_{``environment"}$$
+
+<br>
+
+## .blue.center[ &#128587; in other words ]
+
+## .center[A population bumps up & down toward its long-term mean ]
 
 
 ---
 
 # Example of stochastic Gompertz dynamics
 
-```{r ex_gompertz_stoch, fig.align="center", fig.dim=c(6,3)}
+```{r ex_gompertz_stoch, fig.align = "center", fig.dim=c(6,3)}
 set.seed(20220401)
-
-b <- 0.8
 
 ww <- rnorm(TT, 0, sqrt(0.1))
 
@@ -230,210 +304,7 @@ plot.ts(NN, lwd = 2, type = "o", pch = 16, col = "dodgerblue",
 # text(x = 5, y = 110, expression(italic(b)==0.8))
 # text(x = 5, y = 90, expression(italic(q)==0.1))
 mtext(expression(italic(N[t])),
-      side = 2, line = 1, cex = 1.5)
-```
-
-
----
-
-# Density-dependent population growth
-
-###  .blue.center[ Stochastic, discrete-time Gompertz model (in log-space) ]
-
-$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}) + w_t)} \\
-~ \\
-\Large \Downarrow \\
-~ \\
-\Large \log(N_t) = r_{\max} + b \log(N_{t-1}) + w_t$$
-
-
----
-
-# Density-dependent population growth
-
-### .blue.center[ Via substitution, we can rewrite the model as an _autoregressive model_ ]
-
-$$\Large \begin{align}\log(N_t) = r_{\max} & + b \log(N_{t-1}) + w_t \\
-~ \\
-\Large & \Downarrow x_t = \log(N_t)\\
-~ \\
-\Large x_t = r_{\max} &+ b x_{t-1} + w_t \end{align}$$
-
-
----
-
-class: middle
-
-# .green[ Upwelling ]
-
-# .blue.center[ Precipitation ]
-
-# .orange.right[ Temperature ]
-
-
----
-
-# Environmental effects on growth
-
-### .blue[ We can include the effects of (lagged) covariates on intrinsic growth ]
-
-$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
-
-
----
-
-# Environmental effects on growth
-
-### .blue.center[ Add the effects of (lagged) covariates on intrinsic growth ]
-
-$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
-
-<br>
-
-### .blue.center[ For example, a seasonal effect (sine wave) ]
-
-$$\Large c_t = \sin \left( \tfrac{\pi}{6} t \right)$$
-
-
----
-
-# Environmental effects on dynamics
-
-```{r ex_covar, fig.align="center", fig.dim=c(6,3)}
-ww <- xx <- rnorm(TT)
-bb <- 0.7
-CC <- 2
-cc <- sin(2*pi*seq(TT)/12)
-  
-for(t in 2:TT) {
-  xx[t] <- r_max + bb * xx[t-1] + CC * cc[t] + ww[t]
-}
-
-par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
-plot.ts(xx, ylim = range(xx,yy),
-        lwd = 2, type = "o", pch = 16, col = "dodgerblue",
-        ylab = "", yaxt = "n")
-mtext(expression(italic(x[t])),
-      side = 2, line = 1, cex = 1.5)
-
-# mtext(side = 3,
-      # expression(italic(x[t])==italic(b)~italic(x[t-1])~+~italic(C)~italic(c[t])~+~italic(w[t])),
-      # line = 0.5, adj = 0)
-```
-
-
----
-
-# Population dynamics under uncertainty
-
-## .blue.center[ Model for the "true state of nature"]
-
-$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
-
-
----
-
-class: center, middle, inverse
-
-# Observing nature can be easy
-
----
-
-class: inverse-black, middle, center
-background-image: url(figs/sockeye.jpg)
-background-size: cover
-
-# .white[How many sockeye salmon are there?]
-
----
-
-class: center, middle, inverse
-
-# Observing nature can also be hard
-
----
-
-class: inverse-black, middle, center
-background-image: url(figs/sockeye.jpg)
-background-size: cover
-
-# .white.strong[How many mayflies are there?]
-
-
----
-
-# Population dynamics under uncertainty
-
-### .blue.center[ State (process) model ]
-
-$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
-
-<br>
-
-.purple[
-### Most population censuses contain observation or sampling errors, so we can add an observation (data) model
-]
-
-$$y_t = x_t + v_t$$
-
-
----
-
-# Population dynamics under uncertainty
-
-.blue[
-### Together these form a _state-space_ model
-]
-
-$$x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t\\
-~ \\
-y_t = x_t + v_t$$
-
-
----
-
-# Example of a state over time
-
-```{r ex_ssm, fig.align="center", fig.dim=c(6,3)}
-## number of time steps
-TT <- 50
-## strength of density-dependence (0 < b < 1)
-bb <- 0.5
-## time series of process errors with SD = 1
-ww <- rnorm(TT, 0, sqrt(1))
-## initialize state & set x0 = w0
-xx <- ww
-## loop over time steps
-for(t in 2:TT) {
-  xx[t] <- bb * xx[t-1] + ww[t]
-}
-## obs errors with var = 1.5
-vv <- rnorm(TT, 0, sqrt(2))
-## obs data
-yy <- xx + vv
-
-par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
-plot.ts(xx, lwd = 2, type = "o", pch = 16, col = "gray",
-        ylim = c(min(xx,yy), max(xx,yy)), yaxt = "n",
-        ylab = "")
-mtext(expression(italic(x[t])),
-      side = 2, line = 1, cex = 1.5)
-# lines(yy, lwd = 2, type = "o", pch = 16, col = "dodgerblue")
-```
-
-
----
-
-# Example of states and observations over time
-
-```{r ex_ssm_2, fig.align="center", fig.dim=c(6,3)}
-par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
-plot.ts(xx, lwd = 2, type = "o", pch = 16, col = "gray",
-        ylim = c(min(xx,yy), max(xx,yy)), yaxt = "n",
-        ylab = "")
-mtext(expression(italic(x[t])~~or~~italic(y[t])),
-      side = 2, line = 1, cex = 1.5)
-lines(yy, lwd = 2, type = "o", pch = 16, col = "dodgerblue")
+      side = 2, line = 1, cex = 1.5, las = 1)
 ```
 
 
@@ -450,16 +321,16 @@ class: inverse, center, middle
 
 > ## .blue[ A community is composed of multiple populations ]
 
-> ## .blue[ Population sizes change over time]
+> ## .blue[ The sizes of those populations change over time]
 
 ---
 
 # Model of population dynamics
 
-### .center[.blue[Number today] is a function of the .blue2[number yesterday]...<sup>&nbsp;</sup> ]
+## .center[.blue[Number today] is a function of the .blue2[number yesterday]...<sup>&nbsp;</sup> ]
 
-```{r MAR_diag_1, dpi=300, fig.height=4, fig.width=8, out.height="90%", out.width="90%", fig.align='center', echo=FALSE, warning=FALSE}
-par(mai=c(1,0,0,0), omi=rep(0,4))
+```{r MAR_diag_1, dpi=300, fig.height=4, fig.width = 8, out.height = "90%", out.width = "90%", fig.align='center', echo=FALSE, warning = FALSE}
+par(mai = c(1,0,0,0), omi=rep(0,4))
 ## boundaries
 ss <- 5
 nn <- 8
@@ -473,23 +344,23 @@ ymb <- ss/2
 y0 <- rr - ss
 y1 <- ss
 ## empty plot space
-plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
-     xaxt="n", yaxt="n", bty="n")
+plot(c(0,cc), c(0,rr), type = "n", xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n", bty = "n")
 ## top row
-symbols(x=xm[2], y=ymt, rectangles=matrix(c(2*ss,ss),1,2),
-        lty="solid",  bg="#030c84", fg=NA,
-        inches=FALSE, add=TRUE, lwd=3)
-text("Number", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=3)
-text("yesterday", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=1)
+symbols(x = xm[2], y = ymt, rectangles = matrix(c(2*ss,ss),1,2),
+        lty = "solid",  bg = "#030c84", fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+text("Number", x = xm[2], y = ymt, cex = 1.8, col = "#ffffff", pos = 3)
+text("yesterday", x = xm[2], y = ymt, cex = 1.8, col = "#ffffff", pos = 1)
 ## arrows
-arrows(x0=xm[2], y0=y0, y1=y1,
-       col="#030c84", lwd=3, length=0.12)
+arrows(x0 = xm[2], y0 = y0, y1 = y1,
+       col = "#030c84", lwd = 3, length = 0.12)
 ## bottom row: obs
-symbols(x=xm[2], y=ymb, rectangles=matrix(c(2*ss,ss),1,2),
-        lty="solid",  bg="#488fdf", fg=NA,
-        inches=FALSE, add=TRUE, lwd=3)
-text("Number", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=3)
-text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
+symbols(x = xm[2], y = ymb, rectangles = matrix(c(2*ss,ss),1,2),
+        lty = "solid",  bg = "#488fdf", fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+text("Number", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 3)
+text("today", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 1)
 ```
 
 
@@ -497,28 +368,63 @@ text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
 
 # Model of population dynamics
 
-### .center[ and .gray[parasites]<sup>*</sup>, .gray[diseases, etc]... ]
+## .center[and the number of .red[predators], .orange[prey] & .purple[competitors]...<sup>&nbsp;</sup>]
 
-```{r MAR_diag_1b, dpi=300, fig.height=4, fig.width=8, out.height="90%", out.width="90%", fig.align='center', echo=FALSE, warning=FALSE}
-par(mai=c(1,0,0,0), omi=rep(0,4))
+```{r MAR_diag_2, dpi=300, fig.height=4, fig.width = 8, out.height = "90%", out.width = "90%", fig.align='center', echo=FALSE, warning = FALSE}
+par(mai = c(1,0,0,0), omi=rep(0,4))
 ## empty plot space
-plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
-     xaxt="n", yaxt="n", bty="n")
+plot(c(0,cc), c(0,rr), type = "n", xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n", bty = "n")
 ## top row
-symbols(x=xm[2], y=ymt, rectangles=matrix(c(2*ss,ss),1,2),
-        lty="solid",  bg="#656565", fg=NA,
-        inches=FALSE, add=TRUE, lwd=3)
-text("Don't want", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=3)
-text("to imagine", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=1)
+symbols(x = xm, y = rep(ymt,3),
+        rectangles = matrix(c(2*ss,ss),3,2,byrow = TRUE),
+        lty = "solid",  bg = c("#c10101","#ff8100","#844870"),
+        fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+text(c("Predators","Prey","Competitors"),
+     x = xm, y = rep(ymt,3), cex = 1.7, col = "#ffffff", pos = 3)
+text("yesterday", x = xm, y = rep(ymt,3), cex = 1.7, col = "#ffffff", pos = 1)
 ## arrows
-arrows(x0=xm[2], y0=y0, y1=y1,
-       col="#656565", lwd=3, length=0.12)
+arrows(x0 = ss*seq(2,6,2), x1 = ss*seq(3,5),
+       y0 = y0, y1 = y1,
+       col=c("#c10101","#ff8100","#844870"), lwd = 3, length = 0.12)
 ## bottom row: obs
-symbols(x=xm[2], y=ymb, rectangles=matrix(c(2*ss,ss),1,2),
-        lty="solid",  bg="#488fdf", fg=NA,
-        inches=FALSE, add=TRUE, lwd=3)
-text("Number", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=3)
-text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
+symbols(x = xm[2], y = ymb, rectangles = matrix(c(2*ss,ss),1,2),
+        lty = "solid",  bg = "#488fdf", fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+text("Number", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 3)
+text("today", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 1)
+```
+
+
+---
+
+# Model of population dynamics
+
+## .center[ and .gray[parasites]<sup>*</sup>, .gray[diseases, etc]... ]
+
+```{r MAR_diag_1b, dpi=300, fig.height=4, fig.width = 8, out.height = "90%", out.width = "90%", fig.align='center', echo=FALSE, warning = FALSE}
+par(mai = c(1,0,0,0), omi=rep(0,4))
+## empty plot space
+plot(c(0,cc), c(0,rr), type = "n", xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n", bty = "n")
+## top row
+symbols(x = xm[2], y = ymt, rectangles = matrix(c(2*ss,ss),1,2),
+        lty = "solid",  bg = "#656565", fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+# text("Don't want", x = xm[2], y = ymt, cex = 1.8, col = "#ffffff", pos = 3)
+# text("to imagine", x = xm[2], y = ymt, cex = 1.8, col = "#ffffff", pos = 1)
+text("Try not to", x = xm[2], y = ymt, cex = 1.8, col = "#ffffff", pos = 3)
+text("imagine", x = xm[2], y = ymt, cex = 1.8, col = "#ffffff", pos = 1)
+## arrows
+arrows(x0 = xm[2], y0 = y0, y1 = y1,
+       col = "#656565", lwd = 3, length = 0.12)
+## bottom row: obs
+symbols(x = xm[2], y = ymb, rectangles = matrix(c(2*ss,ss),1,2),
+        lty = "solid",  bg = "#488fdf", fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+text("Number", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 3)
+text("today", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 1)
 ```
 
 ### .citation[ <sup>*</sup>C Wood, pers comm ]
@@ -528,61 +434,28 @@ text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
 
 # Model of population dynamics
 
-### .center[and the number of .red[predators], .orange[prey] & .purple[competitors]...<sup>&nbsp;</sup>]
+## .center[and .green[external forces] at varying time lags<sup>&nbsp;</sup>]
 
-```{r MAR_diag_2, dpi=300, fig.height=4, fig.width=8, out.height="90%", out.width="90%", fig.align='center', echo=FALSE, warning=FALSE}
-par(mai=c(1,0,0,0), omi=rep(0,4))
+```{r MAR_diag_3, dpi=300, fig.height=4, fig.width = 8, out.height = "90%", out.width = "90%", fig.align='center', echo=FALSE, warning = FALSE}
+par(mai = c(1,0,0,0), omi=rep(0,4))
 ## empty plot space
-plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
-     xaxt="n", yaxt="n", bty="n")
+plot(c(0,cc), c(0,rr), type = "n", xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n", bty = "n")
 ## top row
-symbols(x=xm, y=rep(ymt,3),
-        rectangles=matrix(c(2*ss,ss),3,2,byrow=TRUE),
-        lty="solid",  bg=c("#c10101","#ff8100","#844870"),
-        fg=NA,
-        inches=FALSE, add=TRUE, lwd=3)
-text(c("Predators","Prey","Competitors"),
-     x=xm, y=rep(ymt,3), cex=1.7, col="#ffffff", pos=3)
-text("yesterday", x=xm, y=rep(ymt,3), cex=1.7, col="#ffffff", pos=1)
+symbols(x = xm[2], y = ymt, rectangles = matrix(c(2*ss,ss),1,2),
+        lty = "solid",  bg = "#339933", fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+text("External", x = xm[2], y = ymt, cex = 1.8, col = "#ffffff", pos = 3)
+text("forces", x = xm[2], y = ymt, cex = 1.8, col = "#ffffff", pos = 1)
 ## arrows
-arrows(x0=ss*seq(2,6,2), x1=ss*seq(3,5),
-       y0=y0, y1=y1,
-       col=c("#c10101","#ff8100","#844870"), lwd=3, length=0.12)
+arrows(x0 = xm[2], y0 = y0, y1 = y1,
+       col = "#339933", lwd = 3, length = 0.12)
 ## bottom row: obs
-symbols(x=xm[2], y=ymb, rectangles=matrix(c(2*ss,ss),1,2),
-        lty="solid",  bg="#488fdf", fg=NA,
-        inches=FALSE, add=TRUE, lwd=3)
-text("Number", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=3)
-text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
-```
-
-
----
-
-# Model of population dynamics
-
-### .center[and .green[external forces] at varying time lags<sup>&nbsp;</sup>]
-
-```{r MAR_diag_3, dpi=300, fig.height=4, fig.width=8, out.height="90%", out.width="90%", fig.align='center', echo=FALSE, warning=FALSE}
-par(mai=c(1,0,0,0), omi=rep(0,4))
-## empty plot space
-plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
-     xaxt="n", yaxt="n", bty="n")
-## top row
-symbols(x=xm[2], y=ymt, rectangles=matrix(c(2*ss,ss),1,2),
-        lty="solid",  bg="#339933", fg=NA,
-        inches=FALSE, add=TRUE, lwd=3)
-text("External", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=3)
-text("forces", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=1)
-## arrows
-arrows(x0=xm[2], y0=y0, y1=y1,
-       col="#339933", lwd=3, length=0.12)
-## bottom row: obs
-symbols(x=xm[2], y=ymb, rectangles=matrix(c(2*ss,ss),1,2),
-        lty="solid",  bg="#488fdf", fg=NA,
-        inches=FALSE, add=TRUE, lwd=3)
-text("Number", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=3)
-text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
+symbols(x = xm[2], y = ymb, rectangles = matrix(c(2*ss,ss),1,2),
+        lty = "solid",  bg = "#488fdf", fg = NA,
+        inches = FALSE, add = TRUE, lwd = 3)
+text("Number", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 3)
+text("today", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 1)
 ```
 
 ---
@@ -1888,5 +1761,229 @@ background-position: 50% 50%
 
 background-image: url(figs/shilshole.png)
 background-size: cover
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}}$$
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}} \\
+~ \\
+~ \\
+\Large e_t \sim \text{N}(0,q)$$
+
+
+---
+
+# Density-dependent population growth
+
+###  .blue.center[ Stochastic, discrete-time Gompertz model (in log-space) ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}) + w_t)} \\
+~ \\
+\Large \Downarrow \\
+~ \\
+\Large \log(N_t) = r_{\max} + b \log(N_{t-1}) + w_t$$
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Via substitution, we can rewrite the model as an _autoregressive model_ ]
+
+$$\Large \begin{align}\log(N_t) = r_{\max} & + b \log(N_{t-1}) + w_t \\
+~ \\
+\Large & \Downarrow x_t = \log(N_t)\\
+~ \\
+\Large x_t = r_{\max} &+ b x_{t-1} + w_t \end{align}$$
+
+
+---
+
+class: middle
+
+# .green[ Upwelling ]
+
+# .blue.center[ Precipitation ]
+
+# .orange.right[ Temperature ]
+
+
+---
+
+# Environmental effects on growth
+
+### .blue[ We can include the effects of (lagged) covariates on intrinsic growth ]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+
+---
+
+# Environmental effects on growth
+
+### .blue.center[ Add the effects of (lagged) covariates on intrinsic growth ]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+<br>
+
+### .blue.center[ For example, a seasonal effect (sine wave) ]
+
+$$\Large c_t = \sin \left( \tfrac{\pi}{6} t \right)$$
+
+
+---
+
+# Environmental effects on dynamics
+
+```{r ex_covar, fig.align = "center", fig.dim=c(6,3)}
+ww <- xx <- rnorm(TT)
+bb <- 0.7
+CC <- 2
+cc <- sin(2*pi*seq(TT)/12)
+  
+for(t in 2:TT) {
+  xx[t] <- r_max + bb * xx[t-1] + CC * cc[t] + ww[t]
+}
+
+par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
+plot.ts(xx, ylim = range(xx,yy),
+        lwd = 2, type = "o", pch = 16, col = "dodgerblue",
+        ylab = "", yaxt = "n")
+mtext(expression(italic(x[t])),
+      side = 2, line = 1, cex = 1.5)
+
+# mtext(side = 3,
+      # expression(italic(x[t])==italic(b)~italic(x[t-1])~+~italic(C)~italic(c[t])~+~italic(w[t])),
+      # line = 0.5, adj = 0)
+```
+
+
+---
+
+# Population dynamics under uncertainty
+
+## .blue.center[ Model for the "true state of nature"]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can be easy
+
+---
+
+class: inverse-black, middle, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white[How many sockeye salmon are there?]
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can also be hard
+
+---
+
+class: inverse-black, middle, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white.strong[How many mayfly larvae are there?]
+
+
+---
+
+# Population dynamics under uncertainty
+
+### .blue.center[ State (process) model ]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+<br>
+
+.purple[
+### Most population censuses contain observation or sampling errors, so we can add an observation (data) model
+]
+
+$$y_t = x_t + v_t$$
+
+
+---
+
+# Population dynamics under uncertainty
+
+.blue[
+### Together these form a _state-space_ model
+]
+
+$$x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t\\
+~ \\
+y_t = x_t + v_t$$
+
+
+---
+
+# Example of a state over time
+
+```{r ex_ssm, fig.align = "center", fig.dim=c(6,3)}
+## number of time steps
+TT <- 50
+## strength of density-dependence (0 < b < 1)
+bb <- 0.5
+## time series of process errors with SD = 1
+ww <- rnorm(TT, 0, sqrt(1))
+## initialize state & set x0 = w0
+xx <- ww
+## loop over time steps
+for(t in 2:TT) {
+  xx[t] <- bb * xx[t-1] + ww[t]
+}
+## obs errors with var = 1.5
+vv <- rnorm(TT, 0, sqrt(2))
+## obs data
+yy <- xx + vv
+
+par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
+plot.ts(xx, lwd = 2, type = "o", pch = 16, col = "gray",
+        ylim = c(min(xx,yy), max(xx,yy)), yaxt = "n",
+        ylab = "")
+mtext(expression(italic(x[t])),
+      side = 2, line = 1, cex = 1.5)
+# lines(yy, lwd = 2, type = "o", pch = 16, col = "dodgerblue")
+```
+
+
+---
+
+# Example of states and observations over time
+
+```{r ex_ssm_2, fig.align = "center", fig.dim=c(6,3)}
+par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
+plot.ts(xx, lwd = 2, type = "o", pch = 16, col = "gray",
+        ylim = c(min(xx,yy), max(xx,yy)), yaxt = "n",
+        ylab = "")
+mtext(expression(italic(x[t])~~or~~italic(y[t])),
+      side = 2, line = 1, cex = 1.5)
+lines(yy, lwd = 2, type = "o", pch = 16, col = "dodgerblue")
+```
+
 
 
