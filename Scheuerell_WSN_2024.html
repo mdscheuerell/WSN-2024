@@ -301,23 +301,23 @@ c_{P,1} &amp; \dots &amp; c_{P,P}
 
 class: center, middle, inverse
 
-# Metrics of stability
+# Estimating community stability
 
 
 ---
 
 # Let's consider 3 metrics of stability
 
-.blue[
-## Rate of return to equilibrium
+&gt; ## .blue[
+Rate of return
 ]
 
-.green[
-## Reactivity
+&gt; ## .green[
+Reactivity
 ]
 
-.orange[
-## Variance of the stationary distribution
+&gt; ## .orange[
+Variance of the stationary distribution
 ]
 
 
@@ -326,43 +326,52 @@ class: center, middle, inverse
 class: frimg
 background-image: url(figs/May_1972_stability.png)
 background-position: 50% 70%
-background-size: 70%
+background-size: 60%
 
 # Rate of return to equilibrium
 
-.blue[
-### In deterministic models, equilibria are a point or stable limit cycle
+### .blue.center[
+In deterministic models, equilibria are a point or stable limit cycle
 ]
 
-.gray.citation[May (1972) _Science_]
+### .gray.citation[May (1972) _Science_]
 
 
 ---
 
 # Rate of return to equilibrium
 
-.blue[
-### In stochastic models, the equilibrium is a _stationary distribution_
+### .blue[
+In stochastic models, the equilibrium is a _stationary distribution_
 ]
 
 
 ---
 
-# Univariate stationary distribution
+# Consider a simple autoregressive model
 
-.blue[
-### When |b| &lt; 1, an AR(1) process is "stationary"
-]
+`$$\LARGE x_t = b x_{t-1} + w_t$$`
 
-`$$x_t = r_{\max} + b x_{t-1} + w_t \\
-~ \\
-\Downarrow \\
-~ \\
-x_{\infty} \sim \text{N}(\mu_{\infty}, \sigma_{\infty}) \\
-~ \\
-\mu_{\infty} = \frac{r_{\max}}{1 - b} \\
-~ \\
-\sigma_{\infty} = \frac{q}{1 - b^2}$$`
+### .center[where]
+
+`$$\LARGE |b| &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
+
+
+---
+
+# Consider a simple autoregressive model
+
+`$$\LARGE x_t = b x_{t-1} + w_t$$`
+
+### .center[where]
+
+`$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
+
+### .blue.center[It turns out that]
+
+`$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b}$$`
+
+### .blue.center[which gets larger as _b_ gets larger]
 
 
 ---
@@ -370,56 +379,6 @@ x_{\infty} \sim \text{N}(\mu_{\infty}, \sigma_{\infty}) \\
 # Univariate stationary distribution
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/uni_stationary-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Univariate transition distribution
-
-.blue[
-### The _transition distribution_ is the conditional probability distribution for `\(x_t\)` at any time `\(t\)` given `\(x_0\)`
-]
-
-`$$\mu_t = \mu_{\infty} + b^t \left( x_0 - \mu_{\infty} \right)\\
-~ \\
-\sigma_t = \sigma_{\infty}[1 - (b^2)^t]$$`
-
-
----
-
-# Univariate transition distribution
-
-.blue[
-### The _transition distribution_ is the conditional probability distribution for `\(x_t\)` at any time `\(t\)` given `\(x_0\)`
-]
-
-`$$\mu_t = \mu_{\infty} + b^t \left( x_0 - \mu_{\infty} \right)\\
-~ \\
-\sigma_t = \sigma_{\infty}[1 - (b^2)^t]$$`
-
-.orange[
-### Note: the rate of convergence is governed by `\(b\)`
-]
-
-
----
-
-# Univariate transition distribution
-
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_trans_dist-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Transition versus stationary
-
-.blue[
-### The _transition_ distribution is where we are now
-]
-
-.green[
-### The _stationary_ distribution is where we are headed
-]
 
 
 ---
