@@ -1,0 +1,657 @@
+---
+title: "Effects of species interactions and environmental drivers on community stability"
+subtitle: "Mark Scheuerell"
+author: "U.S. Geological Survey<br>Washington Cooperative Fish and Wildlife Research Unit<br><br>School of Aquatic and Fishery Sciences<br>University of Washington"
+output:
+  xaringan::moon_reader:
+    css: ["xaringan-themer.css", "my-theme.css"]
+    nature:
+      slideNumberFormat: ""
+      highlightStyle: github
+      highlightLines: true
+      ratio: 16:9
+      # countIncrementalSlides: false
+---
+
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(
+  fig.width = 8, fig.height=4, fig.retina=3, fig.align = "center",
+  out.width = "100%",
+  cache = FALSE,
+  echo = FALSE,
+  message = FALSE, 
+  warning = FALSE,
+  hiline = TRUE
+)
+
+## set random seed
+set.seed(666)
+
+## load {icons} for font awesome
+library(icons)
+```
+
+```{r xaringan-themer, include=FALSE, warning = FALSE}
+library(xaringanthemer)
+style_duo(
+  primary_color = "#FFFFFF",
+  secondary_color = "#23395b",
+  # secondary_color = "#FF961C",
+  title_slide_text_color = "#FFFFFF",
+  title_slide_background_color = "#23395b",
+  colors = c(
+    red = "#c10101",
+    purple = "#844870",
+    purple2 = "#5c00b6",
+    orange = "#ff8100",
+    green = "#339933",
+    white = "#FFFFFF",
+    blue = "#488fdf",
+    blue2 = "#030c84",
+    aqua = "#80cdc1",
+    gray = "#808080",
+    lightgray = "#bdbdbd"
+),
+  header_font_google = google_font("Roboto Condensed"),
+  text_font_google = google_font("Cabin", "400", "400i", "700"),
+)
+```
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}}$$
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Stochastic, discrete-time Gompertz model ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(e_t)}}_{\text{environment}} \\
+~ \\
+~ \\
+\Large e_t \sim \text{N}(0,q)$$
+
+
+---
+
+# Density-dependent population growth
+
+###  .blue.center[ Stochastic, discrete-time Gompertz model (in log-space) ]
+
+$$\Large N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}) + w_t)} \\
+~ \\
+\Large \Downarrow \\
+~ \\
+\Large \log(N_t) = r_{\max} + b \log(N_{t-1}) + w_t$$
+
+
+---
+
+# Density-dependent population growth
+
+### .blue.center[ Via substitution, we can rewrite the model as an _autoregressive model_ ]
+
+$$\Large \begin{align}\log(N_t) = r_{\max} & + b \log(N_{t-1}) + w_t \\
+~ \\
+\Large & \Downarrow x_t = \log(N_t)\\
+~ \\
+\Large x_t = r_{\max} &+ b x_{t-1} + w_t \end{align}$$
+
+
+---
+
+class: middle
+
+# .green[ Upwelling ]
+
+# .blue.center[ Precipitation ]
+
+# .orange.right[ Temperature ]
+
+
+---
+
+# Environmental effects on growth
+
+### .blue[ We can include the effects of (lagged) covariates on intrinsic growth ]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+
+---
+
+# Environmental effects on growth
+
+### .blue.center[ Add the effects of (lagged) covariates on intrinsic growth ]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+<br>
+
+### .blue.center[ For example, a seasonal effect (sine wave) ]
+
+$$\Large c_t = \sin \left( \tfrac{\pi}{6} t \right)$$
+
+
+---
+
+# Environmental effects on dynamics
+
+```{r ex_covar, fig.align = "center", fig.dim=c(6,3)}
+ww <- xx <- rnorm(TT)
+bb <- 0.7
+CC <- 2
+cc <- sin(2*pi*seq(TT)/12)
+  
+for(t in 2:TT) {
+  xx[t] <- r_max + bb * xx[t-1] + CC * cc[t] + ww[t]
+}
+
+par(mai = c(1, 0.5, 0, 0), omi = c(0, 0, 0, 0))
+plot.ts(xx, ylim = range(xx,yy),
+        lwd = 2, type = "o", pch = 16, col = "dodgerblue",
+        ylab = "", yaxt = "n")
+mtext(expression(italic(x[t])),
+      side = 2, line = 1, cex = 1.5)
+
+# mtext(side = 3,
+      # expression(italic(x[t])==italic(b)~italic(x[t-1])~+~italic(C)~italic(c[t])~+~italic(w[t])),
+      # line = 0.5, adj = 0)
+```
+
+
+---
+
+# Population dynamics under uncertainty
+
+## .blue.center[ Model for the "true state of nature"]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can be easy
+
+---
+
+class: inverse-black, middle, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white[How many sockeye salmon are there?]
+
+---
+
+class: center, middle, inverse
+
+# Observing nature can also be hard
+
+---
+
+class: inverse-black, middle, center
+background-image: url(figs/sockeye.jpg)
+background-size: cover
+
+# .white.strong[How many mayfly larvae are there?]
+
+
+---
+
+# Population dynamics under uncertainty
+
+### .blue.center[ State (process) model ]
+
+$$\Large x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t$$
+
+<br>
+
+.purple[
+### Most population censuses contain observation or sampling errors, so we can add an observation (data) model
+]
+
+$$y_t = x_t + v_t$$
+
+
+---
+
+# Population dynamics under uncertainty
+
+.blue[
+### Together these form a _state-space_ model
+]
+
+$$x_t = r_{\max} + b x_{t-1} + C c_{t-h} + w_t\\
+~ \\
+y_t = x_t + v_t$$
+
+
+---
+
+# Example of a state over time
+
+```{r ex_ssm, fig.align = "center", fig.dim=c(6,3)}
+## number of time steps
+TT <- 50
+## strength of density-dependence (0 < b < 1)
+bb <- 0.5
+## time series of process errors with SD = 1
+ww <- rnorm(TT, 0, sqrt(1))
+## initialize state & set x0 = w0
+xx <- ww
+## loop over time steps
+for(t in 2:TT) {
+  xx[t] <- bb * xx[t-1] + ww[t]
+}
+## obs errors with var = 1.5
+vv <- rnorm(TT, 0, sqrt(2))
+## obs data
+yy <- xx + vv
+
+par(mai = c(1, 0.5, 0, 0), omi = c(0, 0, 0, 0))
+plot.ts(xx, lwd = 2, type = "o", pch = 16, col = "gray",
+        ylim = c(min(xx,yy), max(xx,yy)), yaxt = "n",
+        ylab = "")
+mtext(expression(italic(x[t])),
+      side = 2, line = 1, cex = 1.5)
+# lines(yy, lwd = 2, type = "o", pch = 16, col = "dodgerblue")
+```
+
+
+---
+
+# Example of states and observations over time
+
+```{r ex_ssm_2, fig.align = "center", fig.dim=c(6,3)}
+par(mai = c(1, 0.5, 0, 0), omi = c(0, 0, 0, 0))
+plot.ts(xx, lwd = 2, type = "o", pch = 16, col = "gray",
+        ylim = c(min(xx,yy), max(xx,yy)), yaxt = "n",
+        ylab = "")
+mtext(expression(italic(x[t])~~or~~italic(y[t])),
+      side = 2, line = 1, cex = 1.5)
+lines(yy, lwd = 2, type = "o", pch = 16, col = "dodgerblue")
+```
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### We can write this model in matrix notation as
+]
+
+$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t$$
+
+<br>
+
+.green[
+### This as a _multivariate autoregressive model_ of order 1, or MAR(1)
+]
+
+
+---
+
+# Forms of covariances matrices $\mathbf{Q}$
+
+.blue[
+### Without covariance (and $m = 4$)
+]
+
+$$\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}$$
+
+
+---
+
+# Forms of covariances matrices $\mathbf{Q}$
+
+.blue[
+### With covariance (and $m = 4$)
+]
+
+$$\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & \gamma_{1,2} & \gamma_{1,3} & \gamma_{1,4} \\
+ \gamma_{1,2} & \sigma_2 & \gamma_{2,3} & \gamma_{2,4} \\
+ \gamma_{1,3} & \gamma_{2,3} & \sigma_3 & \gamma_{3,4} \\
+ \gamma_{1,4} & \gamma_{2,4} & \gamma_{3,4} & \sigma_4
+\end{bmatrix}$$
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### Including the effects of exogenous drivers
+]
+
+$$\mathbf{x}_t = \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{c}_{t-h} + \mathbf{w}_t$$
+
+<br>
+
+The $m \times p$ matrix $\mathbf{C}$ contains the effect(s) of each covariate (cols) on each state (rows)
+
+The $p \times 1$ column vector $\mathbf{c}_{t-h}$ contains each of the $p$ covariates at time $t - k$
+
+
+---
+
+# Covariate effects
+
+.blue[
+### The effect(s) of covariates can vary by state/species/etc
+]
+
+$$\mathbf{C} \stackrel{?}{=}
+\begin{bmatrix}
+C_{1, Temp} & C_{1, DO} \\ 
+C_{2, Temp} & C_{2, DO} \\ 
+\vdots & \vdots \\ 
+C_{m, Temp} & C_{m, DO}
+\end{bmatrix}
+~~ \text{or} ~~
+\mathbf{C} \stackrel{?}{=}
+\begin{bmatrix}
+C_{Temp} & C_{DO} \\ 
+C_{Temp} & C_{DO} \\ 
+\vdots & \vdots \\ 
+C_{Temp} & C_{DO}
+\end{bmatrix}$$
+
+with
+
+$$\mathbf{c}_{t-h} =
+\begin{bmatrix}
+Temp_{t-h} \\
+DO_{t-h}
+\end{bmatrix}$$
+
+
+---
+
+# Addressing observation errors
+
+.blue[
+### State-space model in matrix form
+]
+
+$$\mathbf{x}_t = \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{c}_{t-h} + \mathbf{w}_t \\
+~ \\
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t$$
+
+.blue[
+### with
+]
+
+
+$$\mathbf{a} =
+\begin{bmatrix}
+a_1 \\
+a_2 \\
+\vdots \\
+a_m
+\end{bmatrix} ~~~~~
+\mathbf{v}_t \sim \text{MVN}(\textbf{0}, \textbf{R})$$
+
+
+
+---
+
+# Forms of covariances matrices $\mathbf{R}$
+
+.blue[
+### Without covariance (and $m = 4$)
+]
+
+$$\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}$$
+
+
+---
+
+# Forms of covariances matrices $\mathbf{R}$
+
+.blue[
+### With covariance (and $m = 4$)
+]
+
+$$\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}$$
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### We can write this model in matrix notation as
+]
+
+$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t$$
+
+<br>
+
+.green[
+### This as a _multivariate autoregressive model_ of order 1, or MAR(1)
+]
+
+
+---
+
+# Forms of covariances matrices $\mathbf{Q}$
+
+.blue[
+### Without covariance (and $m = 4$)
+]
+
+$$\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}$$
+
+
+---
+
+# Forms of covariances matrices $\mathbf{Q}$
+
+.blue[
+### With covariance (and $m = 4$)
+]
+
+$$\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{Q} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & \gamma_{1,2} & \gamma_{1,3} & \gamma_{1,4} \\
+ \gamma_{1,2} & \sigma_2 & \gamma_{2,3} & \gamma_{2,4} \\
+ \gamma_{1,3} & \gamma_{2,3} & \sigma_3 & \gamma_{3,4} \\
+ \gamma_{1,4} & \gamma_{2,4} & \gamma_{3,4} & \sigma_4
+\end{bmatrix}$$
+
+
+---
+
+# State model for species interactions
+
+.blue[
+### Including the effects of exogenous drivers
+]
+
+$$\mathbf{x}_t = \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{c}_{t-h} + \mathbf{w}_t$$
+
+<br>
+
+The $m \times p$ matrix $\mathbf{C}$ contains the effect(s) of each covariate (cols) on each state (rows)
+
+The $p \times 1$ column vector $\mathbf{c}_{t-h}$ contains each of the $p$ covariates at time $t - k$
+
+
+---
+
+# Covariate effects
+
+.blue[
+### The effect(s) of covariates can vary by state/species/etc
+]
+
+$$\mathbf{C} \stackrel{?}{=}
+\begin{bmatrix}
+C_{1, Temp} & C_{1, DO} \\ 
+C_{2, Temp} & C_{2, DO} \\ 
+\vdots & \vdots \\ 
+C_{m, Temp} & C_{m, DO}
+\end{bmatrix}
+~~ \text{or} ~~
+\mathbf{C} \stackrel{?}{=}
+\begin{bmatrix}
+C_{Temp} & C_{DO} \\ 
+C_{Temp} & C_{DO} \\ 
+\vdots & \vdots \\ 
+C_{Temp} & C_{DO}
+\end{bmatrix}$$
+
+with
+
+$$\mathbf{c}_{t-h} =
+\begin{bmatrix}
+Temp_{t-h} \\
+DO_{t-h}
+\end{bmatrix}$$
+
+
+---
+
+# Addressing observation errors
+
+.blue[
+### State-space model in matrix form
+]
+
+$$\mathbf{x}_t = \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{c}_{t-h} + \mathbf{w}_t \\
+~ \\
+\mathbf{y}_t = \mathbf{x}_t + \mathbf{a} + \mathbf{v}_t$$
+
+.blue[
+### with
+]
+
+
+$$\mathbf{a} =
+\begin{bmatrix}
+a_1 \\
+a_2 \\
+\vdots \\
+a_m
+\end{bmatrix} ~~~~~
+\mathbf{v}_t \sim \text{MVN}(\textbf{0}, \textbf{R})$$
+
+
+
+---
+
+# Forms of covariances matrices $\mathbf{R}$
+
+.blue[
+### Without covariance (and $m = 4$)
+]
+
+$$\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & 0 & 0 & 0 \\
+ 0 & \sigma & 0 & 0 \\
+ 0 & 0 & \sigma & 0 \\
+ 0 & 0 & 0 & \sigma
+\end{bmatrix}
+~\text{or}~~
+\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma_1 & 0 & 0 & 0 \\
+ 0 & \sigma_2 & 0 & 0 \\
+ 0 & 0 & \sigma_3 & 0 \\
+ 0 & 0 & 0 & \sigma_4
+\end{bmatrix}$$
+
+
+---
+
+# Forms of covariances matrices $\mathbf{R}$
+
+.blue[
+### With covariance (and $m = 4$)
+]
+
+$$\mathbf{R} \stackrel{?}{=}
+\begin{bmatrix}
+ \sigma & \gamma & \gamma & \gamma \\
+ \gamma & \sigma & \gamma & \gamma \\
+ \gamma & \gamma & \sigma & \gamma \\
+ \gamma & \gamma & \gamma & \sigma
+\end{bmatrix}$$
+
+
+
