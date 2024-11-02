@@ -1,7 +1,7 @@
 ---
 title: "Effects of species interactions and environmental drivers on community stability"
 subtitle: "Mark Scheuerell"
-author: "U.S. Geological Survey<br>Washington Cooperative Fish and Wildlife Research Unit<br>School of Aquatic and Fishery Sciences<br>University of Washington"
+author: "U.S. Geological Survey<br>Washington Cooperative Fish and Wildlife Research Unit<br><br>School of Aquatic and Fishery Sciences<br>University of Washington"
 output:
   xaringan::moon_reader:
     css: ["xaringan-themer.css", "my-theme.css"]
@@ -41,10 +41,10 @@ style_duo(
   title_slide_text_color = "#FFFFFF",
   title_slide_background_color = "#23395b",
   colors = c(
-    red = "#f34213",
+    red = "#c10101",
     purple = "#844870",
     purple2 = "#5c00b6",
-    orange = "#FF961C",
+    orange = "#ff8100",
     green = "#339933",
     white = "#FFFFFF",
     blue = "#488fdf",
@@ -60,9 +60,11 @@ style_duo(
 
 # Acknowledgments
 
-## .blue[ Elizabeth "Eli" Holmes (NOAA) ]
+> ## .blue[ Elizabeth "Eli" Holmes (NOAA) ]
 
-## .blue[ Eric Ward (NOAA) ]
+> ## .blue[ Eric Ward (NOAA) ]
+
+> ## .blue[ Various others ]
 
 ---
 
@@ -337,11 +339,11 @@ class: center, middle, inverse
 
 ---
 
-class: inverse-black, bottom, center
+class: inverse-black, middle, center
 background-image: url(figs/sockeye.jpg)
 background-size: cover
 
-# .white[How many sockeye are there?]
+# .white[How many sockeye salmon are there?]
 
 ---
 
@@ -351,11 +353,11 @@ class: center, middle, inverse
 
 ---
 
-class: inverse-black, bottom, center
+class: inverse-black, middle, center
 background-image: url(figs/sockeye.jpg)
 background-size: cover
 
-# .white[How many mayflies are there?]
+# .white.strong[How many mayflies are there?]
 
 
 ---
@@ -390,7 +392,7 @@ y_t = x_t + v_t$$
 
 ---
 
-# Example states
+# Example of a state over time
 
 ```{r ex_ssm, fig.align="center", fig.dim=c(6,3)}
 ## number of time steps
@@ -422,7 +424,7 @@ mtext(expression(italic(x[t])),
 
 ---
 
-# Example states and observations
+# Example of states and observations over time
 
 ```{r ex_ssm_2, fig.align="center", fig.dim=c(6,3)}
 par(mai = c(1, 0.5, 0, 0), omi = c(0,0,0,0))
@@ -439,17 +441,25 @@ lines(yy, lwd = 2, type = "o", pch = 16, col = "dodgerblue")
 
 class: inverse, center, middle
 
-# Community dynamics
+# Changes in a community over time
 
 
 ---
 
-# Estimating community interactions
+# Assumptions &#129300;
 
-### Number today is a function of the number yesterday
+> ## .blue[ A community is composed of multiple populations ]
 
-```{r MAR_diag_1, dpi=300, fig.height=4, fig.width=8, out.height="100%", out.width="100%", fig.align='center', echo=FALSE, warning=FALSE}
-par(mai=c(0.8,0.8,0,0), omi=rep(0,4))
+> ## .blue[ Population sizes change over time]
+
+---
+
+# Model of population dynamics
+
+### .center[.blue[Number today] is a function of the .blue2[number yesterday]...<sup>&nbsp;</sup> ]
+
+```{r MAR_diag_1, dpi=300, fig.height=4, fig.width=8, out.height="90%", out.width="90%", fig.align='center', echo=FALSE, warning=FALSE}
+par(mai=c(1,0,0,0), omi=rep(0,4))
 ## boundaries
 ss <- 5
 nn <- 8
@@ -467,13 +477,13 @@ plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
      xaxt="n", yaxt="n", bty="n")
 ## top row
 symbols(x=xm[2], y=ymt, rectangles=matrix(c(2*ss,ss),1,2),
-        lty="solid",  bg="#656565", fg=NA,
+        lty="solid",  bg="#030c84", fg=NA,
         inches=FALSE, add=TRUE, lwd=3)
 text("Number", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=3)
 text("yesterday", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=1)
 ## arrows
 arrows(x0=xm[2], y0=y0, y1=y1,
-       col="#656565", lwd=3, length=0.12)
+       col="#030c84", lwd=3, length=0.12)
 ## bottom row: obs
 symbols(x=xm[2], y=ymb, rectangles=matrix(c(2*ss,ss),1,2),
         lty="solid",  bg="#488fdf", fg=NA,
@@ -485,12 +495,43 @@ text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
 
 ---
 
-# Estimating community interactions
+# Model of population dynamics
 
-### and the number of predators, prey & competitors
+### .center[ and .gray[parasites]<sup>*</sup>, .gray[diseases, etc]... ]
 
-```{r MAR_diag_2, dpi=300, fig.height=4, fig.width=8, out.height="100%", out.width="100%", fig.align='center', echo=FALSE, warning=FALSE}
-par(mai=c(0.8,0.8,0,0), omi=rep(0,4))
+```{r MAR_diag_1b, dpi=300, fig.height=4, fig.width=8, out.height="90%", out.width="90%", fig.align='center', echo=FALSE, warning=FALSE}
+par(mai=c(1,0,0,0), omi=rep(0,4))
+## empty plot space
+plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
+     xaxt="n", yaxt="n", bty="n")
+## top row
+symbols(x=xm[2], y=ymt, rectangles=matrix(c(2*ss,ss),1,2),
+        lty="solid",  bg="#656565", fg=NA,
+        inches=FALSE, add=TRUE, lwd=3)
+text("Don't want", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=3)
+text("to imagine", x=xm[2], y=ymt, cex=1.8, col="#ffffff", pos=1)
+## arrows
+arrows(x0=xm[2], y0=y0, y1=y1,
+       col="#656565", lwd=3, length=0.12)
+## bottom row: obs
+symbols(x=xm[2], y=ymb, rectangles=matrix(c(2*ss,ss),1,2),
+        lty="solid",  bg="#488fdf", fg=NA,
+        inches=FALSE, add=TRUE, lwd=3)
+text("Number", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=3)
+text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
+```
+
+### .citation[ <sup>*</sup>C Wood, pers comm ]
+
+
+---
+
+# Model of population dynamics
+
+### .center[and the number of .red[predators], .orange[prey] & .purple[competitors]...<sup>&nbsp;</sup>]
+
+```{r MAR_diag_2, dpi=300, fig.height=4, fig.width=8, out.height="90%", out.width="90%", fig.align='center', echo=FALSE, warning=FALSE}
+par(mai=c(1,0,0,0), omi=rep(0,4))
 ## empty plot space
 plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
      xaxt="n", yaxt="n", bty="n")
@@ -518,12 +559,12 @@ text("today", x=xm[2], y=ymb, cex=1.8, col="#ffffff", pos=1)
 
 ---
 
-# State model for species interactions
+# Model of population dynamics
 
-### and external forces at various times
+### .center[and .green[external forces] at varying time lags<sup>&nbsp;</sup>]
 
-```{r MAR_diag_3, dpi=300, fig.height=4, fig.width=8, out.height="100%", out.width="100%", fig.align='center', echo=FALSE, warning=FALSE}
-par(mai=c(0.8,0.8,0,0), omi=rep(0,4))
+```{r MAR_diag_3, dpi=300, fig.height=4, fig.width=8, out.height="90%", out.width="90%", fig.align='center', echo=FALSE, warning=FALSE}
+par(mai=c(1,0,0,0), omi=rep(0,4))
 ## empty plot space
 plot(c(0,cc), c(0,rr), type="n", xlab="", ylab="",
      xaxt="n", yaxt="n", bty="n")

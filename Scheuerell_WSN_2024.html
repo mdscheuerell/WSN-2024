@@ -3,7 +3,7 @@
   <head>
     <title>Effects of species interactions and environmental drivers on community stability</title>
     <meta charset="utf-8" />
-    <meta name="author" content="U.S. Geological Survey Washington Cooperative Fish and Wildlife Research Unit School of Aquatic and Fishery Sciences University of Washington" />
+    <meta name="author" content="U.S. Geological Survey Washington Cooperative Fish and Wildlife Research Unit  School of Aquatic and Fishery Sciences University of Washington" />
     <script src="Scheuerell_WSN_2024_files/header-attrs/header-attrs.js"></script>
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
     <link rel="stylesheet" href="my-theme.css" type="text/css" />
@@ -19,7 +19,7 @@ class: center, middle, inverse, title-slide
 ## Mark Scheuerell
 ]
 .author[
-### U.S. Geological Survey<br>Washington Cooperative Fish and Wildlife Research Unit<br>School of Aquatic and Fishery Sciences<br>University of Washington
+### U.S. Geological Survey<br>Washington Cooperative Fish and Wildlife Research Unit<br><br>School of Aquatic and Fishery Sciences<br>University of Washington
 ]
 
 ---
@@ -31,9 +31,11 @@ class: center, middle, inverse, title-slide
 
 # Acknowledgments
 
-## .blue[ Elizabeth "Eli" Holmes (NOAA) ]
+&gt; ## .blue[ Elizabeth "Eli" Holmes (NOAA) ]
 
-## .blue[ Eric Ward (NOAA) ]
+&gt; ## .blue[ Eric Ward (NOAA) ]
+
+&gt; ## .blue[ Various others ]
 
 ---
 
@@ -208,11 +210,11 @@ class: center, middle, inverse
 
 ---
 
-class: inverse-black, bottom, center
+class: inverse-black, middle, center
 background-image: url(figs/sockeye.jpg)
 background-size: cover
 
-# .white[How many sockeye are there?]
+# .white[How many sockeye salmon are there?]
 
 ---
 
@@ -222,11 +224,11 @@ class: center, middle, inverse
 
 ---
 
-class: inverse-black, bottom, center
+class: inverse-black, middle, center
 background-image: url(figs/sockeye.jpg)
 background-size: cover
 
-# .white[How many mayflies are there?]
+# .white.strong[How many mayflies are there?]
 
 
 ---
@@ -261,14 +263,14 @@ y_t = x_t + v_t$$`
 
 ---
 
-# Example states
+# Example of a state over time
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_ssm-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
-# Example states and observations
+# Example of states and observations over time
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_ssm_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
@@ -277,34 +279,53 @@ y_t = x_t + v_t$$`
 
 class: inverse, center, middle
 
-# Community dynamics
+# Changes in a community over time
 
 
 ---
 
-# Estimating community interactions
+# Assumptions &amp;#129300;
 
-### Number today is a function of the number yesterday
+&gt; ## .blue[ A community is composed of multiple populations ]
 
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_1-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+&gt; ## .blue[ Population sizes change over time]
+
+---
+
+# Model of population dynamics
+
+### .center[.blue[Number today] is a function of the .blue2[number yesterday]...&lt;sup&gt;&amp;nbsp;&lt;/sup&gt; ]
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_1-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
-# Estimating community interactions
+# Model of population dynamics
 
-### and the number of predators, prey &amp; competitors
+### .center[ and .gray[parasites]&lt;sup&gt;*&lt;/sup&gt;, .gray[diseases, etc]... ]
 
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_2-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_1b-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+
+### .citation[ &lt;sup&gt;*&lt;/sup&gt;C Wood, pers comm ]
 
 
 ---
 
-# State model for species interactions
+# Model of population dynamics
 
-### and external forces at various times
+### .center[and the number of .red[predators], .orange[prey] &amp; .purple[competitors]...&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
 
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_3-1.png" width="100%" height="100%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_2-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Model of population dynamics
+
+### .center[and .green[external forces] at varying time lags&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_3-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
 ---
 
