@@ -82,14 +82,18 @@ background-size: 95%
 
 ---
 
-# Estimating interactions from time series
+class: center
+
+# Going from time series of abundance
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/plot_many_ts-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
 
-# Estimates of interaction strengths
+class: center
+
+# to intra- &amp; interspecific interaction strengths
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/food_web-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
@@ -103,7 +107,23 @@ class: inverse, center, middle
 
 ---
 
-# Density-dependent population growth
+class: inverse, center, middle
+
+# Let's begin with a model for population size
+
+
+---
+
+# Assumptions &amp;#129300;
+
+&gt; ## .blue[ The size of a population changes over time ]
+
+&gt; ## .blue[ Those changes are density dependent ]
+
+
+---
+
+# &amp;nbsp;
 
 ## .blue.center[ &amp;#129299; Discrete-time Gompertz model ]
 
@@ -117,6 +137,8 @@ class: inverse, center, middle
 
 
 ---
+
+class: center
 
 # Example of Gompertz population growth
 
@@ -135,11 +157,22 @@ background-size: 99%
 
 ---
 
-# Stochastic, density-dependent population growth
+# Assumptions &amp;#129300;
+
+&gt; ## .gray[ The size of a population changes over time ]
+
+&gt; ## .gray[ Some changes are density dependent ]
+
+&gt; ## .blue[ Some changes owe to an unpredictable environment ]
+
+
+---
+
+# &amp;nbsp;
 
 ## .blue.center[ &amp;#129299; Discrete-time Gompertz model ]
 
-`$$\LARGE N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(w_t)}}_{``environment"}$$`
+`$$\LARGE N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(w_t)}}_{environment}$$`
 
 &lt;br&gt;
 
@@ -157,6 +190,19 @@ background-size: 99%
 
 ---
 
+# Assumptions &amp;#129300;
+
+&gt; ## .gray[ The size of a population changes over time ]
+
+&gt; ## .gray[ Some changes are density dependent ]
+
+&gt; ## .gray[ Some changes owe to an unpredictable environment ]
+
+&gt; ## .blue[ A community is composed of multiple interacting populations ]
+
+
+---
+
 class: inverse, center, middle
 
 # Changes in a community over time
@@ -164,15 +210,7 @@ class: inverse, center, middle
 
 ---
 
-# Assumptions &amp;#129300;
-
-&gt; ## .blue[ A community is composed of multiple populations ]
-
-&gt; ## .blue[ The sizes of those populations change over time]
-
----
-
-# Model of population dynamics
+# Drivers of community dynamics
 
 ## .center[.blue[Number today] is a function of the .blue2[number yesterday]...&lt;sup&gt;&amp;nbsp;&lt;/sup&gt; ]
 
@@ -181,7 +219,7 @@ class: inverse, center, middle
 
 ---
 
-# Model of population dynamics
+# Drivers of community dynamics
 
 ## .center[and the number of .red[predators], .orange[prey] &amp; .purple[competitors]...&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
 
@@ -190,22 +228,32 @@ class: inverse, center, middle
 
 ---
 
-# Model of population dynamics
+# Drivers of community dynamics
 
 ## .center[ and .gray[parasites]&lt;sup&gt;*&lt;/sup&gt;, .gray[diseases, etc]... ]
 
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_1b-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_3-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
 ### .citation[ &lt;sup&gt;*&lt;/sup&gt;C Wood, pers comm ]
 
 
 ---
 
-# Model of population dynamics
+# Drivers of community dynamics
 
-## .center[and .green[external forces] at varying time lags&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
+## .center[and _known_ .green[external forces]...&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
 
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_3-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_4-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Drivers of community dynamics
+
+## .center[and _unknown_ .red[random forces]&lt;sup&gt;&amp;nbsp;&lt;/sup&gt;]
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/MAR_diag_5-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
+
 
 ---
 
