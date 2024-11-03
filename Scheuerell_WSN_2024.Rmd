@@ -79,9 +79,9 @@ class: middle
 
 # .green[ Predation ]
 
-# .blue.center[ Competition ]
+# .orange.center[ Competition ]
 
-# .orange.right[ Facilitation ]
+# .blue.right[ Facilitation ]
 
 ---
 
@@ -113,7 +113,7 @@ background-size: 95%
 
 class: center
 
-# Going from time series of abundance
+# We can use time series of abundance...
 
 ```{r plot_many_ts, echo=FALSE, dpi=300, fig.height=4, fig.width = 8, fig.align='center'}
 NN <- 3
@@ -161,11 +161,9 @@ for(i in 1:NN) {
 
 class: center
 
-# to intra- & interspecific interaction strengths
+#  to get intra- & interspecific interaction strengths
 
 ```{r food_web, dpi=300, fig.height=4, fig.width = 8, out.height = "90%", out.width = "90%", fig.align='center', echo=FALSE, warning = FALSE}
-par(mai = c(0.7, 0, 0.3, 0), omi = rep(0, 4))
-
 ## boundaries
 ss <- 5
 nn <- 8
@@ -179,6 +177,8 @@ ymb <- ss/2
 y0 <- rr - ss
 y1 <- ss
 
+par(mai = c(0.7, 0, 0.5, 0), omi = rep(0, 4))
+
 ## empty plot space
 plot(c(0,cc), c(0,rr), type = "n", xlab = "", ylab = "",
      xaxt = "n", yaxt = "n", bty = "n")
@@ -190,13 +190,13 @@ symbols(x = xm[2], y = ymt, rectangles = matrix(c(2*ss,ss),1,2),
 text("Consumer", x = xm[2], y = ymt, cex = 2, col = "#ffffff")
 text("-0.5", x = xm[2] * 0.95, y = y0 - (y0 - y1) / 2, pos = 2,
      cex = 2, col = "#80cdc1")
-text("0.6", x = xm[2] * 0.65, y = ymt,
+text("0.6", x = xm[2] * 1.35, y = ymt,
      cex = 2, col = "#80cdc1")
 ## arrows
 arrows(x0 = xm[2] * 0.95, y0 = y0, y1 = y1,
        col = "#80cdc1", lwd = 3, length = 0.12)
 ## circle
-symbols(x = xm[2] * 0.65, y = ymt, circles = c(2),
+symbols(x = xm[2] * 1.35, y = ymt, circles = c(2),
         lty = "solid",  fg = "#80cdc1", bg = NA,
         inches = FALSE, add = TRUE, lwd = 3)
 
@@ -639,34 +639,47 @@ mtext("Population y",
 
 ---
 
-# Consider a simple autoregressive model
+# Recall our Gompertz model in log-space
 
-$$\LARGE x_t = b x_{t-1} + w_t$$
+$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$
 
-### .center[where]
+## .center[where]
 
 $$\LARGE 0 < b < 1; ~~ w_t \sim \text{N}(0, q)$$
 
 ---
 
-# Consider a simple autoregressive model
+# Recall our Gompertz model in log-space
 
-$$\LARGE x_t = b x_{t-1} + w_t$$
+$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$
 
-### .center[where]
+## .center[where]
 
 $$\LARGE 0 < b < 1; ~~ w_t \sim \text{N}(0, q)$$
 
-### .blue.center[It turns out that]
+## .blue.center[From this we can show that]
 
 $$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$
 
-### .blue.center[which gets larger as _b_ gets larger]
+
+---
+
+# Population variability over time
+
+## .blue.center[So given this]
+
+$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$
+
+## .center[We can expect that a .blue[population] is .blue[less stable]]
+
+## .center[when the .green[environment] is .green[more variable] or as]
+
+## .center[the strength of .orange[density-dependence decreases]]
 
 
 ---
 
-# Univariate stationary distribution
+# Populations within the same environment
 
 ```{r uni_stationary, fig.align='center', fig.dim=c(8,4)}
 
@@ -720,7 +733,7 @@ layout(matrix(c(1, 2, 3, 4), 1, 4), widths = c(4, 1, 4, 1))
 ## ts plots
 par(mai = c(1, 1, 0.5, 0), omi = c(0, 0, 0, 0))
 plot(seq(TT), x1[1,], las = 1, col = "dodgerblue", type = "l", lwd = 2, ylim = range(x2),
-     xlab = "Time", ylab = expression(italic(x[t])), main = "",
+     xlab = "Time", ylab = expression(italic(x[t])~(log~density)), main = "",
      cex.axis = 1.5, cex.lab = 2)
 mtext(expression(italic(b)==0.5),
       side = 3, line = 1, cex = 1.3, adj = 0, col = "dodgerblue")
@@ -741,12 +754,59 @@ lines(s1, xx, col = "dodgerblue", lwd = 2)
 ## ts plots
 par(mai = c(1, 1, 0.5, 0))
 plot(seq(TT), x2[1,], las = 1, col = "indianred", type = "l", lwd = 2, ylim = range(x2),
-     xlab = "Time", ylab = expression(italic(x[t])), main = "",
+     xlab = "Time", ylab = expression(italic(x[t])~(log~density)), main = "",
      cex.axis = 1.5, cex.lab = 2)
 mtext(expression(italic(b)==0.9),
       side = 3, line = 1, cex = 1.3, adj = 0, col = "indianred")
 mtext(expression(Var(italic(x[t]))==2.3),
       side = 3, line = 0.7, cex = 1.3, adj = 1, col = "indianred")
+for(i in 2:NN) {
+  lines(x2[i,],
+        col = clr2[i-1], lwd = 2)
+}
+
+## marginal densities
+par(mai = c(1, 0, 0.5, 0))
+plot(h1, xx, type = "l", ylim = range(x2),
+     xaxt = "n", yaxt = "n", bty = "n",
+     xlab = "", ylab = "", col = "darkgray", lwd = 2)
+lines(s2, xx, col = "indianred", lwd = 2)
+```
+
+
+---
+
+# Populations within the same environment
+
+```{r uni_stationary_2, fig.align='center', fig.dim=c(8,4)}
+layout(matrix(c(1, 2, 3, 4), 1, 4), widths = c(4, 1, 4, 1))
+
+## ts plots
+par(mai = c(1, 1, 0.5, 0), omi = c(0, 0, 0, 0))
+plot(seq(TT), x1[1,], las = 1, col = "dodgerblue", type = "l", lwd = 2, ylim = range(x2),
+     xlab = "Time", ylab = expression(italic(x[t])~(log~density)), main = "",
+     cex.axis = 1.5, cex.lab = 2)
+mtext("More stable",
+      side = 3, line = 1, cex = 1.5, col = "dodgerblue")
+for(i in 2:NN) {
+  lines(x1[i,],
+        col = clr1[i-1], lwd = 2)
+}
+
+## marginal densities
+par(mai = c(1, 0, 0.5, 0))
+plot(h1, xx, type = "l", ylim = range(x2),
+     xaxt = "n", yaxt = "n", bty = "n",
+     xlab = "", ylab = "", col = "darkgray", lwd = 2)
+lines(s1, xx, col = "dodgerblue", lwd = 2)
+
+## ts plots
+par(mai = c(1, 1, 0.5, 0))
+plot(seq(TT), x2[1,], las = 1, col = "indianred", type = "l", lwd = 2, ylim = range(x2),
+     xlab = "Time", ylab = expression(italic(x[t])~(log~density)), main = "",
+     cex.axis = 1.5, cex.lab = 2)
+mtext("Less stable",
+      side = 3, line = 1, cex = 1.5, col = "indianred")
 for(i in 2:NN) {
   lines(x2[i,],
         col = clr2[i-1], lwd = 2)

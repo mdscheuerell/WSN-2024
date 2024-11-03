@@ -50,9 +50,9 @@ class: middle
 
 # .green[ Predation ]
 
-# .blue.center[ Competition ]
+# .orange.center[ Competition ]
 
-# .orange.right[ Facilitation ]
+# .blue.right[ Facilitation ]
 
 ---
 
@@ -84,7 +84,7 @@ background-size: 95%
 
 class: center
 
-# Going from time series of abundance
+# We can use time series of abundance...
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/plot_many_ts-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
@@ -93,7 +93,7 @@ class: center
 
 class: center
 
-# to intra- &amp; interspecific interaction strengths
+#  to get intra- &amp; interspecific interaction strengths
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/food_web-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
@@ -346,36 +346,56 @@ background-size: 60%
 
 ---
 
-# Consider a simple autoregressive model
+# Recall our Gompertz model in log-space
 
-`$$\LARGE x_t = b x_{t-1} + w_t$$`
+`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
 
-### .center[where]
+## .center[where]
 
 `$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
 
 ---
 
-# Consider a simple autoregressive model
+# Recall our Gompertz model in log-space
 
-`$$\LARGE x_t = b x_{t-1} + w_t$$`
+`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
 
-### .center[where]
+## .center[where]
 
 `$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
 
-### .blue.center[It turns out that]
+## .blue.center[From this we can show that]
 
 `$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$`
 
-### .blue.center[which gets larger as _b_ gets larger]
+
+---
+
+# Population variability over time
+
+## .blue.center[So given this]
+
+`$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$`
+
+## .center[We can expect that a .blue[population] is .blue[less stable]]
+
+## .center[when the .green[environment] is .green[more variable] or as]
+
+## .center[the strength of .orange[density-dependence decreases]]
 
 
 ---
 
-# Univariate stationary distribution
+# Populations within the same environment
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/uni_stationary-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Populations within the same environment
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/uni_stationary_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
