@@ -350,9 +350,6 @@ background-size: 60%
 
 `$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
 
-## .center[where]
-
-`$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
 
 ---
 
@@ -360,28 +357,39 @@ background-size: 60%
 
 `$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
 
-## .center[where]
+## .center[if we assume that]
 
 `$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
 
-## .blue.center[From this we can show that]
+## .blue.center[then this process is _stationary_]
+
+
+---
+
+# Recall our Gompertz model in log-space
+
+`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
+
+## .center[if we assume that]
+
+`$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
+
+## .blue.center[and from this we can show that]
 
 `$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$`
 
 
 ---
 
-# Population variability over time
+# Stability is inversely related to the variance
 
-## .blue.center[So given this]
+`$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2} ~~ \Rightarrow ~~ \frac{1}{\text{Var}(x_t)} = \frac{1 - b^2}{\text{Var}(w_t)}$$`
 
-`$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$`
+## .center[which implies a .blue[population] is .blue[more stable]]
 
-## .center[We can expect that a .blue[population] is .blue[less stable]]
+## .center[ when the strength of .orange[density-dependence increases]]
 
-## .center[when the .green[environment] is .green[more variable] or as]
-
-## .center[the strength of .orange[density-dependence decreases]]
+## .center[and the .green[environment] is .green[less variable]]
 
 
 ---
@@ -400,142 +408,26 @@ background-size: 60%
 
 ---
 
-# Variance of the stationary distribution
+# Stationary variance of a community
 
-.blue[
-### In a relatively stable system, species interactions increase the variance of the stationary distribution only slightly compared to the variance of the process errors
+## .blue.center[ Our multivariate model of community dynamics ]
 
-### In a less stable system, species interactions greatly amplify the variance in the stationary distribution relative to the variance of the process errors
-]
+`$$\LARGE \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
+~ \\
+\LARGE \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$`
 
----
+## .blue.center[ where the stationary variance is ]
 
-# Variance of the stationary distribution
+`$$\LARGE \mathbf{\Sigma_{\infty}} = \mathbf{B} \mathbf{\Sigma_{\infty}} \mathbf{B}^\top + \mathbf{Q}$$`
 
-.blue[
-### Let's revisit a stationary univariate case with one species
-]
-
-`$$x_t = r_{\max} + b x_{t-1} + w_t \\
-w_t \sim \text{N}(0, q)$$`
-
-.blue[
-### The stationary variance is 
-]
-
-`$$\text{Var} (x_t) = \text{Var} (r_{\max}) + b^2 \text{Var} (x_{t-1}) + \text{Var} (w_t) \\
-\Downarrow \\
-\begin{align}
-\sigma_{\infty} &amp;= b^2 \sigma_{\infty} + q \\
-  &amp;= \frac{q}{1 - b^2}
-\end{align}$$`
-
-
----
-
-# Variance of the stationary distribution
-
-.blue[
-### Let's now consider our multivariate model of community dynamics
-]
-
-`$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
-\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$`
-
-.blue[
-### The stationary variance is 
-]
-
-`$$\text{Var} (\mathbf{x}_t) = \text{Var} (\mathbf{r}) + \mathbf{B} \text{Var} (\mathbf{x}_{t-1}) \mathbf{B}^{\top} + \text{Var} (\mathbf{w}_t) \\
-\Downarrow \\
-\mathbf{\Sigma_{\infty}} = \mathbf{B} \mathbf{\Sigma_{\infty}} \mathbf{B}^\top + \mathbf{Q}$$`
-
-.gray.citation[Ives et al (2003) _Ecology_]
-
-
----
-
-# Variance of the stationary distribution
-
-.blue[
-### Let's now consider our multivariate model of community dynamics
-]
-
-`$$\mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
-\mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$`
-
-.blue[
-### The stationary variance is 
-]
-
-`$$\text{Var} (\mathbf{x}_t) = \text{Var} (\mathbf{r}) + \mathbf{B} \text{Var} (\mathbf{x}_{t-1}) \mathbf{B}^{\top} + \text{Var} (\mathbf{w}_t) \\
-\Downarrow \\
-\mathbf{\Sigma_{\infty}} = \mathbf{B} \mathbf{\Sigma_{\infty}} \mathbf{B}^\top + \mathbf{Q}$$`
-
-.orange[
-### Unfortunately, there is no closed form solution for `\(\mathbf{\Sigma_{\infty}}\)`
-]
-
-.gray.citation[Ives et al (2003) _Ecology_]
-
-
----
-
-# Aside: the `\(\text{vec}\)` operator
-
-.blue[
-### For example, if
-]
-
-`$$\mathbf{M} = 
-\begin{bmatrix}
-    1 &amp; 3 \\
-    2 &amp; 4
-\end{bmatrix}$$`
-
-.blue[
-### then
-]
-
-`$$\text{vec}(\mathbf{M}) = 
-\begin{bmatrix}
-    1 \\
-    2 \\
-    3 \\
-    4 
-\end{bmatrix}$$`
-
-
----
-
-# Variance of the stationary distribution
-
-.blue[
-### If we define the following
-]
-
-`\(\mathbf{I} = n \times n\)` identity matrix
-
-`\(\tilde{\mathbf{I}} = \mathbf{I} \otimes \mathbf{I}\)`
-
-`\(\tilde{\mathbf{B}} = \mathbf{B} \otimes \mathbf{B}\)`
-
-.blue[
-### then
-]
-
-`$$\text{vec}(\boldsymbol{\Sigma}) = (\tilde{\mathbf{I}} - \tilde{\mathbf{B}})^{-1} \text{vec}(\mathbf{Q})$$`
-
-.gray.citation[Ives et al (2003) _Ecology_]
+### .gray.citation[Ives et al (2003) _Ecol Monogr_]
 
 
 ---
 
 # Effect of species interactions
 
-.blue[
-### Beginning with the stationary variance for our univariate model, let's consider the proportion `\(\pi\)` owing to density dependence
-]
+### .blue[ Beginning with the stationary variance for our univariate model, let's consider the proportion `\(\pi\)` owing to density dependence ]
 
 `$$\sigma_{\infty} = \frac{q}{1 - b^2} \\
 \Downarrow \\
@@ -551,11 +443,9 @@ w_t \sim \text{N}(0, q)$$`
 
 # Effect of species interactions
 
-.blue[
-### The multivariate case is analogous, but requires some additional math
+### .blue[ The multivariate case is analogous, but requires some additional math ]
 
-### Specifically, the size of a scalar is just the value itself, but we need a way to measure the "volume" of the matrices
-]
+### .blue[ Specifically, the size of a scalar is just the value itself, but we need a way to measure the "volume" of the matrices ]
 
 
 ---
@@ -571,7 +461,7 @@ w_t \sim \text{N}(0, q)$$`
 
 # Aside: matrix determinants
 
-### .blue.center[ We can also define this cube with 3 vectors for the cube's vertices ]
+### .blue.center[ We can define this cube with 3 vectors for the cube's vertices ]
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/plot_cube_2-1.png" width="90%" height="90%" style="display: block; margin: auto;" /&gt;
 
@@ -961,19 +851,6 @@ background-position: 50% 50%
 .citation.blue[&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#488fdf;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"&gt;&lt;/path&gt;&lt;/svg&gt; @mark_scheuerell]
 
 
----
-
-# A cautious note on rate of return
-
-.blue[
-### In deterministic models, rapid return rates make a system more predictable (stable)
-
-### In stochastic models, the rate of return is measured from some known observation
-
-### At `\(t = 0\)` we have full knowledge of the the system, because `\(\sigma_t = \sigma_{\infty}[1 - (b^2)^t] = 0\)`
-
-### Over time `\(\sigma_t \rightarrow \sigma_{\infty}\)`, so information is lost more rapidly if the variance returns more rapidly
-]
 ---
 
 # This presentation
