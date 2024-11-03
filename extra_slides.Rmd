@@ -861,3 +861,117 @@ $$\max(\lambda_{\mathbf{B} \otimes \mathbf{B}})$$
 ]
 
 
+---
+
+# A cautious note on rate of return
+
+.blue[
+### In deterministic models, rapid return rates make a system more predictable (stable)
+
+### In stochastic models, the rate of return is measured from some known observation
+
+### At $t = 0$ we have full knowledge of the the system, because $\sigma_t = \sigma_{\infty}[1 - (b^2)^t] = 0$
+
+### Over time $\sigma_t \rightarrow \sigma_{\infty}$, so information is lost more rapidly if the variance returns more rapidly
+]
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### In a relatively stable system, species interactions increase the variance of the stationary distribution only slightly compared to the variance of the process errors
+
+### In a less stable system, species interactions greatly amplify the variance in the stationary distribution relative to the variance of the process errors
+]
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### Let's revisit a stationary univariate case with one species
+]
+
+$$x_t = r_{\max} + b x_{t-1} + w_t \\
+w_t \sim \text{N}(0, q)$$
+
+.blue[
+### The stationary variance is 
+]
+
+$$\text{Var} (x_t) = \text{Var} (r_{\max}) + b^2 \text{Var} (x_{t-1}) + \text{Var} (w_t) \\
+\Downarrow \\
+\begin{align}
+\sigma_{\infty} &= b^2 \sigma_{\infty} + q \\
+  &= \frac{q}{1 - b^2}
+\end{align}$$
+
+
+---
+
+# Aside: the $\text{vec}$ operator
+
+.blue[
+### For example, if
+]
+
+$$\mathbf{M} = 
+\begin{bmatrix}
+    1 & 3 \\
+    2 & 4
+\end{bmatrix}$$
+
+.blue[
+### then
+]
+
+$$\text{vec}(\mathbf{M}) = 
+\begin{bmatrix}
+    1 \\
+    2 \\
+    3 \\
+    4 
+\end{bmatrix}$$
+
+
+---
+
+# Variance of the stationary distribution
+
+.blue[
+### If we define the following
+]
+
+$\mathbf{I} = n \times n$ identity matrix
+
+$\tilde{\mathbf{I}} = \mathbf{I} \otimes \mathbf{I}$
+
+$\tilde{\mathbf{B}} = \mathbf{B} \otimes \mathbf{B}$
+
+.blue[
+### then
+]
+
+$$\text{vec}(\boldsymbol{\Sigma}) = (\tilde{\mathbf{I}} - \tilde{\mathbf{B}})^{-1} \text{vec}(\mathbf{Q})$$
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
+---
+
+# Effect of species interactions
+
+### .blue[ Beginning with the stationary variance for our univariate model, let's consider the proportion $\pi$ owing to density dependence ]
+
+$$\sigma_{\infty} = \frac{q}{1 - b^2} \\
+\Downarrow \\
+\begin{align}\sigma_{\infty} - b^2 \sigma_{\infty} &= q \\
+\sigma_{\infty} &= b^2 \sigma_{\infty} + q \\
+\sigma_{\infty} - q  &= b^2 \sigma_{\infty}
+\end{align} \\
+\Downarrow \\
+\pi = \frac{\sigma_{\infty} - q}{\sigma_{\infty}} = b^2$$
+
+
