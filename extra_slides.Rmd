@@ -1165,3 +1165,20 @@ $$\begin{align}
 \end{align}$$
 
 
+---
+
+# Effect of species interactions
+
+.blue[
+### Recall that the stationary variance of the MAR(1) model is 
+]
+
+$$\boldsymbol{\Sigma} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top + \mathbf{Q}$$
+
+.blue[
+### and so the volume of the difference $\boldsymbol{\Sigma} - \mathbf{Q}$ is the contribution of species interactions to the stationary variance
+]
+
+$$\boldsymbol{\Sigma} - \mathbf{Q} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top$$
+
+
