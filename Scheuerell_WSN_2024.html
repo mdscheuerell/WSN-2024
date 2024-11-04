@@ -190,6 +190,115 @@ background-size: 99%
 
 ---
 
+class: center, middle, inverse
+
+# Quantifying population stability
+
+
+---
+
+# Let's consider 3 metrics of stability
+
+&gt; ## .orange[
+Variance of the stationary distribution
+]
+
+&gt; ## .blue[
+Rate of return
+]
+
+&gt; ## .green[
+Reactivity
+]
+
+
+---
+
+class: frimg
+background-image: url(figs/May_1972_stability.png)
+background-position: 50% 75%
+background-size: 60%
+
+# Population equilibria
+
+### .blue.center[ In deterministic models, equilibria are a point or stable limit cycle ]
+
+### .gray.citation[May (1972) _Science_]
+
+
+---
+
+# Population equilibria
+
+### .blue.center[ In stochastic models, the "equilibrium" is a _stationary distribution_ ]
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/stat_dist-1.png" width="45%" height="45%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Recall our Gompertz model in log-space
+
+`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
+
+
+---
+
+# Recall our Gompertz model in log-space
+
+`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
+
+## .center[if we assume that]
+
+`$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
+
+## .blue.center[then this process is _stationary_]
+
+
+---
+
+# Recall our Gompertz model in log-space
+
+`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
+
+## .center[if we assume that]
+
+`$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
+
+## .blue.center[and from this we can show that]
+
+`$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$`
+
+
+---
+
+# Stability is inversely related to the variance
+
+`$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2} ~~ \Rightarrow ~~ \frac{1}{\text{Var}(x_t)} = \frac{1 - b^2}{\text{Var}(w_t)}$$`
+
+## .center[which implies a .blue[population] is .blue[more stable]]
+
+## .center[ when the strength of .orange[density-dependence increases]]
+
+## .center[and the .green[environment] is .green[less variable]]
+
+
+---
+
+# Populations within the same environment
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/uni_stationary-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Populations within the same environment
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/uni_stationary_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
 # Assumptions &amp;#129300;
 
 &gt; ## .gray[ The size of a population changes over time ]
@@ -299,115 +408,6 @@ c_{P,1} &amp; \dots &amp; c_{P,P}
 
 ---
 
-class: center, middle, inverse
-
-# Estimating community stability
-
-
----
-
-# Let's consider 3 metrics of stability
-
-&gt; ## .orange[
-Variance of the stationary distribution
-]
-
-&gt; ## .blue[
-Rate of return
-]
-
-&gt; ## .green[
-Reactivity
-]
-
-
----
-
-class: frimg
-background-image: url(figs/May_1972_stability.png)
-background-position: 50% 75%
-background-size: 60%
-
-# Population equilibria
-
-### .blue.center[ In deterministic models, equilibria are a point or stable limit cycle ]
-
-### .gray.citation[May (1972) _Science_]
-
-
----
-
-# Population equilibria
-
-### .blue.center[ In stochastic models, the equilibrium is a _stationary distribution_ ]
-
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/stat_dist-1.png" width="45%" height="45%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Recall our Gompertz model in log-space
-
-`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
-
-
----
-
-# Recall our Gompertz model in log-space
-
-`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
-
-## .center[if we assume that]
-
-`$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
-
-## .blue.center[then this process is _stationary_]
-
-
----
-
-# Recall our Gompertz model in log-space
-
-`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
-
-## .center[if we assume that]
-
-`$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
-
-## .blue.center[and from this we can show that]
-
-`$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$`
-
-
----
-
-# Stability is inversely related to the variance
-
-`$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2} ~~ \Rightarrow ~~ \frac{1}{\text{Var}(x_t)} = \frac{1 - b^2}{\text{Var}(w_t)}$$`
-
-## .center[which implies a .blue[population] is .blue[more stable]]
-
-## .center[ when the strength of .orange[density-dependence increases]]
-
-## .center[and the .green[environment] is .green[less variable]]
-
-
----
-
-# Populations within the same environment
-
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/uni_stationary-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-# Populations within the same environment
-
-&lt;img src="Scheuerell_WSN_2024_files/figure-html/uni_stationary_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
----
-
 # Stationary variance of a community
 
 ## .blue.center[ Our multivariate model of community dynamics ]
@@ -427,25 +427,17 @@ background-size: 60%
 
 # Effect of species interactions
 
-### .blue[ Beginning with the stationary variance for our univariate model, let's consider the proportion `\(\pi\)` owing to density dependence ]
+.blue[
+### Recall that the stationary variance of the MAR(1) model is 
+]
 
-`$$\sigma_{\infty} = \frac{q}{1 - b^2} \\
-\Downarrow \\
-\begin{align}\sigma_{\infty} - b^2 \sigma_{\infty} &amp;= q \\
-\sigma_{\infty} &amp;= b^2 \sigma_{\infty} + q \\
-\sigma_{\infty} - q  &amp;= b^2 \sigma_{\infty}
-\end{align} \\
-\Downarrow \\
-\pi = \frac{\sigma_{\infty} - q}{\sigma_{\infty}} = b^2$$`
+`$$\boldsymbol{\Sigma} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top + \mathbf{Q}$$`
 
+.blue[
+### and so the volume of the difference `\(\boldsymbol{\Sigma} - \mathbf{Q}\)` is the contribution of species interactions to the stationary variance
+]
 
----
-
-# Effect of species interactions
-
-### .blue[ The multivariate case is analogous, but requires some additional math ]
-
-### .blue[ Specifically, the size of a scalar is just the value itself, but we need a way to measure the "volume" of the matrices ]
+`$$\boldsymbol{\Sigma} - \mathbf{Q} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top$$`
 
 
 ---
@@ -479,43 +471,6 @@ background-size: 60%
 0 &amp; 0 &amp; 2
 \end{bmatrix} 
 = 8$$`
-
-
----
-
-# Effect of species interactions
-
-.blue[
-### Recall that the stationary variance of the MAR(1) model is 
-]
-
-`$$\boldsymbol{\Sigma} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top + \mathbf{Q}$$`
-
-.blue[
-### and so the volume of the difference `\(\boldsymbol{\Sigma} - \mathbf{Q}\)` is the contribution of species interactions to the stationary variance
-]
-
-`$$\boldsymbol{\Sigma} - \mathbf{Q} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top$$`
-
-
----
-
-# Effect of species interactions
-
-.blue[
-### The proportion of the volume of `\(\boldsymbol{\Sigma}\)` attributable to species interactions, `\(\pi_{\mathbf{B}}\)`, is then
-]
-
-`$$\begin{align}
-\text{det}(\mathbf{\Sigma} - \mathbf{Q}) &amp;= \text{det}(\mathbf{B} \mathbf{\Sigma} \mathbf{B}^\top) \\
- &amp;= \text{det}(\mathbf{B}) \text{det}(\mathbf{\Sigma}) \text{det}(\mathbf{B}^\top) \\
- &amp;= \text{det}(\mathbf{B}) \text{det}(\mathbf{\Sigma}) \text{det}(\mathbf{B}) \\
- &amp;= \text{det}(\mathbf{B})^2 \text{det}(\mathbf{\Sigma})
-\end{align} \\
-\Downarrow \\
-\pi_\mathbf{B}  = \frac{\text{det}(\mathbf{\Sigma} - \mathbf{Q})}{\text{det}(\mathbf{\Sigma})} = \text{det}(\mathbf{B})^2$$`
-
-.gray.citation[Ives et al (2003) _Ecology_]
 
 
 ---
