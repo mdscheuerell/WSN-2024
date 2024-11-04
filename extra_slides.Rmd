@@ -1020,3 +1020,148 @@ $$\begin{align}
 .gray.citation[Ives et al (2003) _Ecology_]
 
 
+---
+
+# Reactivity
+
+.blue[
+### The displacement of the community away from equilibrium following a perturbation
+]
+
+
+---
+
+# Example of reactivity
+
+```{r ex_reactivity, fig.align='center', fig.dim=c(7,4)}
+
+x1 <- MASS::mvrnorm(10, rep(0, 2), matrix(c(1.5, 0, 0, 1.5), 2, 2))
+x2 <- x1 * 0.4
+
+y1 <- MASS::mvrnorm(10, rep(0, 2), matrix(c(3, 0, 0, 3), 2, 2))
+y2 <- y1 * 0.7
+
+lims <- c(-1, 1) * max(abs(c(x1, y1)))
+
+par(mfrow = c(1,2),
+    mai = c(0.9, 0.9, 0.5, 0.1),
+    omi = c(0, 0, 0, 0))
+plot(x1, type = "n",
+     # xlim = range(c(x1, y1)), ylim = range(c(x1, y1)),
+     xlim = lims, ylim = lims,
+xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n")
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
+arrows(x1[,1], x1[,2], x2[,1], x2[,2],
+       length = 0.05, lwd = 3, col = "dodgerblue")
+mtext("Species 1", side = 1, line = 1, cex = 1.2)
+mtext("Species 2", side = 2, line = 1, cex = 1.2)
+mtext("Less reactive", side = 3, line = 1, cex = 1.2)
+plot(x2, type = "n",
+     xlim = lims, ylim = lims,
+     xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n")  
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
+arrows(y1[,1], y1[,2], y2[,1], y2[,2],
+       length = 0.05, lwd = 3, col = "indianred")
+mtext("Species 1", side = 1, line = 1, cex = 1.2)
+mtext("Species 2", side = 2, line = 1, cex = 1.2)
+mtext("More reactive", side = 3, line = 1, cex = 1.2)
+```
+
+
+---
+
+# Reactivity
+
+.blue[
+### Consider a small perturbation to $\mathbf{x}_{t-1}$ by the vector $\boldsymbol{\delta}$, given by
+]
+
+$$\begin{align}
+\mathbf{x}_t &= \mathbf{r} + \mathbf{B} \left( \mathbf{x}_{t-1} + \boldsymbol{\delta} \right) + \mathbf{w}_t \\
+  &= \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{B} \boldsymbol{\delta} + \mathbf{w}_t
+\end{align}$$
+
+
+
+---
+
+# Reactivity
+
+.blue[
+### Consider a small perturbation to $\mathbf{x}_{t-1}$ by the vector $\boldsymbol{\delta}$, given by
+]
+
+$$\begin{align}
+\mathbf{x}_t &= \mathbf{r} + \mathbf{B} \left( \mathbf{x}_{t-1} + \boldsymbol{\delta} \right) + \mathbf{w}_t \\
+  &= \mathbf{r} + \mathbf{B} \mathbf{x}_{t-1} + \mathbf{B} \boldsymbol{\delta} + \mathbf{w}_t
+\end{align}$$
+
+.blue[
+### The magnitude of the response of $\mathbf{x}_t$ given by $\mathbf{B} \boldsymbol{\delta}$ relative to the magnitude of the displacement is
+]
+
+$$\frac{\sqrt{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}}{\sqrt{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}} =
+\sqrt{\frac{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}}$$
+
+.gray.citation[Neubert et al (2009) _Ecology_]
+
+
+---
+
+# Reactivity
+
+.blue[
+### The reactivity $(\nu)$ is then given by
+]
+
+$$\begin{align}
+\nu &= \log \sigma_{\max} \sqrt{\frac{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}} \\
+~ \\
+    &= \log \sigma_{\max} (\mathbf{B})
+\end{align}$$
+
+.gray.citation[Neubert et al (2009) _Ecology_]
+
+
+---
+
+# Reactivity
+
+.blue[
+### The reactivity $(\nu)$ is then given by
+]
+
+$$\begin{align}
+\nu &= \log \sigma_{\max} \sqrt{\frac{\boldsymbol{\delta}^{\top} \mathbf{B}^{\top} \mathbf{B} \boldsymbol{\delta}}{\boldsymbol{\delta}^{\top} \boldsymbol{\delta}}} \\
+~ \\
+    &= \log \sigma_{\max} (\mathbf{B})
+\end{align}$$
+
+.orange[
+### When $\nu$ > 0, the system is considered "reactive"
+]
+
+.gray.citation[Neubert et al (2009) _Ecology_]
+
+
+---
+
+# Reactivity
+
+.blue[
+### Equivalently, the reactivity $(\nu)$ is also given by
+]
+
+$$\begin{align}
+\nu &= \log \sigma_{\max} (\mathbf{B}) \\
+~ \\
+    &= \log ||\mathbf{B}||_2 \\
+~ \\
+    &= \log \sqrt{\lambda_{\max}(\mathbf{B}^\top \mathbf{B})}
+\end{align}$$
+
+
