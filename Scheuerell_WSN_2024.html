@@ -299,19 +299,6 @@ background-size: 60%
 
 ---
 
-# Assumptions &amp;#129300;
-
-&gt; ## .gray[ The size of a population changes over time ]
-
-&gt; ## .gray[ Some changes are density dependent ]
-
-&gt; ## .gray[ Some changes owe to an unpredictable environment ]
-
-&gt; ## .blue[ A community is composed of multiple interacting populations ]
-
-
----
-
 class: inverse, center, middle
 
 # Changes in a community over time
@@ -366,78 +353,106 @@ class: inverse, center, middle
 
 ---
 
-# Model for community dynamics&lt;sup&gt;*&lt;/sup&gt;
+# Model for community dynamics
 
 &lt;br&gt;
 
 `$$\LARGE x_{i,t} = r_{max, i} + \underbrace{\sum^{N}_{j = 1}{b_{i,j}} x_{j,t}}_{\substack{\text{species} \\ \text{interactions}}} + \underbrace{\sum^{P}_{k = 1}{c_{i,k}} z_{k,t-h}}_{\substack{\text{external} \\ \text{drivers}}} + \underbrace{w_t}_{\substack{\text{random} \\ \text{stuff}}}$$`
 
-### .citation[ &lt;sup&gt;*&lt;/sup&gt;in log space ] 
+### .citation.gray[ (in log space) ] 
 
 
 ---
 
-# Model for community dynamics&lt;sup&gt;*&lt;/sup&gt;
+class: inverse, middle, center
 
-`$$\LARGE \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{z}_{t-h} + \mathbf{w}_t$$`
+# What percentage of the total variance in a community comes from species interactions?
+
+
+---
+
+# Contribution of species interactions
+
+## .blue.center[ Recall the variance for a single population ]
+
+`$$\LARGE \text{Var}(popn) = \frac{\text{Var}(env)}{1 - b^2}$$` 
+
+## .blue.center[ (via algebra) the proportion owing to density dependence is]
+
+`$$\LARGE \frac{\text{Var}(popn) - \text{Var}(env)}{\text{Var}(popn)} = b^2$$`
+
+
+---
+
+# Model for community dynamics
 
 &lt;br&gt;
 
-`$$\large \mathbf{r} =
+`$$\LARGE x_{i,t} = r_{max, i} + \underbrace{\sum^{N}_{j = 1}{b_{i,j}} x_{j,t}}_{\substack{\text{species} \\ \text{interactions}}} + \underbrace{\sum^{P}_{k = 1}{c_{i,k}} z_{k,t-h}}_{\substack{\text{external} \\ \text{drivers}}} + \underbrace{w_t}_{\substack{\text{random} \\ \text{stuff}}}$$`
+
+### .citation.gray[ (in log space) ] 
+
+
+---
+
+# Model for community dynamics
+
+`$$\large \begin{bmatrix}
+x_1 \\
+\vdots \\
+x_N
+\end{bmatrix}_t =
 \begin{bmatrix}
 r_1 \\
 \vdots \\
 r_N
-\end{bmatrix} ~~~
-\mathbf{B} =
+\end{bmatrix} +
 \begin{bmatrix}
 b_{1,1} &amp; \dots &amp; b_{1,N} \\
 \vdots &amp; \ddots &amp; \vdots \\
 b_{N,1} &amp; \dots &amp; b_{N,N}
-\end{bmatrix} ~~~
-\mathbf{C} =
+\end{bmatrix} \begin{bmatrix}
+x_1 \\
+\vdots \\
+x_N
+\end{bmatrix}_{t-1}
++
 \begin{bmatrix}
 c_{1,1} &amp; \dots &amp; c_{1,P} \\
 \vdots &amp; \ddots &amp; \vdots \\
-c_{P,1} &amp; \dots &amp; c_{P,P}
-\end{bmatrix} ~~~
-\mathbf{w}_t \sim \text{MVN}(\textbf{0}, \textbf{Q})$$`
+c_{N,1} &amp; \dots &amp; c_{N,P}
+\end{bmatrix} 
+\begin{bmatrix}
+z_1 \\
+\vdots \\
+z_P
+\end{bmatrix}_{t-h} +
+\begin{bmatrix}
+w_1 \\
+\vdots \\
+w_N
+\end{bmatrix}_t$$`
 
-### .citation[ &lt;sup&gt;*&lt;/sup&gt;in log space with matrix notation] 
+## .center[and more compactly as]
+
+`$$\LARGE \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{z}_{t-h} + \mathbf{w}_t$$`
+
+### .citation.gray[ (in log space with matrix notation) ] 
 
 
 ---
 
 # Stationary variance of a community
 
-## .blue.center[ Our multivariate model of community dynamics ]
+## .blue.center[ Given our multivariate model of community dynamics ]
 
-`$$\LARGE \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{w}_t \\
+`$$\LARGE \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{z}_{t-h} + \mathbf{w}_t  \\
 ~ \\
 \LARGE \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$`
 
-## .blue.center[ where the stationary variance is ]
+## .blue.center[ the stationary variance is ]
 
-`$$\LARGE \mathbf{\Sigma_{\infty}} = \mathbf{B} \mathbf{\Sigma_{\infty}} \mathbf{B}^\top + \mathbf{Q}$$`
-
-### .gray.citation[Ives et al (2003) _Ecol Monogr_]
-
-
----
-
-# Effect of species interactions
-
-.blue[
-### Recall that the stationary variance of the MAR(1) model is 
-]
-
-`$$\boldsymbol{\Sigma} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top + \mathbf{Q}$$`
-
-.blue[
-### and so the volume of the difference `\(\boldsymbol{\Sigma} - \mathbf{Q}\)` is the contribution of species interactions to the stationary variance
-]
-
-`$$\boldsymbol{\Sigma} - \mathbf{Q} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top$$`
+`$$\LARGE \text{Var}(\mathbf{x}_t) = \mathbf{B} \text{Var}(\mathbf{x}_t) \mathbf{B}^\top + \mathbf{C} \text{Var}(\mathbf{z}_{t-h}) \mathbf{C}^\top + \mathbf{Q}$$`
 
 
 ---
@@ -471,6 +486,17 @@ c_{P,1} &amp; \dots &amp; c_{P,P}
 0 &amp; 0 &amp; 2
 \end{bmatrix} 
 = 8$$`
+
+
+---
+
+# Effect of species interactions
+
+## .blue.center[ Proportion attributable to species interactions is
+]
+
+`$$\LARGE 
+\frac{\text{det}[\text{Var}(comm) - \text{Var}(env)]}{\text{det}(\text{Var}(comm))} = \text{det}(\mathbf{B})^2$$`
 
 
 ---
