@@ -975,3 +975,48 @@ $$\sigma_{\infty} = \frac{q}{1 - b^2} \\
 \pi = \frac{\sigma_{\infty} - q}{\sigma_{\infty}} = b^2$$
 
 
+---
+
+# Effect of species interactions
+
+### .blue[ Beginning with the stationary variance for our univariate model, let's consider the proportion $\pi$ owing to density dependence ]
+
+$$\sigma_{\infty} = \frac{q}{1 - b^2} \\
+\Downarrow \\
+\begin{align}\sigma_{\infty} - b^2 \sigma_{\infty} &= q \\
+\sigma_{\infty} &= b^2 \sigma_{\infty} + q \\
+\sigma_{\infty} - q  &= b^2 \sigma_{\infty}
+\end{align} \\
+\Downarrow \\
+\pi = \frac{\sigma_{\infty} - q}{\sigma_{\infty}} = b^2$$
+
+
+---
+
+# Effect of species interactions
+
+### .blue[ The multivariate case is analogous, but requires some additional math ]
+
+### .blue[ Specifically, the size of a scalar is just the value itself, but we need a way to measure the "volume" of the matrices ]
+
+
+---
+
+# Effect of species interactions
+
+.blue[
+### The proportion of the volume of $\boldsymbol{\Sigma}$ attributable to species interactions, $\pi_{\mathbf{B}}$, is then
+]
+
+$$\begin{align}
+\text{det}(\mathbf{\Sigma} - \mathbf{Q}) &= \text{det}(\mathbf{B} \mathbf{\Sigma} \mathbf{B}^\top) \\
+ &= \text{det}(\mathbf{B}) \text{det}(\mathbf{\Sigma}) \text{det}(\mathbf{B}^\top) \\
+ &= \text{det}(\mathbf{B}) \text{det}(\mathbf{\Sigma}) \text{det}(\mathbf{B}) \\
+ &= \text{det}(\mathbf{B})^2 \text{det}(\mathbf{\Sigma})
+\end{align} \\
+\Downarrow \\
+\pi_\mathbf{B}  = \frac{\text{det}(\mathbf{\Sigma} - \mathbf{Q})}{\text{det}(\mathbf{\Sigma})} = \text{det}(\mathbf{B})^2$$
+
+.gray.citation[Ives et al (2003) _Ecology_]
+
+
