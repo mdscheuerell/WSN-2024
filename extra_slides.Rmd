@@ -1199,3 +1199,134 @@ Reactivity
 ]
 
 
+---
+
+class: center, middle, inverse
+
+# The Lake Washington Story
+
+
+---
+
+# Acknowledgments
+
+.green[
+## [the late] W. T. Edmondson (UW)
+
+## Daniel Schindler (UW)
+
+## Arni Litt, Sally Abella, and **many** others (UW)
+]
+
+
+---
+
+class: frimg
+
+background-image: url(figs/LWA_press.png)
+background-size: 70%
+background-position: 50% 60%
+
+# The Lake Washington Story
+
+
+---
+
+class: frimg
+
+background-image: url(figs/LWA_CW.png)
+background-size: 80%
+background-position: 50% 50%
+
+# The Lake Washington Story
+
+.gray.citation[Hampton, Scheuerell & Schindler (2006) _L&O_]
+
+
+---
+
+# Analysis: plankton groups
+
+.blue[
+### I considered two 6-year time periods:
+]
+.green[
+### 1977-1982
+
+### 1989-1994
+]
+
+
+---
+
+# Analysis: plankton groups
+
+.blue[
+## Small phytoplankton 
+
+## Large phytoplankton
+
+## _Daphnia_
+
+## non-_Daphnia_
+]
+
+
+---
+
+class: frimg
+
+background-image: url(figs/plank.png)
+background-size: 80%
+background-position: 50% 55%
+
+# The plankton
+
+
+---
+
+class: frimg
+
+background-image: url(figs/covars.png)
+background-size: 85%
+background-position: 50% 50%
+
+# The covariates
+
+
+---
+
+# Stability metrics
+
+| Metric | | Early | | Late |  | Ives |
+|:----|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| Return rate (mean) |    | 0.89 |   | 0.65 |   | 0.77 |
+| Return rate (var) |   | 0.79 |   | 0.42 |   | 0.59 |
+| Reactivity |   | 1.0 |   | 0.41 |   | -0.26 |
+| % from species |   | 4% |   | 1% |   | 1% |
+
+.blue[
+### The late period in L WA is more stable than the early
+
+### Midwestern lake is intermediate to the 2 L WA periods
+]
+
+
+---
+
+# Stability metrics
+
+| Metric | | Early | | Late |  | Ives |
+|:----|:-----:|:-----:|:-----:|:-----:|:-----:|:-----:|
+| Return rate (mean) |    | 0.89 |   | 0.65 |   | 0.77 |
+| Return rate (var) |   | 0.79 |   | 0.42 |   | 0.59 |
+| Reactivity |   | 1.0 |   | 0.41 |   | -0.26 |
+| % from species |   | 4% |   | 1% |   | 1% |
+
+.blue[
+### A previous meta-analysis of many different ecosystems found species interactions accounted for 5-60% (but only 2-10% in fish)
+]
+
+.gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
+
+
