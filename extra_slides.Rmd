@@ -1182,3 +1182,20 @@ $$\boldsymbol{\Sigma} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top + \mathbf
 $$\boldsymbol{\Sigma} - \mathbf{Q} = \mathbf{B} \boldsymbol{\Sigma} \mathbf{B}^\top$$
 
 
+---
+
+# Let's consider 3 metrics of stability
+
+> ## .orange[
+Variance of the stationary distribution
+]
+
+> ## .blue[
+Rate of return
+]
+
+> ## .green[
+Reactivity
+]
+
+
