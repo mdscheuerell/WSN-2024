@@ -1029,6 +1029,13 @@ $$\LARGE
 
 ---
 
+class: middle, center
+
+# Species interactions in these lakes accounted for .red[no more than 3%] of the total variation
+
+
+---
+
 class: inverse, center, middle
 
 # Bookmark here
@@ -1038,7 +1045,7 @@ class: inverse, center, middle
 
 # quick calcs
 
-```{r}
+```{r, eval = FALSE}
 ## Gsell et al (2016) https://doi.org/10.1016/j.ecolind.2015.11.014
 ## L Müggelsee in Germany
 detB <- c(0.14, 0.13, 0.12)
