@@ -88,6 +88,7 @@ class: middle
 
 # .blue.right[ Facilitation &nbsp; &nbsp; &nbsp; ]
 
+
 ---
 
 class: inverse-black
@@ -1150,17 +1151,28 @@ $$\LARGE \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} = \l
 
 # Sensitivity of $\text{det}(\mathbf{B})^2$
 
-.blue[
-### Early period: bottom-up effects of phytoplankton
+> ## .blue[
+Density-dependent effects generally most important
 ]
 
-.green[
-### Late period: rather mixed and modest
+> ## .purple[
+Competition plays some role as well
 ]
 
-.orange[
-### Midwest: density-dependent effects
+> ## .green[
+Bottom-up & top-down interactions less important
 ]
+
+
+---
+
+class: middle
+
+# .green[ &nbsp; &nbsp; &nbsp; Predation ]
+
+# .orange.center[ Competition ]
+
+# .blue.right[ Facilitation &nbsp; &nbsp; &nbsp; ]
 
 
 ---
@@ -1171,9 +1183,7 @@ $$\LARGE \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} = \l
 
 ### .blue[ Examining the stability of the community is important as well ]
 
-.futnote.purple[`r icon_style(fontawesome("envelope"), fill = "#844870")` scheuerl@uw.edu]
-
-.citation.blue[`r icon_style(fontawesome("twitter"), fill = "#488fdf")` @mark_scheuerell]
+### .citation.purple[`r icon_style(fontawesome("envelope"), fill = "#844870")` scheuerl@uw.edu]
 
 
 ---
@@ -1205,117 +1215,5 @@ background-size: 35%
 background-image: url(figs/shilshole.png)
 background-size: cover
 
-
----
-
-# quick calcs
-
-```{r, eval = FALSE}
-## Gsell et al (2016) https://doi.org/10.1016/j.ecolind.2015.11.014
-## L Müggelsee in Germany
-detB <- c(0.14, 0.13, 0.12)
-detB^2 # ~= 0.0196 0.0169 0.0144
-
-## Carter et al (2017) https://doi.org/10.1186/s40665-017-0031-x
-## L Aleknagik in Alaska
-
-BB <- matrix(c(0.84, -0.2, 0, 0, 0,
-               0, 0.52, 0, 0, 0,
-               0.51, 0, 0.3, 0, 0.18,
-               0.18, 0, 0, 0.01, 0,
-               0.41, 0.36, -0.41, -0.27, 0.43),
-             5, 5, byrow = TRUE)
-
-det(BB)^2 # ~= 0.0
-
-## Hampton et al (2006)
-## L Washington in WA
-BB <- matrix(c(0.52, 0, -0.06, 0, 0, 0, 0,
-               0, 0.44, 0, 0, 0, 0, 0,
-               0, 0, 0.92, 0, 0, 0, 0,
-               0, 0, 0, 0.66, -0.16, 0, -0.12,
-               0.23, 0, -0.11, 0, 0.57, 0, 0,
-               0.09, 0, 0, 0, -0.22, 0.64, -0.14,
-               0.23, 0, 0, 0, -0.27, 0, 0.54),
-             7, 7, byrow = TRUE)
-
-det(BB)^2 # ~= 0.001
-
-## Ives et al 2003 
-## Tuesday Lake
-
-BB <- matrix(c(0.5, 0, 0, 0,
-               0, 0.61, -0.019, 0,
-               0, 0, 0.76, 0,
-               0, 0.1, 0, 0.56),
-             4, 4, byrow = TRUE)
-
-det(BB)^2 # ~= 0.02
-
-## Peter
-BB <- matrix(c(0.5, 0, 0, 0,
-               -0.77, 0.61, -0.019, 0,
-               0, 0.33, 0.95, 0,
-               0, 0.1, 0, 0.56),
-             4, 4, byrow = TRUE)
-
-det(BB)^2 # ~= 0.03
-
-## Paul
-BB <- matrix(c(0.5, -0.36, 0, 0,
-               0, 0.072, -0.019, -0.1,
-               0, 0, 0.76, 0,
-               0, 0.1, 0, 0.56),
-             4, 4, byrow = TRUE)
-
-det(BB)^2 # ~= 0.0
-
-## Francis et al 2012
-## Newport Line, Oregon
-## warm phse
-B1 <- matrix(c(0.66, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-               0, 0.38, 0, 0, 0, 0, 0, 0, 0, 0,
-               -0.3, -0.46, 0.54, 0, 0, 0, 0, 0, 0, 0,
-               0, 0, 0, 0.54, 0, 0, 0, 0, 0, 0,
-               -0.3, 0, 0, 0, 0.47, 0, 0, 0, -0.27, 0,
-               0, 0, 0, 0, 0, 0.44, 0, -0.14, 0, 0,
-               0, 0, 0, 0, 0, 0, 0.27, -0.14, 0, 0,
-               0, 0, -0.29, 0, 0, 0, -0.37, 0.41, 0, 0,
-               0, 0, 0, 0, 0, 0, 0, 0, 0.4, 0,
-               0, 0, 0, 0, 0, 0, 0, 0, 0, 0.31),
-             10, 10, byrow = TRUE)
-
-det(B1)^2 # ~= 0.0
-
-## cold phse
-B2 <- matrix(c(0.34, 0, -0.23, 0, 0, 0, 0, 0, 0, 
-               0, 0.39, 0, 0, 0, 0, 0, 0, 0, 
-               0, 0.25, 0.47, 0, 0, 0, 0, 0, 0,
-               -0.28, 0, 0, 0.57, 0, 0, 0, 0, 0,
-               0, 0, 0, 0, 0.38, 0, 0, 0, 0,
-               0, 0, 0, 0, 0, 0.24, 0, 0, 0,
-               0, 0, 0, 0, 0, 0, 0.27, 0, 0,
-               0, 0, -0.27, 0, 0, 0, 0, 0.35, 0,
-               0, 0.16, 0, 0, 0, 0, 0, 0, 0.01),
-             9, 9, byrow = TRUE)
-
-det(B2)^2 # ~= 0.0
-
-## Schindler et al (2012)
-## Okanagan Lake, British Columbia
-BB <- matrix(c(0.43, 0, 0, 0, 0, 0, 0, 0, 0, 
-               0, 0.35, 0, 0, 0, 0, 0.3, 0, -0.25, 
-               0, 0, 0.22, 0, 0, 0, 0, 0, 0,
-               0, 0, 0, 0.51, 0, 0, 0, 0, 0,
-               0, 0, 0, 0, 0.46, 0, 0.19, 0, 0,
-               0.27, 0, 0, 0, 0, 0.33, 0, 0,-0.28,
-               0, 0, 0, 0, 0, 0, 0.11, 0, 0,
-               0, 0, 0.34, 0, 0, 0, 0, 0.13, 0,
-               0.64, 0.16, 0, 0, 0, 0, 0, 0.31, 0.37),
-             9, 9, byrow = TRUE)
-
-det(BB)^2 # ~= 0.0
-
-```
 
 
