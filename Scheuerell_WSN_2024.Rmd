@@ -60,17 +60,6 @@ style_duo(
 
 class: inverse-black, center
 
-background-image: url(figs/happy_kids.png)
-background-position: 100% 40%
-background-size: 50%
-
-# .pull-left.white[<br>History!<br><br>Ecology!<br><br>Intrigue!<br><br>Suspense!]
-
-
----
-
-class: inverse-black, center
-
 background-image: url(figs/worry_kids.png)
 background-position: 0% 50%
 background-size: 50%
@@ -80,9 +69,13 @@ background-size: 50%
 
 ---
 
-class: center, middle, inverse
+class: inverse-black, center
 
-# Estimating species interactions<br>has a long history in ecology
+background-image: url(figs/happy_kids.png)
+background-position: 100% 40%
+background-size: 50%
+
+# .pull-left.white[<br>History!<br><br>Ecology!<br><br>Intrigue!<br><br>Suspense!]
 
 
 ---
@@ -417,14 +410,17 @@ mtext("Population y",
 
 ---
 
-# Recall our Gompertz model in log-space
+# A log-transformed Gompertz model
 
 $$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$
+
+## .blue.center[simple & linear]
+
 
 
 ---
 
-# Recall our Gompertz model in log-space
+# A log-transformed Gompertz model
 
 $$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$
 
@@ -437,7 +433,7 @@ $$\LARGE 0 < b < 1; ~~ w_t \sim \text{N}(0, q)$$
 
 ---
 
-# Recall our Gompertz model in log-space
+# A log-transformed Gompertz model
 
 $$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$
 
@@ -452,9 +448,22 @@ $$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$
 
 ---
 
-# Stability is inversely related to the variance
+# Assumptions &#129300;
 
-$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2} ~~ \Rightarrow ~~ \frac{1}{\text{Var}(x_t)} = \frac{1 - b^2}{\text{Var}(w_t)}$$
+> ## .gray[ The size of a population changes over time ]
+
+> ## .gray[ Some changes are density dependent ]
+
+> ## .gray[ Some changes owe to an unpredictable environment ]
+
+> ## .blue[ Stability is inversely related to variance ]
+
+
+---
+
+<br><br>
+
+$$\LARGE \text{Var}(popn) = \frac{\text{Var}(env)}{DD} ~~ \Rightarrow ~~ stability =  \frac{1}{\text{Var}(popn)} = \frac{DD}{\text{Var}(env)}$$
 
 ## .left[which implies a .blue[population] is .blue[more stable] when]
 
@@ -781,88 +790,9 @@ text("today", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 1)
 
 ---
 
-# Model for community dynamics
-
-<br>
-
-$$\LARGE x_{i,t} = r_{max, i} + \underbrace{\sum^{N}_{j = 1}{b_{i,j}} x_{j,t}}_{\substack{\text{species} \\ \text{interactions}}} + \underbrace{\sum^{P}_{k = 1}{c_{i,k}} z_{k,t-h}}_{\substack{\text{external} \\ \text{drivers}}} + \underbrace{w_t}_{\substack{\text{random} \\ \text{stuff}}}$$
-
-### .citation.gray[ (in log space) ] 
-
-
----
-
 class: inverse, middle, center
 
 # What percentage of the total variance in a community comes from species interactions?
-
-
----
-
-# A 2009 meta-analysis found
-
-> ## .orange[moths in the United Kingdom (11-54%)]
-
-### .gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
-
-
----
-
-# A 2009 meta-analysis found
-
-> ## .orange[moths in the United Kingdom (11-54%)]
-
-> ## .blue2[nearshore fishes & inverts in the UK (2-15%)]
-
-### .gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
-
-
----
-
-# A 2009 meta-analysis found
-
-> ## .orange[moths in the United Kingdom (11-54%)]
-
-> ## .blue2[nearshore fishes & inverts in the UK (2-15%)]
-
-> ## .green[birds in New Hampshire (1-17%)]
-
-### .gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
-
-
----
-
-# A 2009 meta-analysis found
-
-> ## .orange[moths in the United Kingdom (11-54%)]
-
-> ## .blue2[nearshore fishes & inverts in the UK (2-15%)]
-
-> ## .green[birds in New Hampshire (1-17%)]
-
-> ## .purple[rodents in New Mexico (11-37%)]
-
-### .gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
-
-
----
-
-class: inverse, middle, center
-
-# How do these estimates compare <br> to freshwater communities?
-
-
----
-
-# Contribution of species interactions
-
-## .blue.center[ Recall the variance for a single population ]
-
-$$\LARGE \text{Var}(popn) = \frac{\text{Var}(env)}{1 - b^2}$$ 
-
-## .blue.center[ (via algebra) the proportion owing to density dependence is]
-
-$$\LARGE \frac{\text{Var}(popn) - \text{Var}(env)}{\text{Var}(popn)} = b^2$$
 
 
 ---
@@ -940,9 +870,16 @@ $$\LARGE \text{Var}(\mathbf{x}_t) = \mathbf{B} \text{Var}(\mathbf{x}_t) \mathbf{
 
 ---
 
-# Aside: matrix determinants
+class: inverse, middle, center
 
-### .blue.center[ Consider a cube whose sides are 2 units; it's volume is 8 cubic units]
+# And now a word from our sponsor
+
+
+---
+
+## Do you ever find yourself reflecting on geometry?
+
+### .blue.center["Wow&mdash;A cube whose sides are all 2 units has a volume of 8 cubic units."]
 
 ```{r plot_cube, fig.align='center', dpi=300, fig.height=4, fig.width = 8, out.height = "90%", out.width = "90%"}
 
@@ -963,21 +900,21 @@ segments(2, 0, 2 + 1, 1, lwd = 3, col = "darkgray")
 segments(2 + 1, 1, 2 + 1, 2 + 1, lwd = 3, col = "darkgray")
 segments(1, 1, 2 + 1, 1, lwd = 3, col = "darkgray")
 
-segments(0, 0, 2, 0, lwd = 3, col = "black")
-segments(0, 0, 1, 1, lwd = 3, col = "black")
-segments(0, 0, 0, 2, lwd = 3, col = "black")
+segments(0, 0, 2, 0, lwd = 3, col = "blue")
+segments(0, 0, 1, 1, lwd = 3, col = "red")
+segments(0, 0, 0, 2, lwd = 3, col = "purple")
 
-text(1, 0, "2", xpd = NA, cex = 1.5, pos = 1)
-text(0.5, 0.6, "2", xpd = NA, cex = 1.5, pos = 3)
-text(0, 1, "2", xpd = NA, cex = 1.5, pos = 2)
+text(1, 0, "2", xpd = NA, cex = 1.6, pos = 1, col = "blue")
+text(0.5, 0.6, "2", xpd = NA, cex = 1.6, pos = 3, col = "red")
+text(0, 1, "2", xpd = NA, cex = 1.6, pos = 2, col = "purple")
 ```
 
 
 ---
 
-# Aside: matrix determinants
+## And then did you ever think?
 
-### .blue.center[ We can define this cube with 3 vectors for the cube's vertices ]
+### .blue.center["You know, we can define this cube with 3 vectors for the cube's vertices."]
 
 ```{r plot_cube_2, fig.align='center', dpi=300, fig.height=4, fig.width = 8, out.height = "90%", out.width = "90%"}
 
@@ -1000,17 +937,17 @@ arrows(0, 0, 2, 0, length = 0.1, lwd = 3, col = "blue")
 arrows(0, 0, 1, 1, length = 0.1, lwd = 3, col = "red")
 arrows(0, 0, 0, 2, length = 0.1, lwd = 3, col = "purple")
 
-text(2, 0, "[2, 0, 0]", xpd = NA, cex = 1.5, pos = 1, col = "blue")
-text(1, 1, "[0, 2, 0]", xpd = NA, cex = 1.5, pos = 3, col = "red")
-text(0, 2, "[0, 0, 2]", xpd = NA, cex = 1.5, pos = 2, col = "purple")
+text(2, 0, "[2,0,0]", xpd = NA, cex = 1.6, pos = 4, col = "blue")
+text(1, 1.2, "[0,2,0]", xpd = NA, cex = 1.6, pos = 4, col = "red")
+text(0, 2, "[0,0,2]", xpd = NA, cex = 1.6, pos = 2, col = "purple")
 ```
 
 
 ---
 
-# Aside: matrix determinants
+# Oh. My. God. &#129327;
 
-### .blue.center[ If we combine the 3 vectors into a matrix, the determinant gives the volume ]
+### .blue.center[ If we combine the 3 vectors into a matrix, the _determinant_ gives the volume! ]
 
 $$\LARGE \text{det}
 \begin{bmatrix}
@@ -1023,13 +960,100 @@ $$\LARGE \text{det}
 
 ---
 
-# Effect of species interactions
 
-## .blue.center[ Proportion attributable to species interactions is
+class: inverse-black
+
+background-image: url(figs/cauchy.jpg)
+background-position: 100% 50%
+background-size: 50%
+
+# .pull-left.center.white[<br><br> Matrix determinants! <br><br> _Helping mathematicians <br> since 1812_]
+
+
+---
+
+# Recall for a single population
+
+## .blue.center[ the variance for a single population ]
+
+$$\LARGE \text{Var}(popn) = \frac{\text{Var}(env)}{1 - b^2}$$ 
+
+## .blue.center[ (via algebra) the proportion owing to density dependence is]
+
+$$\LARGE \frac{\text{Var}(popn) - \text{Var}(env)}{\text{Var}(popn)} = b^2$$
+
+
+---
+
+# For a whole community
+
+## .blue.center[ Proportion attributable to species interactions
 ]
 
 $$\LARGE 
 \frac{\text{det}[\text{Var}(comm) - \text{Var}(env)]}{\text{det}[\text{Var}(comm)]} = \text{det}(\mathbf{B})^2$$
+
+
+---
+
+class: inverse, middle, center
+
+# What percentage of the total variance in a community comes from species interactions?
+
+
+---
+
+# A 2009 meta-analysis found
+
+> ## .orange[moths in the United Kingdom (11-54%)]
+
+### .gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
+
+
+---
+
+# A 2009 meta-analysis found
+
+> ## .orange[moths in the United Kingdom (11-54%)]
+
+> ## .blue2[nearshore fishes & inverts in the UK (2-15%)]
+
+### .gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
+
+
+---
+
+# A 2009 meta-analysis found
+
+> ## .orange[moths in the United Kingdom (11-54%)]
+
+> ## .blue2[nearshore fishes & inverts in the UK (2-15%)]
+
+> ## .green[birds in New Hampshire (1-17%)]
+
+### .gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
+
+
+---
+
+# A 2009 meta-analysis found
+
+> ## .orange[moths in the United Kingdom (11-54%)]
+
+> ## .blue2[nearshore fishes & inverts in the UK (2-15%)]
+
+> ## .green[birds in New Hampshire (1-17%)]
+
+> ## .purple[rodents in New Mexico (11-37%)]
+
+### .gray.citation[Mutshinda et al (2009) _Proc R Soc B_]
+
+
+---
+
+class: inverse, middle, center
+
+# How do these estimates compare <br> to freshwater communities?
 
 
 ---
