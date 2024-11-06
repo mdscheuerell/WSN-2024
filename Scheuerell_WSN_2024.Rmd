@@ -790,13 +790,6 @@ text("today", x = xm[2], y = ymb, cex = 1.8, col = "#ffffff", pos = 1)
 
 ---
 
-class: inverse, middle, center
-
-# What percentage of the total variance in a community comes from species interactions?
-
-
----
-
 # Model for community dynamics
 
 <br>
@@ -855,6 +848,52 @@ $$\LARGE \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \
 
 ---
 
+class: center, middle, inverse
+
+# How does one estimate these matrices?
+
+
+---
+
+background-image: url(figs/marss.png)
+background-position: 95% 50%
+background-size: 40%
+
+<br>
+
+# .blue[Canned R packages]
+
+## `{dlm}`, `{vars}`, `{MARSS}`
+
+<br>
+
+# .green[Code-your-own languages]
+
+## `JAGS`, `Stan`, `TMB`
+
+
+---
+
+class: inverse, middle, center
+
+# What percentage of the total variance in a community comes from species interactions?
+
+
+---
+
+# Recall for a single population
+
+<br>
+
+$$\LARGE \text{Var}(popn) = \frac{\text{Var}(env)}{1 - b^2}$$ 
+
+## .blue.center[ (via algebra) the proportion owing to density dependence is]
+
+$$\LARGE \frac{\text{Var}(popn) - \text{Var}(env)}{\text{Var}(popn)} = b^2$$
+
+
+---
+
 # Stationary variance of a community
 
 ## .blue.center[ Given our multivariate model of community dynamics ]
@@ -872,7 +911,7 @@ $$\LARGE \text{Var}(\mathbf{x}_t) = \mathbf{B} \text{Var}(\mathbf{x}_t) \mathbf{
 
 class: inverse, middle, center
 
-# And now a word from our sponsor
+# We need some help
 
 
 ---
@@ -972,19 +1011,6 @@ background-size: 50%
 
 ---
 
-# Recall for a single population
-
-## .blue.center[ the variance for a single population ]
-
-$$\LARGE \text{Var}(popn) = \frac{\text{Var}(env)}{1 - b^2}$$ 
-
-## .blue.center[ (via algebra) the proportion owing to density dependence is]
-
-$$\LARGE \frac{\text{Var}(popn) - \text{Var}(env)}{\text{Var}(popn)} = b^2$$
-
-
----
-
 # For a whole community
 
 ## .blue.center[ Proportion attributable to species interactions
@@ -1003,7 +1029,7 @@ class: inverse, middle, center
 
 ---
 
-# A 2009 meta-analysis found
+# A previous meta-analysis found
 
 > ## .orange[moths in the United Kingdom (11-54%)]
 
@@ -1012,7 +1038,7 @@ class: inverse, middle, center
 
 ---
 
-# A 2009 meta-analysis found
+# A previous meta-analysis found
 
 > ## .orange[moths in the United Kingdom (11-54%)]
 
@@ -1023,7 +1049,7 @@ class: inverse, middle, center
 
 ---
 
-# A 2009 meta-analysis found
+# A previous meta-analysis found
 
 > ## .orange[moths in the United Kingdom (11-54%)]
 
@@ -1036,7 +1062,7 @@ class: inverse, middle, center
 
 ---
 
-# A 2009 meta-analysis found
+# A previous meta-analysis found
 
 > ## .orange[moths in the United Kingdom (11-54%)]
 
@@ -1232,30 +1258,6 @@ $$\begin{align}
 & \\
  &= \left[ 2 ~ \text{det}(\mathbf{B}) (\mathbf{B}^{-1})^\top \right]_{ij}
 \end{align}$$
-
-
----
-
-class: center, middle, inverse
-
-# How does one actually do this?
-
-
----
-
-# .blue[Canned **R** packages]
-
-## `{dlm}`, `{vars}`, `{MARSS}`<sup>*</sup>
-
-<br>
-
-# .green[Code-your-own languages]
-
-## `JAGS`, `Stan`, `TMB`
-
-.footnoteSm.gray[
-<sup>\*</sup>Holmes, Ward, Scheuerell (2020) _Analysis of multivariate time-series using the MARSS package_
-]
 
 
 ---
