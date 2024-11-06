@@ -1079,12 +1079,23 @@ class: inverse, middle, center
 
 class: inverse, middle, center
 
-# How do these estimates compare <br> to freshwater communities?
+# How do these estimates compare <br> to freshwater plankton communities?
 
 
 ---
 
-# Freshwater plankton communities
+class: middle
+
+background-image: url(figs/plankton.png)
+background-position: 50% 30%
+background-size: 70%
+
+### .gray.citation[Hampton et al (2006) _L&O_]
+
+
+---
+
+# Food web studies of plankton communities
 
 > ### .blue[Peter/Paul/Tues Lakes in Michigan (Ives et al 2003)]
 
@@ -1106,9 +1117,93 @@ class: middle, center
 
 ---
 
-class: inverse, center, middle
+class: middle
 
-# Bookmark here
+background-image: url(figs/plankton.png)
+background-position: 50% 30%
+background-size: 70%
+
+### .gray.citation[Hampton et al (2006) _L&O_]
+
+
+---
+
+class: center, middle
+
+# Are _particular interactions_ more important?
+
+# .blue[ intra- ] versus .blue[inter-]specific?
+
+# .orange[ top-down ] or .green[ bottom-up? ]
+
+
+---
+
+# Sensitivity of $\text{det}(\mathbf{B})^2$
+
+## .blue.center[ to a change in the effect of species _j_ on species _i_ ]
+
+$$\LARGE \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} = \left[ 2 ~ \text{det}(\mathbf{B}) (\mathbf{B}^{-1})^\top \right]_{ij}$$
+
+
+---
+
+# Sensitivity of $\text{det}(\mathbf{B})^2$
+
+.blue[
+### Early period: bottom-up effects of phytoplankton
+]
+
+.green[
+### Late period: rather mixed and modest
+]
+
+.orange[
+### Midwest: density-dependent effects
+]
+
+
+---
+
+# Summary
+
+### .blue[ Food web studies often focus on pairwise interactions ]
+
+### .blue[ Examining the stability of the community is important as well ]
+
+.futnote.purple[`r icon_style(fontawesome("envelope"), fill = "#844870")` scheuerl@uw.edu]
+
+.citation.blue[`r icon_style(fontawesome("twitter"), fill = "#488fdf")` @mark_scheuerell]
+
+
+---
+
+class: middle
+
+background-image: url(figs/qr_code.png)
+background-position: 92.5% 50%
+background-size: 35%
+
+# Acknowledgments
+
+> ## .blue[ Elizabeth "Eli" Holmes (NOAA) ]
+
+> ## .blue[ Eric Ward (NOAA) ]
+
+> ## .blue[ Various others ]
+
+
+---
+
+# This presentation
+
+### https://github.com/mdscheuerell/WSN-2024
+
+
+---
+
+background-image: url(figs/shilshole.png)
+background-size: cover
 
 
 ---
@@ -1222,101 +1317,5 @@ BB <- matrix(c(0.43, 0, 0, 0, 0, 0, 0, 0, 0,
 det(BB)^2 # ~= 0.0
 
 ```
-
-
-
----
-
-# Where are the important interactions?
-
-.blue[
-### Reactivity tells us something about the community as a whole
-
-### But what about the importance of _particular interactions_?
-]
-
-
----
-
-# Where are the important interactions?
-
-### .blue[ Are intra- or inter-specific interactions more important? ]
-
-### .blue[ Are top-down or bottom-up interactions more important? ]
-
-
----
-
-# Sensitivity of $\pi_{\mathbf{B}}$ to interactions
-
-.blue[
-### We can examine the change in $\pi_{\mathbf{B}}$ with respect to the $(i,j)$ element of $\mathbf{B}$ using
-]
-
-$$\begin{align}
-\frac{\partial \pi_\mathbf{B}}{\partial \mathbf{B}_{ij}} &=  \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} \\
-& \\
- &= \left[ 2 ~ \text{det}(\mathbf{B}) (\mathbf{B}^{-1})^\top \right]_{ij}
-\end{align}$$
-
-
----
-
-# Sensitivity of $\pi_\mathbf{B}$
-
-.blue[
-### Early period: bottom-up effects of phytoplankton
-]
-
-.green[
-### Late period: rather mixed and modest
-]
-
-.orange[
-### Midwest: density-dependent effects
-]
-
-
----
-
-# Summary
-
-### .blue[ Food web studies often focus on pairwise interactions ]
-
-### .blue[ Examining the stability of the community is important as well ]
-
-.futnote.purple[`r icon_style(fontawesome("envelope"), fill = "#844870")` scheuerl@uw.edu]
-
-.citation.blue[`r icon_style(fontawesome("twitter"), fill = "#488fdf")` @mark_scheuerell]
-
-
----
-
-class: middle
-
-background-image: url(figs/qr_code.png)
-background-position: 92.5% 50%
-background-size: 35%
-
-# Acknowledgments
-
-> ## .blue[ Elizabeth "Eli" Holmes (NOAA) ]
-
-> ## .blue[ Eric Ward (NOAA) ]
-
-> ## .blue[ Various others ]
-
-
----
-
-# This presentation
-
-### https://github.com/mdscheuerell/WSN-2024
-
-
----
-
-background-image: url(figs/shilshole.png)
-background-size: cover
 
 

@@ -602,12 +602,23 @@ class: inverse, middle, center
 
 class: inverse, middle, center
 
-# How do these estimates compare &lt;br&gt; to freshwater communities?
+# How do these estimates compare &lt;br&gt; to freshwater plankton communities?
 
 
 ---
 
-# Freshwater plankton communities
+class: middle
+
+background-image: url(figs/plankton.png)
+background-position: 50% 30%
+background-size: 70%
+
+### .gray.citation[Hampton et al (2006) _L&amp;O_]
+
+
+---
+
+# Food web studies of plankton communities
 
 &gt; ### .blue[Peter/Paul/Tues Lakes in Michigan (Ives et al 2003)]
 
@@ -629,57 +640,38 @@ class: middle, center
 
 ---
 
-class: inverse, center, middle
+class: middle
 
-# Bookmark here
+background-image: url(figs/plankton.png)
+background-position: 50% 30%
+background-size: 70%
 
-
----
-
-# quick calcs
-
-
-
+### .gray.citation[Hampton et al (2006) _L&amp;O_]
 
 
 ---
 
-# Where are the important interactions?
+class: center, middle
 
-.blue[
-### Reactivity tells us something about the community as a whole
+# Are _particular interactions_ more important?
 
-### But what about the importance of _particular interactions_?
-]
+# .blue[ intra- ] versus .blue[inter-]specific?
 
-
----
-
-# Where are the important interactions?
-
-### .blue[ Are intra- or inter-specific interactions more important? ]
-
-### .blue[ Are top-down or bottom-up interactions more important? ]
+# .orange[ top-down ] or .green[ bottom-up? ]
 
 
 ---
 
-# Sensitivity of `\(\pi_{\mathbf{B}}\)` to interactions
+# Sensitivity of `\(\text{det}(\mathbf{B})^2\)`
 
-.blue[
-### We can examine the change in `\(\pi_{\mathbf{B}}\)` with respect to the `\((i,j)\)` element of `\(\mathbf{B}\)` using
-]
+## .blue.center[ to a change in the effect of species _j_ on species _i_ ]
 
-`$$\begin{align}
-\frac{\partial \pi_\mathbf{B}}{\partial \mathbf{B}_{ij}} &amp;=  \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} \\
-&amp; \\
- &amp;= \left[ 2 ~ \text{det}(\mathbf{B}) (\mathbf{B}^{-1})^\top \right]_{ij}
-\end{align}$$`
+`$$\LARGE \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} = \left[ 2 ~ \text{det}(\mathbf{B}) (\mathbf{B}^{-1})^\top \right]_{ij}$$`
 
 
 ---
 
-# Sensitivity of `\(\pi_\mathbf{B}\)`
+# Sensitivity of `\(\text{det}(\mathbf{B})^2\)`
 
 .blue[
 ### Early period: bottom-up effects of phytoplankton
@@ -735,6 +727,13 @@ background-size: 35%
 
 background-image: url(figs/shilshole.png)
 background-size: cover
+
+
+---
+
+# quick calcs
+
+
 
 
     </textarea>
