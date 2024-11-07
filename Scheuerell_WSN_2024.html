@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>Effects of species interactions and environmental drivers on community stability</title>
+    <title>Effects of species interactions and environmental drivers on the stability of freshwater communities</title>
     <meta charset="utf-8" />
     <meta name="author" content="U.S. Geological Survey Washington Cooperative Fish and Wildlife Research Unit  School of Aquatic and Fishery Sciences University of Washington" />
     <script src="Scheuerell_WSN_2024_files/header-attrs/header-attrs.js"></script>
@@ -13,7 +13,7 @@
 class: center, middle, inverse, title-slide
 
 .title[
-# Effects of species interactions and environmental drivers on community stability
+# Effects of species interactions and environmental drivers on the stability of freshwater communities
 ]
 .subtitle[
 ## Mark Scheuerell
@@ -108,7 +108,7 @@ class: center
 
 class: inverse, center, middle
 
-# So how does one do this?
+# How does one do this?!
 
 
 ---
@@ -139,7 +139,7 @@ background-size: 95%
 
 # .blue.center[ &amp;#129299; Discrete-time Gompertz model ]
 
-`$$\LARGE N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))}$$`
+`$$\huge N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))}$$`
 
 &lt;br&gt;
 
@@ -164,7 +164,7 @@ class: inverse-black
 background-image: url(figs/harsh_environment.jpg)
 background-size: 99%
 
-#### .citation.center.gray[ DeepAI.org ]
+### .citation.center.gray[ DeepAI.org ]
 
 
 ---
@@ -184,7 +184,7 @@ background-size: 99%
 
 # .blue.center[ &amp;#129299; Discrete-time Gompertz model ]
 
-`$$\LARGE N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(w_t)}}_{environment}$$`
+`$$\huge N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \underbrace{\exp{(w_t)}}_{environment}$$`
 
 &lt;br&gt;
 
@@ -232,40 +232,64 @@ background-size: 60%
 
 ---
 
-# A log-transformed Gompertz model
+class: center
 
-`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
+# Another look at our Gompertz model
 
-## .blue.center[simple &amp; linear]
+&lt;br&gt;
 
+`$$\huge N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \exp{(w_t)}$$`
 
+&lt;br&gt;
 
----
-
-# A log-transformed Gompertz model
-
-`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
-
-## .center[if we assume that]
-
-`$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
-
-## .blue.center[then this process is _stationary_]
+## .blue[Complex. Nonlinear. Meh.]
 
 
 ---
 
+class: center
+
 # A log-transformed Gompertz model
 
-`$$\LARGE x_t = r_{max} + b x_{t-1} + w_t$$`
+&lt;br&gt;
 
-## .center[if we assume that]
+`$$\huge x_t = r_{max} + b x_{t-1} + w_t$$`
 
-`$$\LARGE 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
+&lt;br&gt;
 
-## .blue.center[we can show that]
+## .blue[Simple. Linear. Clean.]
 
-`$$\LARGE \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$`
+
+---
+
+class: center
+
+# A log-transformed Gompertz model
+
+&lt;br&gt;
+
+`$$\huge x_t = r_{max} + b x_{t-1} + w_t$$`
+
+## if we assume that
+
+`$$\huge 0 &lt; b &lt; 1; ~~ w_t \sim \text{N}(0, q)$$`
+
+## .blue[then this process is _stationary_]
+
+
+---
+
+class: center
+
+# A log-transformed Gompertz model
+
+&lt;br&gt;
+
+`$$\huge x_t = r_{max} + b x_{t-1} + w_t$$`
+
+## .blue[and we can show that]
+
+`$$\huge \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$`
 
 
 ---
@@ -285,7 +309,7 @@ background-size: 60%
 
 &lt;br&gt;&lt;br&gt;
 
-`$$\LARGE \text{Var}(popn) = \frac{\text{Var}(env)}{DD} ~~ \Rightarrow ~~ stability =  \frac{1}{\text{Var}(popn)} = \frac{DD}{\text{Var}(env)}$$`
+`$$\huge stability =  \frac{1}{\text{Var}(popn)} = \frac{DD}{\text{Var}(env)}$$`
 
 ## .left[which implies a .blue[population] is .blue[more stable] when]
 
@@ -368,54 +392,27 @@ class: inverse, center, middle
 
 &lt;br&gt;
 
-`$$\LARGE x_{i,t} = r_{max, i} + \underbrace{\sum^{N}_{j = 1}{b_{i,j}} x_{j,t}}_{\substack{\text{species} \\ \text{interactions}}} + \underbrace{\sum^{P}_{k = 1}{c_{i,k}} z_{k,t-h}}_{\substack{\text{external} \\ \text{drivers}}} + \underbrace{w_t}_{\substack{\text{random} \\ \text{stuff}}}$$`
+`$$\huge x_{i,t} = r_{max, i} + \underbrace{\sum^{N}_{j = 1}{b_{i,j}} x_{j,t}}_{\substack{\text{species} \\ \text{interactions}}} + \underbrace{\sum^{P}_{k = 1}{c_{i,k}} z_{k,t-h}}_{\substack{\text{external} \\ \text{drivers}}} + \underbrace{w_t}_{\substack{\text{random} \\ \text{stuff}}}$$`
 
 ### .citation.gray[ (in log space) ] 
 
 
 ---
 
+class: inverse, middle, center
+
+# What proportion of the total variance in a community comes from species interactions?
+
+
+---
+
 # Model for community dynamics
 
-`$$\large \begin{bmatrix}
-x_1 \\
-\vdots \\
-x_N
-\end{bmatrix}_t =
-\begin{bmatrix}
-r_1 \\
-\vdots \\
-r_N
-\end{bmatrix} +
-\begin{bmatrix}
-b_{1,1} &amp; \dots &amp; b_{1,N} \\
-\vdots &amp; \ddots &amp; \vdots \\
-b_{N,1} &amp; \dots &amp; b_{N,N}
-\end{bmatrix} \begin{bmatrix}
-x_1 \\
-\vdots \\
-x_N
-\end{bmatrix}_{t-1}
-+
-\begin{bmatrix}
-c_{1,1} &amp; \dots &amp; c_{1,P} \\
-\vdots &amp; \ddots &amp; \vdots \\
-c_{N,1} &amp; \dots &amp; c_{N,P}
-\end{bmatrix} 
-\begin{bmatrix}
-z_1 \\
-\vdots \\
-z_P
-\end{bmatrix}_{t-h} +
-\begin{bmatrix}
-w_1 \\
-\vdots \\
-w_N
-\end{bmatrix}_t$$`
+&lt;br&gt;
 
-## .center[and more compactly as]
-
-`$$\LARGE \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{z}_{t-h} + \mathbf{w}_t$$`
+`$$\huge \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{z}_{t-h} + \mathbf{w}_t  \\
+~ \\
+\huge \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$`
 
 ### .citation.gray[ (in log space with matrix notation) ] 
 
@@ -424,7 +421,7 @@ w_N
 
 class: center, middle, inverse
 
-# How does one estimate these matrices?
+# First we need to estimate these matrices
 
 
 ---
@@ -448,9 +445,9 @@ background-size: 40%
 
 ---
 
-class: inverse, middle, center
+class: center, middle, inverse
 
-# What percentage of the total variance in a community comes from species interactions?
+# How are we going to calculate the proportions?
 
 
 ---
@@ -459,26 +456,48 @@ class: inverse, middle, center
 
 &lt;br&gt;
 
-`$$\LARGE \text{Var}(popn) = \frac{\text{Var}(env)}{1 - b^2}$$` 
-
-## .blue.center[ (via algebra) the proportion owing to density dependence is]
-
-`$$\LARGE \frac{\text{Var}(popn) - \text{Var}(env)}{\text{Var}(popn)} = b^2$$`
+`$$\huge \text{Var}(popn) = \frac{\text{Var}(env)}{1 - b^2}$$` 
 
 
 ---
 
-# Stationary variance of a community
+# Recall for a single population
 
-## .blue.center[ Given our multivariate model of community dynamics ]
+&lt;br&gt;
 
-`$$\LARGE \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{z}_{t-h} + \mathbf{w}_t  \\
+`$$\huge \text{Var}(popn) = \frac{\text{Var}(env)}{1 - b^2}$$` 
+
+## .blue.center[ (via algebra) the proportion owing to density dependence is]
+
+`$$\huge \frac{\text{Var}(popn) - \text{Var}(env)}{\text{Var}(popn)} = b^2$$`
+
+
+---
+
+# Model for community dynamics
+
+&lt;br&gt;
+
+`$$\huge \mathbf{x}_t = \mathbf{r} +  \mathbf{B} \mathbf{x}_{t-1} + \mathbf{C} \mathbf{z}_{t-h} + \mathbf{w}_t  \\
 ~ \\
-\LARGE \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$`
+\huge \mathbf{w}_t \sim \text{MVN}(\mathbf{0}, \mathbf{Q})$$`
 
-## .blue.center[ the stationary variance is ]
+&lt;br&gt;
 
-`$$\LARGE \text{Var}(\mathbf{x}_t) = \mathbf{B} \text{Var}(\mathbf{x}_t) \mathbf{B}^\top + \mathbf{C} \text{Var}(\mathbf{z}_{t-h}) \mathbf{C}^\top + \mathbf{Q}$$`
+## .blue.center[ What is the stationary (co)variance?]
+
+
+---
+
+# Stationary variance for a community
+
+&lt;br&gt;
+
+`$$\huge \text{Var}(\mathbf{x}_t) = \mathbf{B} \text{Var}(\mathbf{x}_t) \mathbf{B}^\top + \mathbf{C} \text{Var}(\mathbf{z}_{t-h}) \mathbf{C}^\top + \mathbf{Q}$$`
+
+&lt;br&gt;
+
+## .blue.center[ This isn't going to be easy]
 
 
 ---
@@ -512,7 +531,7 @@ class: inverse, middle, center
 
 ### .blue.center[ If we combine the 3 vectors into a matrix, the _determinant_ gives the volume! ]
 
-`$$\LARGE \text{det}
+`$$\huge \text{det}
 \begin{bmatrix}
 2 &amp; 0 &amp; 0 \\
 0 &amp; 2 &amp; 0 \\
@@ -540,7 +559,7 @@ background-size: 50%
 ## .blue.center[ Proportion attributable to species interactions
 ]
 
-`$$\LARGE 
+`$$\huge 
 \frac{\text{det}[\text{Var}(comm) - \text{Var}(env)]}{\text{det}[\text{Var}(comm)]} = \text{det}(\mathbf{B})^2$$`
 
 
@@ -548,7 +567,7 @@ background-size: 50%
 
 class: inverse, middle, center
 
-# What percentage of the total variance in a community comes from species interactions?
+# What proportion of the total variance in a community comes from species interactions?
 
 
 ---
@@ -663,16 +682,16 @@ class: center, middle
 
 ---
 
-# Sensitivity of `\(\text{det}(\mathbf{B})^2\)`
+# Sensitivity of the proportion
 
 ## .blue.center[ to a change in the effect of species _j_ on species _i_ ]
 
-`$$\LARGE \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} = \left[ 2 ~ \text{det}(\mathbf{B}) (\mathbf{B}^{-1})^\top \right]_{ij}$$`
+`$$\huge \frac{\partial \text{det}(\mathbf{B})^2}{\partial \mathbf{B}_{ij}} = \left[ 2 ~ \text{det}(\mathbf{B}) (\mathbf{B}^{-1})^\top \right]_{ij}$$`
 
 
 ---
 
-# Sensitivity of `\(\text{det}(\mathbf{B})^2\)`
+# Sensitivity of the proportion
 
 &gt; ## .blue[
 Density-dependent effects generally most important
@@ -700,13 +719,20 @@ class: middle
 
 ---
 
-# Summary
+class: inverse-black
 
-### .blue[ Food web studies often focus on pairwise interactions ]
+background-image: url(figs/coaster_car.jpg)
+background-position: 50% 50%
+background-size: 90%
 
-### .blue[ Examining the stability of the community is important as well ]
 
-### .citation.purple[&lt;svg viewBox="0 0 512 512" style="height:1em;position:relative;display:inline-block;top:.1em;fill:#844870;" xmlns="http://www.w3.org/2000/svg"&gt;  &lt;path d="M464 64H48C21.49 64 0 85.49 0 112v288c0 26.51 21.49 48 48 48h416c26.51 0 48-21.49 48-48V112c0-26.51-21.49-48-48-48zm0 48v40.805c-22.422 18.259-58.168 46.651-134.587 106.49-16.841 13.247-50.201 45.072-73.413 44.701-23.208.375-56.579-31.459-73.413-44.701C106.18 199.465 70.425 171.067 48 152.805V112h416zM48 400V214.398c22.914 18.251 55.409 43.862 104.938 82.646 21.857 17.205 60.134 55.186 103.062 54.955 42.717.231 80.509-37.199 103.053-54.947 49.528-38.783 82.032-64.401 104.947-82.653V400H48z"&gt;&lt;/path&gt;&lt;/svg&gt; scheuerl@uw.edu]
+---
+
+class: inverse-black
+
+background-image: url(figs/roller_coaster.jpg)
+background-position: 50% 50%
+background-size: 75%
 
 
 ---
@@ -717,20 +743,17 @@ background-image: url(figs/qr_code.png)
 background-position: 92.5% 50%
 background-size: 35%
 
+&lt;br&gt;&lt;br&gt;&lt;br&gt;
+
 # Acknowledgments
 
 &gt; ## .blue[ Elizabeth "Eli" Holmes (NOAA) ]
 
 &gt; ## .blue[ Eric Ward (NOAA) ]
 
-&gt; ## .blue[ Various others ]
+&lt;br&gt;
 
-
----
-
-# This presentation
-
-### https://github.com/mdscheuerell/WSN-2024
+## .right[learn more here &amp;nbsp; &amp;nbsp; &amp;nbsp; ]
 
 
 ---
