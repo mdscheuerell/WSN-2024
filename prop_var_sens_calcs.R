@@ -1,7 +1,7 @@
 
 
 lsv <- function(A) {
-  B <- A %*% A
+  B <- t(A) %*% A
   eigen(B)$values |> 
     abs() |>
     max() |>
@@ -86,6 +86,15 @@ det(BB)^2 # ~= 0.0
 
 t(2 * det(BB) * solve(BB))
 
+lsv(BB)
+
+BB <- matrix(c(0.3, -0.1, -0.1, 3),
+             2, 2)
+lsv(BB)
+lsv(2 * BB)
+
+BB <- matrix(c(0.6, -0.1, 0.1, 8),
+             2, 2)
 lsv(BB)
 
 ## Schindler et al (2012)
