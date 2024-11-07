@@ -1,5 +1,14 @@
 
 
+lsv <- function(A) {
+  B <- A %*% A
+  eigen(B)$values |> 
+    abs() |>
+    max() |>
+    sqrt() |>
+    log() 
+}
+
 ## Gsell et al (2016) https://doi.org/10.1016/j.ecolind.2015.11.014
 ## L Müggelsee in Germany
 detB <- c(0.14, 0.13, 0.12)
@@ -19,6 +28,8 @@ det(BB)^2 # ~= 0.0
 
 t(2 * det(BB) * solve(BB))
 
+lsv(BB)
+
 ## Hampton et al (2006)
 ## L Washington in WA
 BB <- matrix(c(0.52, 0, -0.06, 0, 0, 0, 0,
@@ -34,6 +45,8 @@ det(BB)^2 # ~= 0.001
 
 t(2 * det(BB) * solve(BB))
 
+lsv(BB)
+
 ## Ives et al 2003 
 ## Tuesday Lake
 
@@ -47,6 +60,8 @@ det(BB)^2 # ~= 0.02
 
 t(2 * det(BB) * solve(BB))
 
+lsv(BB)
+
 ## Peter
 BB <- matrix(c(0.5, 0, 0, 0,
                -0.77, 0.61, -0.019, 0,
@@ -58,6 +73,8 @@ det(BB)^2 # ~= 0.03
 
 t(2 * det(BB) * solve(BB))
 
+lsv(BB)
+
 ## Paul
 BB <- matrix(c(0.5, -0.36, 0, 0,
                0, 0.072, -0.019, -0.1,
@@ -68,6 +85,27 @@ BB <- matrix(c(0.5, -0.36, 0, 0,
 det(BB)^2 # ~= 0.0
 
 t(2 * det(BB) * solve(BB))
+
+lsv(BB)
+
+## Schindler et al (2012)
+## Okanagan Lake, British Columbia
+BB <- matrix(c(0.43, 0, 0, 0, 0, 0, 0, 0, 0, 
+               0, 0.35, 0, 0, 0, 0, 0.3, 0, -0.25, 
+               0, 0, 0.22, 0, 0, 0, 0, 0, 0,
+               0, 0, 0, 0.51, 0, 0, 0, 0, 0,
+               0, 0, 0, 0, 0.46, 0, 0.19, 0, 0,
+               0.27, 0, 0, 0, 0, 0.33, 0, 0,-0.28,
+               0, 0, 0, 0, 0, 0, 0.11, 0, 0,
+               0, 0, 0.34, 0, 0, 0, 0, 0.13, 0,
+               0.64, 0.16, 0, 0, 0, 0, 0, 0.31, 0.37),
+             9, 9, byrow = TRUE)
+
+det(BB)^2 # ~= 0.0
+
+t(2 * det(BB) * solve(BB))
+
+lsv(BB)
 
 ## Francis et al 2012
 ## Newport Line, Oregon
@@ -88,6 +126,8 @@ det(B1)^2 # ~= 0.0
 
 t(2 * det(B1) * solve(B1))
 
+lsv(B1)
+
 ## cold phse
 B2 <- matrix(c(0.34, 0, -0.23, 0, 0, 0, 0, 0, 0, 
                0, 0.39, 0, 0, 0, 0, 0, 0, 0, 
@@ -104,20 +144,5 @@ det(B2)^2 # ~= 0.0
 
 t(2 * det(B2) * solve(B2))
 
-## Schindler et al (2012)
-## Okanagan Lake, British Columbia
-BB <- matrix(c(0.43, 0, 0, 0, 0, 0, 0, 0, 0, 
-               0, 0.35, 0, 0, 0, 0, 0.3, 0, -0.25, 
-               0, 0, 0.22, 0, 0, 0, 0, 0, 0,
-               0, 0, 0, 0.51, 0, 0, 0, 0, 0,
-               0, 0, 0, 0, 0.46, 0, 0.19, 0, 0,
-               0.27, 0, 0, 0, 0, 0.33, 0, 0,-0.28,
-               0, 0, 0, 0, 0, 0, 0.11, 0, 0,
-               0, 0, 0.34, 0, 0, 0, 0, 0.13, 0,
-               0.64, 0.16, 0, 0, 0, 0, 0, 0.31, 0.37),
-             9, 9, byrow = TRUE)
-
-det(BB)^2 # ~= 0.0
-
-t(2 * det(BB) * solve(BB))
+lsv(B2)
 
