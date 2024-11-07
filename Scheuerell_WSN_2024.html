@@ -225,9 +225,22 @@ background-size: 60%
 
 # Population equilibria
 
-### .blue.center[ In stochastic models, the "equilibrium" is a _stationary distribution_ ]
+### .blue.center[ In stochastic models, the "equilibrium" isn't &amp;mdash; it's a _stationary distribution_ ]
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/stat_dist-1.png" width="45%" height="45%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+class: center
+
+# Another look at our Gompertz model
+
+&lt;br&gt;
+
+`$$\huge N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \exp{(w_t)}$$`
+
+&lt;br&gt;
 
 
 ---
@@ -307,15 +320,17 @@ class: center
 
 ---
 
-&lt;br&gt;&lt;br&gt;
+&lt;br&gt;
 
 `$$\huge stability =  \frac{1}{\text{Var}(popn)} = \frac{DD}{\text{Var}(env)}$$`
 
-## .left[which implies a .blue[population] is .blue[more stable] when]
+&lt;br&gt;
+
+## .center[implying a .blue[population] is .blue[more stable] when]
 
 ## .center[ the strength of .orange[density-dependence increases]]
 
-## .right[and the .green[environment] is .green[less variable]]
+## .center[and the .green[environment] is .green[less variable]]
 
 
 ---
@@ -330,6 +345,13 @@ class: center
 # Populations within the same environment
 
 &lt;img src="Scheuerell_WSN_2024_files/figure-html/uni_stationary_2-1.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# Populations within the same environment
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/uni_stationary_3-1.png" width="100%" style="display: block; margin: auto;" /&gt;
 
 
 ---
@@ -432,7 +454,7 @@ background-size: 40%
 
 &lt;br&gt;
 
-# .blue[Canned R packages]
+# .blue[Existing R packages]
 
 ## `{dlm}`, `{vars}`, `{MARSS}`
 
@@ -509,7 +531,7 @@ class: inverse, middle, center
 
 ---
 
-## Do you ever find yourself reflecting on geometry?
+## Do you ever reflect on how awesome geometry is?
 
 ### .blue.center["Wow&amp;mdash;A cube whose sides are all 2 units has a volume of 8 cubic units."]
 
@@ -708,6 +730,61 @@ Bottom-up &amp; top-down interactions less important
 
 ---
 
+class: inverse, center, middle
+
+# Are all of these communities _stable_?
+
+
+---
+
+# Reactivity
+
+## .blue[ Small perturbations may grow before decaying again]
+
+## .blue[ If so, the community is _reactive_ ]
+
+
+---
+
+# Example of reactivity
+
+&lt;img src="Scheuerell_WSN_2024_files/figure-html/ex_reactivity-1.png" width="80%" height="80%" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+# If `\(\nu &gt; 0\)` the community is reactive
+
+&lt;br&gt;
+
+`$$\huge \begin{align}
+\nu &amp;= \log \sigma_{\max} (\mathbf{B}) \\
+~ \\
+    &amp;= \log ||\mathbf{B}||_2 \\
+~ \\
+    &amp;= \log \sqrt{\lambda_{\max}(\mathbf{B}^\top \mathbf{B})}
+\end{align}$$`
+
+### .citation[ (I'm happy to talk about this later) ]
+
+
+---
+
+# Some of these are reactive
+
+&gt; ### .blue[&lt;u&gt;Peter&lt;/u&gt;/Paul/Tues Lakes in Michigan (Ives et al 2003)]
+
+&gt; ### .blue[Lake Washington in Washington (Hampton et al 2006)]
+
+&gt; ### .blue[&lt;u&gt;Okanagan Lake&lt;/u&gt; in British Columbia (Schindler et al 2012)]
+
+&gt; ### .blue[Lake Müggelsee in Germany (Gsell et al 2016)]
+
+&gt; ### .blue[&lt;u&gt;Lake Aleknagik&lt;/u&gt; in Alaska (Carter et al 2017)]
+
+
+---
+
 class: middle
 
 # .green[ &amp;nbsp; &amp;nbsp; &amp;nbsp; Predation ]
@@ -754,13 +831,6 @@ background-size: 35%
 &lt;br&gt;
 
 ## .right[learn more here &amp;nbsp; &amp;nbsp; &amp;nbsp; ]
-
-
----
-
-background-image: url(figs/shilshole.png)
-background-size: cover
-
 
 
     </textarea>

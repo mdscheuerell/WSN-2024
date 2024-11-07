@@ -47,7 +47,7 @@ style_duo(
     orange = "#ff8100",
     green = "#339933",
     white = "#FFFFFF",
-    blue = "#488fdf",
+    blue = "#487cdf",
     blue2 = "#030c84",
     aqua = "#80cdc1",
     gray = "#808080",
@@ -290,7 +290,7 @@ for(tt in 2:TT) {
 }
 
 par(mai = c(1, 0.5, 0, 0), omi = c(0, 0, 0, 0))
-plot.ts(NN, lwd = 2, type = "o", pch = 16, col = "dodgerblue",
+plot.ts(NN, lwd = 2, type = "o", pch = 16, col = "#487cdf",
         yaxt = "n",
         ylab = "")
 # text(x = 5, y = 120, expression(italic(r[max]) == 1))
@@ -350,7 +350,7 @@ for(tt in 2:TT) {
 }
 
 par(mai = c(1, 0.5, 0, 0), omi = c(0, 0, 0, 0))
-plot.ts(NN, lwd = 2, type = "o", pch = 16, col = "dodgerblue",
+plot.ts(NN, lwd = 2, type = "o", pch = 16, col = "#487cdf",
         yaxt = "n",
         ylab = "")
 # text(x = 5, y = 130, expression(italic(r[max])==1))
@@ -386,7 +386,7 @@ background-size: 60%
 
 # Population equilibria
 
-### .blue.center[ In stochastic models, the "equilibrium" is a _stationary distribution_ ]
+### .blue.center[ In stochastic models, the "equilibrium" isn't &mdash; it's a _stationary distribution_ ]
 
 ```{r stat_dist, fig.align = "center", fig.dim=c(4, 4), dpi=300, out.height = "45%", out.width = "45%"}
 par(mai = c(1, 0.5, 0.1, 0.5), omi = rep(0, 4))
@@ -407,6 +407,19 @@ mtext("Population x",
 mtext("Population y",
       side = 2, line = 0.5, cex = 1.5)
 ```
+
+
+---
+
+class: center
+
+# Another look at our Gompertz model
+
+<br>
+
+$$\huge N_t = N_{t-1} \exp{(r_{\max} + (b - 1) \log(N_{t-1}))} \exp{(w_t)}$$
+
+<br>
 
 
 ---
@@ -486,15 +499,17 @@ $$\huge \text{Var}(x_t) = \frac{\text{Var}(w_t)}{1 - b^2}$$
 
 ---
 
-<br><br>
+<br>
 
 $$\huge stability =  \frac{1}{\text{Var}(popn)} = \frac{DD}{\text{Var}(env)}$$
 
-## .left[which implies a .blue[population] is .blue[more stable] when]
+<br>
+
+## .center[implying a .blue[population] is .blue[more stable] when]
 
 ## .center[ the strength of .orange[density-dependence increases]]
 
-## .right[and the .green[environment] is .green[less variable]]
+## .center[and the .green[environment] is .green[less variable]]
 
 
 ---
@@ -552,13 +567,13 @@ layout(matrix(c(1, 2, 3, 4), 1, 4), widths = c(4, 1, 4, 1))
 
 ## ts plots
 par(mai = c(1, 1, 0.5, 0), omi = c(0, 0, 0, 0))
-plot(seq(TT), x1[1,], las = 1, col = "dodgerblue", type = "l", lwd = 2, ylim = range(x2),
+plot(seq(TT), x1[1,], las = 1, col = "#487cdf", type = "l", lwd = 2, ylim = range(x2),
      xlab = "Time", ylab = expression(italic(x[t])~(log~density)), main = "",
      cex.axis = 1.5, cex.lab = 2)
 mtext(expression(italic(b)==0.5),
-      side = 3, line = 1, cex = 1.3, adj = 0, col = "dodgerblue")
+      side = 3, line = 1, cex = 1.3, adj = 0, col = "#487cdf")
 mtext(expression( Var( italic(x[t]) ) == 1.1),
-      side = 3, line = 0.7, cex = 1.3, adj = 1, col = "dodgerblue")
+      side = 3, line = 0.7, cex = 1.3, adj = 1, col = "#487cdf")
 for(i in 2:NN) {
   lines(x1[i,],
         col = clr1[i-1], lwd = 2)
@@ -569,7 +584,7 @@ par(mai = c(1, 0, 0.5, 0))
 plot(h1, xx, type = "l", ylim = range(x2),
      xaxt = "n", yaxt = "n", bty = "n",
      xlab = "", ylab = "", col = "darkgray", lwd = 2)
-lines(s1, xx, col = "dodgerblue", lwd = 2)
+lines(s1, xx, col = "#487cdf", lwd = 2)
 
 ## ts plots
 par(mai = c(1, 1, 0.5, 0))
@@ -603,11 +618,11 @@ layout(matrix(c(1, 2, 3, 4), 1, 4), widths = c(4, 1, 4, 1))
 
 ## ts plots
 par(mai = c(1, 1, 0.5, 0), omi = c(0, 0, 0, 0))
-plot(seq(TT), x1[1,], las = 1, col = "dodgerblue", type = "l", lwd = 2, ylim = range(x2),
+plot(seq(TT), x1[1,], las = 1, col = "#487cdf", type = "l", lwd = 2, ylim = range(x2),
      xlab = "Time", ylab = expression(italic(x[t])~(log~density)), main = "",
      cex.axis = 1.5, cex.lab = 2)
 mtext("More stable",
-      side = 3, line = 1, cex = 1.5, col = "dodgerblue")
+      side = 3, line = 1, cex = 1.5, col = "#487cdf")
 for(i in 2:NN) {
   lines(x1[i,],
         col = clr1[i-1], lwd = 2)
@@ -618,7 +633,7 @@ par(mai = c(1, 0, 0.5, 0))
 plot(h1, xx, type = "l", ylim = range(x2),
      xaxt = "n", yaxt = "n", bty = "n",
      xlab = "", ylab = "", col = "darkgray", lwd = 2)
-lines(s1, xx, col = "dodgerblue", lwd = 2)
+lines(s1, xx, col = "#487cdf", lwd = 2)
 
 ## ts plots
 par(mai = c(1, 1, 0.5, 0))
@@ -626,6 +641,53 @@ plot(seq(TT), x2[1,], las = 1, col = "indianred", type = "l", lwd = 2, ylim = ra
      xlab = "Time", ylab = expression(italic(x[t])~(log~density)), main = "",
      cex.axis = 1.5, cex.lab = 2)
 mtext("Less stable",
+      side = 3, line = 1, cex = 1.5, col = "indianred")
+for(i in 2:NN) {
+  lines(x2[i,],
+        col = clr2[i-1], lwd = 2)
+}
+
+## marginal densities
+par(mai = c(1, 0, 0.5, 0))
+plot(h1, xx, type = "l", ylim = range(x2),
+     xaxt = "n", yaxt = "n", bty = "n",
+     xlab = "", ylab = "", col = "darkgray", lwd = 2)
+lines(s2, xx, col = "indianred", lwd = 2)
+```
+
+
+---
+
+# Populations within the same environment
+
+```{r uni_stationary_3, fig.align='center', fig.dim=c(8,4)}
+layout(matrix(c(1, 2, 3, 4), 1, 4), widths = c(4, 1, 4, 1))
+
+## ts plots
+par(mai = c(1, 1, 0.5, 0), omi = c(0, 0, 0, 0))
+plot(seq(TT), x1[1,], las = 1, col = "#487cdf", type = "l", lwd = 2, ylim = range(x2),
+     xlab = "Time", ylab = expression(italic(x[t])~(log~density)), main = "",
+     cex.axis = 1.5, cex.lab = 2)
+mtext("Fast return time",
+      side = 3, line = 1, cex = 1.5, col = "#487cdf")
+for(i in 2:NN) {
+  lines(x1[i,],
+        col = clr1[i-1], lwd = 2)
+}
+
+## marginal densities
+par(mai = c(1, 0, 0.5, 0))
+plot(h1, xx, type = "l", ylim = range(x2),
+     xaxt = "n", yaxt = "n", bty = "n",
+     xlab = "", ylab = "", col = "darkgray", lwd = 2)
+lines(s1, xx, col = "#487cdf", lwd = 2)
+
+## ts plots
+par(mai = c(1, 1, 0.5, 0))
+plot(seq(TT), x2[1,], las = 1, col = "indianred", type = "l", lwd = 2, ylim = range(x2),
+     xlab = "Time", ylab = expression(italic(x[t])~(log~density)), main = "",
+     cex.axis = 1.5, cex.lab = 2)
+mtext("Slow return time",
       side = 3, line = 1, cex = 1.5, col = "indianred")
 for(i in 2:NN) {
   lines(x2[i,],
@@ -859,7 +921,7 @@ background-size: 40%
 
 <br>
 
-# .blue[Canned R packages]
+# .blue[Existing R packages]
 
 ## `{dlm}`, `{vars}`, `{MARSS}`
 
@@ -936,7 +998,7 @@ class: inverse, middle, center
 
 ---
 
-## Do you ever find yourself reflecting on geometry?
+## Do you ever reflect on how awesome geometry is?
 
 ### .blue.center["Wow&mdash;A cube whose sides are all 2 units has a volume of 8 cubic units."]
 
@@ -1185,6 +1247,97 @@ Bottom-up & top-down interactions less important
 
 ---
 
+class: inverse, center, middle
+
+# Are all of these communities _stable_?
+
+
+---
+
+# Reactivity
+
+## .blue[ Small perturbations may grow before decaying again]
+
+## .blue[ If so, the community is _reactive_ ]
+
+
+---
+
+# Example of reactivity
+
+```{r ex_reactivity, dpi=300, fig.height=4, fig.width = 7, out.height = "80%", out.width = "80%", fig.align='center', echo=FALSE, warning = FALSE}
+
+x1 <- MASS::mvrnorm(10, rep(0, 2), matrix(c(1.5, 0, 0, 1.5), 2, 2))
+x2 <- x1 * 0.3
+
+y1 <- MASS::mvrnorm(10, rep(0, 2), matrix(c(4, 0, 0, 4), 2, 2))
+y2 <- y1 * 0.5
+
+lims <- c(-1, 1) * max(abs(c(x1, y1)))
+
+par(mfrow = c(1,2),
+    mai = c(0.9, 0.9, 0.5, 0.1),
+    omi = c(0, 0, 0, 0))
+plot(x1, type = "n",
+     # xlim = range(c(x1, y1)), ylim = range(c(x1, y1)),
+     xlim = lims, ylim = lims,
+xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n")
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
+arrows(x1[,1], x1[,2], x2[,1], x2[,2],
+       length = 0.05, lwd = 3, col = "#487cdf")
+mtext("Species 1", side = 1, line = 1, cex = 1.7)
+mtext("Species 2", side = 2, line = 1, cex = 1.7)
+mtext("Less reactive", side = 3, line = 1, cex = 1.7, col = "#487cdf")
+plot(x2, type = "n",
+     xlim = lims, ylim = lims,
+     xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n")  
+abline(h = 0, col = "darkgray")
+abline(v = 0, col = "darkgray")
+arrows(y1[,1], y1[,2], y2[,1], y2[,2],
+       length = 0.05, lwd = 3, col = "indianred")
+mtext("Species 1", side = 1, line = 1, cex = 1.7)
+mtext("Species 2", side = 2, line = 1, cex = 1.7)
+mtext("More reactive", side = 3, line = 1, cex = 1.7, col = "indianred")
+```
+
+
+---
+
+# If $\nu > 0$ the community is reactive
+
+<br>
+
+$$\huge \begin{align}
+\nu &= \log \sigma_{\max} (\mathbf{B}) \\
+~ \\
+    &= \log ||\mathbf{B}||_2 \\
+~ \\
+    &= \log \sqrt{\lambda_{\max}(\mathbf{B}^\top \mathbf{B})}
+\end{align}$$
+
+### .citation[ (I'm happy to talk about this later) ]
+
+
+---
+
+# Some of these are reactive
+
+> ### .blue[<u>Peter</u>/Paul/Tues Lakes in Michigan (Ives et al 2003)]
+
+> ### .blue[Lake Washington in Washington (Hampton et al 2006)]
+
+> ### .blue[<u>Okanagan Lake</u> in British Columbia (Schindler et al 2012)]
+
+> ### .blue[Lake Müggelsee in Germany (Gsell et al 2016)]
+
+> ### .blue[<u>Lake Aleknagik</u> in Alaska (Carter et al 2017)]
+
+
+---
+
 class: middle
 
 # .green[ &nbsp; &nbsp; &nbsp; Predation ]
@@ -1231,12 +1384,5 @@ background-size: 35%
 <br>
 
 ## .right[learn more here &nbsp; &nbsp; &nbsp; ]
-
-
----
-
-background-image: url(figs/shilshole.png)
-background-size: cover
-
 
 
