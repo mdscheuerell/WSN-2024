@@ -986,7 +986,31 @@ $$\huge \text{Var}(\mathbf{x}_t) = \mathbf{B} \text{Var}(\mathbf{x}_t) \mathbf{B
 
 <br>
 
-## .blue.center[ This isn't going to be easy]
+
+---
+
+# Stationary variance for a community
+
+<br>
+
+$$\huge \text{Var}(\mathbf{x}_t) = \mathbf{B} \text{Var}(\mathbf{x}_t) \mathbf{B}^\top + \mathbf{C} \text{Var}(\mathbf{z}_{t-h}) \mathbf{C}^\top + \mathbf{Q}$$
+
+<br>
+
+## .red.center[ There's no closed form solution! ]
+
+
+---
+
+# Stationary variance for a community
+
+<br>
+
+$$\huge \text{Var}(\mathbf{x}_t) = \mathbf{B} \text{Var}(\mathbf{x}_t) \mathbf{B}^\top + \mathbf{C} \text{Var}(\mathbf{z}_{t-h}) \mathbf{C}^\top + \mathbf{Q}$$
+
+<br>
+
+## .red.center[ How "big" are these matrices? ]
 
 
 ---
